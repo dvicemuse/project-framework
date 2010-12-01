@@ -1,4 +1,4 @@
-#summary Build instructions
+#summary Build instructions for initial framework setup.
 
 = Framework Build Instructions =
 
