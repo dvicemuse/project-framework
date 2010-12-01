@@ -1,0 +1,6 @@
+#summary Build instructions
+
+= Framework Build Instructions =
+
+  * Update configuration in framework/Framework.php
+  * Run `./cli.php build` from the command line
