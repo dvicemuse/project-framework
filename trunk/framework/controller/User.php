@@ -2,44 +2,82 @@
 
 	class User_Controller extends Framework
 	{
-		function reset_password()
+		public function reset_password()
 		{
-			// User submitted login
-			if(!empty($_POST['reset_submit']))
+			// Load modules
+			$this->load_model('User');
+			$this->load_helper('Validate')->print_titles(FALSE)->print_errors(FALSE);
+
+
+			// Form submitted
+			if(!empty($_POST))
 			{
-				// Pass in login info to login class
-				if($this->User->reset_password($_POST))
+				// Check email address
+				$get = $this->User->where('user_email', trim($_POST['email']))->get()->result();
+				if($get !== FALSE)
 				{
-					// Logged in, so send the user to the page they requested
-					header("Location: {$this->config['web_path']}/dashboard/");
-					exit;
+					// Send user account reset email
+					if($this->User->send_password_reset_email($get['user_id']))
+					{
+						$this->add_flash('Please check your email for password reset instructions.');
+						header("Location: {$this->config['web_path']}/{$this->config['log_in_module']}/");
+						exit;
+					}
+				}else{
+					$this->add_flash('There is no account with that email address.');
 				}
 			}
 		}
 
 
 
-		function update_password()
+		public function update_password()
 		{
-			$this->hash = $this->User->validate_update_hash($this->info['raw_route'][2]);
-			if($this->hash === FALSE)
+			// Load modules
+			$this->load_model('User');
+			$this->load_helper('Validate')->print_titles(FALSE)->print_errors(FALSE);
+
+			// Validate hash
+			$user = $this->User->where('user_update_hash', $this->info['raw_route'][2])->get()->result();
+			if($user === FALSE)
 			{
-				$this->add_flash("Invalid password update URL.");
-				header("Location: {$this->config['web_path']}/dashboard/");
+				// Hash does not exist
+				header("Location: {$this->config['web_path']}/{$this->config['log_in_module']}/");
 				exit;
 			}
-		
-			// User submitted login
-			if(!empty($_POST['update_submit']))
+
+			// Form submitted
+			if(!empty($_POST))
 			{
-				// Pass in login info to login class
-				if($this->User->update_password($_POST))
+				// Validation rules
+				$rules['new_password']			= array('reqd' => 'Please enter a new password.', 'min[8]' => 'Password must be at least 8 characters in length.');
+				$rules['new_password_confirm']	= array('reqd' => 'Please confirm your new password.', 'match[new_password]' => 'Passwords do not match.');
+
+				// Run validation
+				if($this->Validate->run($_POST, $rules))
 				{
-					// Logged in, so send the user to the page they requested
-					header("Location: {$this->config['web_path']}/dashboard/");
-					exit;
+					// Update password
+					if($this->User->update_password($user['user_id'], $_POST['new_password']))
+					{
+						// Redirect to the default log in url
+						header("Location: {$this->config['web_path']}/{$this->config['log_in_module']}/");
+						exit;
+					}
+				}else{
+					// Pass error strings to display
+					if(is_array($this->Validate->error))
+					{
+						// Get first error for each field
+						foreach($this->Validate->error as $e)
+						{
+							$this->add_flash($e[0]);
+						}
+					}
 				}
 			}
+
+			// Make user information available to template
+			$this->data = $user;
 		}
 
 
@@ -47,7 +85,7 @@
 		function logout()
 		{
 			$this->User->logout();
-			header("Location: {$this->config['web_path']}/");
+			header("Location: {$this->config['web_path']}/{$this->config['log_in_module']}/");
 		}
 	}
 
