@@ -2,17 +2,23 @@
 
 class User extends Model_Base
 {
-	function __construct()
+	/**
+	 * Construct function
+	 */
+	public function __construct()
 	{
 		$this->load_helper('Db');
 		$this->load_helper('Validate')->print_titles(FALSE)->print_errors(FALSE);
 	}
 
 
+
 	/**
-	 * Login Methods
+	 * Log in
+	 * @param array login data
+	 * @return bool
 	 */
-	function log_user_in($data)
+	public function log_user_in($data)
 	{
 		// Validation rules
 		$rules['user_email']		= array('reqd' => 'Please enter your email address.');
@@ -30,7 +36,6 @@ class User extends Model_Base
 				// Save result to session
 				$_SESSION['Login']  = $res->result();
 				$_SESSION['Login']['user_last_login'] = date('Y-m-d H:i:s');
-
 				return TRUE;
 			}else{
 				$this->add_flash('Incorrect username or password.');
@@ -42,22 +47,6 @@ class User extends Model_Base
 		}
 		return FALSE;
 	}
-
-
-	function check_login()
-	{
-		if(!empty($_SESSION['Login']))
-		{
-			return true;
-		}else{
-			return false;
-		}
-	}
-
-
-
-
-
 
 
 
@@ -95,28 +84,44 @@ class User extends Model_Base
 
 
 
-
-
-	function update_password($user_id, $new_password)
+	/**
+	 * Update a user's password
+	 * @param int $user_id
+	 * @param string $new_password
+	 * @return bool
+	 */
+	public function update_password($user_id, $new_password)
 	{
+		// Check user ID
 		if($this->exists($user_id))
 		{
 			// Update the password
-			$data['hash'] = ereg_replace('[^0-9a-zA-Z]', '', $data['hash']);
-			if($this->Db->update('user', array('user_update_hash' => '', 'user_password' => sha1(trim($new_password))), " user_id = '{$user_id}' ") !== FALSE)
-			{
-				return TRUE;
-			}
+			return $this->Db->update('user', array('user_update_hash' => '', 'user_password' => sha1(trim($new_password))), " user_id = '{$user_id}' ");
 		}
 		return FALSE;
 	}
 
 
 
-
-	function logout()
+	/**
+	 * Check if a user is logged in
+	 * @return bool
+	 */
+	public function is_logged_in()
 	{
-		$_SESSION = array();
+		return !empty($_SESSION['Login']);
+	}
+
+
+	
+	/**
+	 * Clear login information from session
+	 * @return bool
+	 */
+	public function logout()
+	{
+		unset($_SESSION['Login']);
+		return TRUE;
 	}
 
 }

@@ -8,7 +8,6 @@
 			$this->load_model('User');
 			$this->load_helper('Validate')->print_titles(FALSE)->print_errors(FALSE);
 
-
 			// Form submitted
 			if(!empty($_POST))
 			{
@@ -82,7 +81,7 @@
 
 
 
-		function logout()
+		public function logout()
 		{
 			$this->User->logout();
 			header("Location: {$this->config['web_path']}/{$this->config['log_in_module']}/");

@@ -16,7 +16,7 @@
 
 		<div class="clear"></div>
 		
-		<div class="cancel_reset">Don't need to reset you password? <a href="<?= $this->config['web_path']?>/<?= $this->config['log_in_module'] ?>/">Login now</a>.</div>
+		<div class="cancel_reset">Don't need to reset you password? <a href="<?= $this->config['web_path']?>/<?= $this->config['log_in_module'] ?>/">Log in now</a>.</div>
 		
 		<div class="clear"></div>
 
