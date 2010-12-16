@@ -131,6 +131,27 @@
 		}
 
 
+
+		public function column_exists($table_name, $column_name)
+		{
+			// Load table information
+			$columns = $this->get_column_names($table_name);
+			if($columns)
+			{
+				// Loop through the columns
+				foreach($columns as $column => $d)
+				{
+					if($column_name == $column)
+					{
+						return TRUE;
+					}
+				}
+			}
+			return FALSE;
+		}
+
+
+
 		/*
 		 * Return array column information for a table
 		 */
@@ -495,6 +516,8 @@
 		}
 
 	}
+
+
 
 
 
