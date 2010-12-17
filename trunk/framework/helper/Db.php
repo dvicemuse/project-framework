@@ -10,7 +10,12 @@
 		private $error;
 		static private $_instance = null; // Singleton instance tracker
 
-		// Singleton creator
+
+
+		/**
+		 * Db class is a singleton
+		 * @return object
+		 */
 		public static function & Instance()
 		{
 			if(is_null(self::$_instance))
@@ -20,6 +25,11 @@
 			return self::$_instance;
 		}
 
+
+
+		/*
+		 * Connect to the database
+		 */
 		function __construct()
 		{
 			// Put the connection into $this->conn
@@ -32,6 +42,13 @@
 			}
 		}
 
+
+
+		/**
+		 * Execute a query
+		 * @param string $query
+		 * @return bool
+		 */
 		function query($query)
 		{
 			$this->q = NULL;
@@ -46,7 +63,14 @@
 			}
 			return $ret;
 		}
-		
+
+
+
+		/**
+		 * Fetch a single row from the database. Returns FALSE on failure/no result.
+		 * @param string $query
+		 * @return mixed
+		 */
 		function get_row($query)
 		{
 			// Perform the query
@@ -63,7 +87,13 @@
 			}
 		}
 
-		
+
+
+		/**
+		 * Fetch multiple rows from the database. Returns FALSE on failure/no result.
+		 * @param string $query
+		 * @return mixed
+		 */
 		function get_rows($query)
 		{
 			// Perform the query
@@ -86,35 +116,11 @@
 
 
 
-		public function check_column_exists($table_names, $column_name)
-		{
-			if(!is_array($table_names))
-			{
-				$t = $table_names;
-				$table_names = array();
-				$table_names[] = $t;	
-			}
-			foreach($table_names as $table_name)
-			{
-				// Load table information
-				if($this->get_table_info($table_name))
-				{
-					// Loop through the columns
-					foreach($this->table_info[$table_name] as $column => $d)
-					{
-						// Check the key field for the PRI attribute
-						if($column == $column_name)
-						{
-							// Found it
-							return $table_name;
-						}
-					}
-				}
-			}
-			return FALSE;
-		}
-
-
+		/**
+		 * Get the column names for a table.
+		 * @param string $table_name
+		 * @return mixed
+		 */
 		public function get_column_names($table_name)
 		{
 			// Load table information
@@ -132,6 +138,12 @@
 
 
 
+		/**
+		 * Check if a column exists in a table.
+		 * @param string $table_name
+		 * @param string $column_name
+		 * @return bool
+		 */
 		public function column_exists($table_name, $column_name)
 		{
 			// Load table information
@@ -152,8 +164,10 @@
 
 
 
-		/*
-		 * Return array column information for a table
+		/**
+		 * Get an array of table info.
+		 * @param string $table_name
+		 * @return mixed
 		 */
 		public function get_table_info($table_name)
 		{
@@ -183,7 +197,11 @@
 
 
 
-
+		/**
+		 * Get the primary key column name for a table.
+		 * @param string $table_name
+		 * @return mixed
+		 */
 		public function get_primary_key($table_name)
 		{
 			// Load the table information
@@ -210,40 +228,13 @@
 
 
 
-
-		public function load($table_name, $load_id, $field_name = '')
-		{
-			$load_id = $this->escape($load_id);
-			$field_name = $this->escape($field_name);
-			$table_name = $this->escape($table_name);
-
-			// Which field to load from
-			if(empty($field_name))
-			{
-				// Load from primary key
-				$field_name = $this->get_primary_key($table_name);
-				if($field_name === FALSE)
-				{
-					return FALSE;
-				}
-			}else{
-				// Load from field_name param
-				if($this->check_column_exists($table_name, $field_name) === FALSE)
-				{
-					$this->add_error("Non existant column name passed to Db->load()");
-					return FALSE;
-				}
-			}
-			
-			// We have a field name, now make the query
-			$sql = "SELECT * FROM `{$table_name}` WHERE `{$field_name}` = '{$load_id}' LIMIT 1 ";
-			return $this->get_row($sql);
-		}
-
-
-		
-		
-		
+		/**
+		 * Insert a record with a keyed array of values. Returns the integer
+		 * insert ID, or FALSE on failure
+		 * @param string $table
+		 * @param array $data
+		 * @return mixed.
+		 */
 		function insert($table, $data)
 		{
 			$this->inserted_columns = array();
@@ -285,7 +276,15 @@
 			}
 		}
 
-	
+
+
+		/**
+		 * Update a record with a keyed array of values.
+		 * @param string $table
+		 * @param array $data
+		 * @param string $where
+		 * @return bool
+		 */
 		function update($table, $data, $where)
 		{
 			if(!strstr(' '.$where, '='))
@@ -325,35 +324,33 @@
 			}
 		}
 
-		function num_rows()
-		{
-			return mysql_num_rows($this->q);
-		}
-
 
 
 		/**
 		 * Escape a string
-		 *
-		 * @param string $value
-		 * @return string results
+		 * @param mixed $value
+		 * @return mixed
 		 */
 		function escape($value)
 		{
 			if(is_array($value))
 			{
-				return mysql_real_escape_string(serialize($value), $this->conn);
+				foreach($value as $k=>$v)
+				{
+					$value[$k] = $this->escape($v);
+				}
+				return $value;
+			}else{
+				return mysql_real_escape_string($value);
 			}
-			return mysql_real_escape_string(trim($value), $this->conn);
 		}
 
 
 
 		/**
-		 * Recursively remove slash characters from an array or string
-		 *
-		 * @param array/string $value
-		 * @return array/string results
+		 * Recursively remove slash characters from an array or string.
+		 * @param mixed $value
+		 * @return mixed
 		 */
 		function stripslashes_deep($value)
 		{
@@ -372,93 +369,20 @@
 
 
 		/**
-		 * Will pull a single result from table, joining
-		 * in any table with the appropriate naming prefix.
-		 * If there is a field in table named address_id, it
-		 * will look for a table named address, and then
-		 * join in the row with the value stored in that field.
-		 *
-		 * @param string $table
-		 * @param string $where
-		 * @return array results
-		 */
-		function fetch_complete($table, $where)
-		{
-			// Make sure there is a where clause
-			if(!strstr(' '.$where, '='))
-			{
-				//$this->add_error('No where clause specified. Exiting fetch_complete.');
-				return FALSE;
-			}
-			// Fetch table names for later
-			if(!$this->get_table_names())
-			{
-				return FALSE;
-			}
-			// Perform the query
-			if(!$this->query("SHOW COLUMNS FROM `{$table}`"))
-			{
-				return FALSE;
-			}
-			// Get results from query
-			if(mysql_num_rows($this->q) == 0)
-			{
-				return FALSE;
-			}else{
-				while($r = mysql_fetch_assoc($this->q))
-				{
-					$fields[$r['Field']] = array(
-						'type' => $r['Type'],
-						'key' => $r['Key'],
-					);
-				}
-
-				$complete = "SELECT * FROM {$table} WHERE {$where}";
-				$return = $this->get_row($complete);				
-
-				if($return !== FALSE)
-				{
-					$final_return = $return;
-					foreach($return as $key => $val)
-					{
-						if(preg_match('/([a-z_0-9]+)_id/i', $key, $matches))
-						{
-							if($matches[1] != $table && array_search($matches[1], $this->tables) !== FALSE)
-							{
-								$get_join = $this->get_row("SELECT * FROM {$matches[1]} WHERE {$key} = '{$val}' ");
-								if($get_join !== FALSE)
-								{
-									$final_return = array_merge($final_return, $get_join);
-								}
-							}
-						}
-					}
-				}
-				return $final_return;
-
-			}
-		}
-
-
-
-		/**
 		 * Get all of the table names for the current database,
 		 * store the resulting array in $this->tables
-		 *
-		 * @return boolean success
+		 * @return bool
 		 */
 		function get_table_names()
 		{
 			// Get all of the table names
 			if(!$this->query("SHOW TABLES"))
 			{
-				//$this->add_error("Could not get table names.");
 				return FALSE;
 			}
 			// Get results from query
 			if(mysql_num_rows($this->q) == 0)
 			{
-				$this->add_error("Could not get table names.");
 				return FALSE;
 			}else{
 				while($r = mysql_fetch_array($this->q))
@@ -470,8 +394,14 @@
 		}
 
 
-		// Get valid enum values from a column
-		// Borrowed from php.net
+
+		/**
+		 * Get valid enum values for a column. (borrowed from php.net)
+		 * @param string $table
+		 * @param string $field
+		 * @param bool $ucfirst_values
+		 * @return <type> 
+		 */
 		function get_enum($table, $field, $ucfirst_values = TRUE)
 		{
 			$result = $this->query("show columns from {$table}");
@@ -505,7 +435,11 @@
 		}
 
 
-		// Check for error, false if there are no errors
+
+		/**
+		 * Return any errors.
+		 * @return mixed
+		 */
 		public function error()
 		{
 			if(!empty($this->error))
@@ -515,12 +449,8 @@
 			return FALSE;
 		}
 
+
+		
 	}
-
-
-
-
-
-
 
 ?>

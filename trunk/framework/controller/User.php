@@ -1,6 +1,6 @@
 <?php
 
-	class User_Controller extends Framework
+	class User_Controller extends Controller_Base
 	{
 		public function reset_password()
 		{

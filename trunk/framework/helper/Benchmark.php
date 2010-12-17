@@ -1,9 +1,11 @@
 <?php
 
-	class Benchmark {
-
+	class Benchmark
+	{
 		private $marker = array();
 
+
+		
 		/**
 		 * Set a benchmark marker
 		 * @param string $name
@@ -13,6 +15,8 @@
 		{
 			$this->marker[$name] = microtime();
 		}
+
+
 
 		/**
 		 * Calculates the time difference between two marked points.
@@ -43,6 +47,9 @@
 
 			return number_format(($em + $es) - ($sm + $ss), $decimals);
 		}
+
+
+
 	}
 
 ?>
