@@ -1,6 +1,6 @@
 <?php
 
-	class Home_Controller extends Framework
+	class Home_Controller extends Controller_Base
 	{
 	}
 
