@@ -29,6 +29,32 @@ class Framework {
 	public $info;				// Debug information about the current module/page/routing
 	public $modules;			// Loaded modules
 
+
+
+	/**
+	 * Include the system classes
+	 */
+	public function  __construct()
+	{
+		$class_files = array(
+			'Controller_Base',
+			'Db_Wrapper',
+			'Model_Base',
+		);
+		foreach($class_files as $file)
+		{
+			$f = "{$this->config['script_path']}framework/system/{$file}.php";
+			if(file_exists($f))
+			{
+				include_once($f);
+			}else{
+				die('Could not include system class.');
+			}
+		}
+	}
+
+
+
 	/*
 	 * This method determines which module and page to display
 	 */
@@ -172,13 +198,16 @@ class Framework {
 	{
 		$location = "{$this->config['script_path']}/framework/controller/{$module_name}.php";
 		// Make sure the module is not already loaded
-		if(!is_object($this->$module_name) && file_exists($location))
+		if(file_exists($location))
 		{
-			// Load the module into the current object
-			include_once($location);
-			$module_name = "{$module_name}_Controller";
-			$this->$module_name = new $module_name();
-			return $this->$module_name;
+			if(!is_object($this->$module_name))
+			{
+				// Load the module into the current object
+				include_once($location);
+				$module_name_controller = "{$module_name}_Controller";
+				$this->$module_name_controller = new $module_name_controller();
+				return $this->$module_name_controller;
+			}
 		}else{
 			return FALSE;
 		}
@@ -266,118 +295,12 @@ class Framework {
 
 
 
-	/*
-	 * Add an error string or array
-	 */
-	function add_error($error)
-	{
-		// See if error reporting has been disabled
-		if($this->config['log_error'] === TRUE)
-		{
-			$e = array(
-				'request' => $_SERVER['REQUEST_URI'],
-				'post' => $_POST,
-				'get' => $_GET,
-				'error' => $error
-			);
-			$_SESSION['Error'][] = $e;
-			$this->load_helper('Db');
-			$arr = array(
-				'error_array'	=> serialize($_SESSION['Error'])
-			);
-		}
-	}
-
-
-
-	/*
-	 * Render the error array
-	 */
-	function show_error()
-	{
-		if(is_array($_SESSION['Error']))
-		{
-			echo '<div class="error_message">';
-			echo '<pre>';
-			print_r($_SESSION['Error']);
-			echo '</pre>';
-			echo '</div>';
-			$_SESSION['Error'] = '';
-		}
-	}
-
-
-
-	function show_flash()
-	{
-		if(is_array($_SESSION['Flash']))
-		{
-			echo '<div class="width_container"><div id="succeed">';
-			foreach($_SESSION['Flash'] as $m)
-			{
-				echo "<p>{$m}</p>\n";
-			}
-			echo '</div></div>';
-		}
-		$_SESSION['Flash'] = '';
-	}
-
-
-
-	function add_flash($message)
-	{
-		if(!empty($message))
-		{
-			$_SESSION['Flash'][] = $message;
-		}
-	}
-
-
-
-
-
-	public function image_url($path)
-	{
-		$path = trim($path, ' /');
-		if($this->config['web_path'] == '/')
-		{
-			$wp = '';
-		}else{
-			$wp = $this->config['web_path'];
-		}
-		return "{$wp}/template/{$this->config['template_name']}/images/{$path}";
-	}
-
-
-
-	public function javascript_url($path)
-	{
-		$path = trim($path, ' /');
-		if($this->config['web_path'] == '/')
-		{
-			$wp = '';
-		}else{
-			$wp = $this->config['web_path'];
-		}
-		return "{$wp}/template/{$this->config['template_name']}/js/{$path}";
-	}
-
-
-
-	public function page_path()
-	{
-		return "{$this->config['web_path']}/".strtolower($this->info['current_module'])."/{$this->info['current_page']}";
-	}
-
-
-
-	public function reload_page()
-	{
-		header("Location: {$this->config['web_path']}/{$this->info['current_module']}/{$this->info['current_page']}");
-		exit;
-	}
 
 }
+
+
+
+
 
 
 // Global debug function
@@ -393,183 +316,5 @@ function pr($data)
 
 	echo "</pre>";
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-abstract class Model_Base extends Framework
-{
-	private $_where;
-
-
-	/**
-	 * Get the current model name
-	 * @return string
-	 */
-	private function model_name()
-	{
-		return strtolower(get_class($this));
-	}
-
-
-
-	/**
-	 * Add an AND to the where clause
-	 * @param string $column
-	 * @param string $value
-	 * @return self
-	 */
-	public function where($column, $value)
-	{
-		if($this->load_helper('Db')->column_exists($this->model_name(), $column))
-		{
-			$this->_where[] = " AND (`{$column}` = '{$this->Db->escape($value)}') ";
-		}
-		return $this;
-	}
-
-
-
-	/**
-	 * Add an AND LIKE to the where clause
-	 * @param string $column
-	 * @param string $value
-	 * @return self
-	 */
-	public function like($column, $value)
-	{
-		if($this->load_helper('Db')->column_exists($this->model_name(), $column))
-		{
-			$this->_where[] = " AND (`{$column}` LIKE '{$this->Db->escape($value)}') ";
-		}
-		return $this;
-	}
-
-
-
-	/**
-	 *
-	 * @param int $key_id
-	 * @return object
-	 */
-	public function get($key_id = '')
-	{
-		$this->load_helper('Db');
-
-		// Parameter is an integer (primary key)
-		if(ctype_digit($key_id))
-		{
-			// Reset where, and add primary key limit
-			$this->_where = array(0 => " AND {$this->model_name()}_id = '{$key_id}' ");
-		}
-
-		$clause = '';
-		if(is_array($this->_where))
-		{
-			foreach($this->_where as $where)
-			{
-				$clause .= $where;
-			}
-		}
-
-		// Reset where
-		$this->_where = array();
-
-		// Generate query
-		$sql =  "SELECT * FROM {$this->model_name()} WHERE 1=1 {$clause}";
-
-		// Create result object
-		$result = new Db_Wrapper;
-		return $result->set($this->Db->get_rows($sql));
-	}
-
-
-
-	/**
-	 * Check if a primary key exists
-	 * @param int $key_id
-	 * @return bool
-	 */
-	public function exists($key_id)
-	{
-		// Primary key
-		if(ctype_digit($key_id))
-		{
-			$get = $this->get(intval($key_id));
-			if($get->count() > 0)
-			{
-				return TRUE;
-			}
-		}
-		return FALSE;
-	}
-
-
-
-}
-
-
-	class Db_Wrapper
-	{
-		private $_data = array();
-
-		/**
-		 * Set class data
-		 * @param array $array
-		 * @return object $this
-		 */
-		public function set($array)
-		{
-			if(is_array($array))
-			{
-				$this->_data = $array;
-			}
-			return $this;
-		}
-
-		public function result()
-		{
-			if(is_array($this->_data[0]))
-			{
-				return $this->_data[0];
-			}else{
-				return FALSE;
-			}
-		}
-
-
-		public function results()
-		{
-			if(is_array($this->_data))
-			{
-				return $this->_data;
-			}else{
-				return FALSE;
-			}
-		}
-
-
-		public function count()
-		{
-			if(is_array($this->_data))
-			{
-				return count($this->_data);
-			}else{
-				return 0;
-			}
-		}
-	}
-
 
 ?>
