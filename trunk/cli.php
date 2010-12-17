@@ -15,6 +15,27 @@
 	$frm = new Framework;
 
 
+	// No parameters
+	if(!isset($_SERVER['argv'][1]))
+	{
+		//echo "\033[31mred\033[37m\r\n";
+		//echo "\033[32mgreen\033[37m\r\n";
+		//echo "\033[41;30mblack on red\033[40;37m\r\n";
+		echo "
+Available actions are:
+
+\033[41;30mBUILD\033[40;37m
+	Run build actions (create the user table).
+	\033[32mcli.php build\033[37m
+
+\033[41;30mGENERATE\033[40;37m
+	Create a model + controller + test suite + template folder with [name]
+	\033[32mcli.php generate [name]\033[37m
+
+		\n";
+		exit;
+	}
+
 
 	// Perform framework build actions
 	if($_SERVER['argv'][1] == 'build')
