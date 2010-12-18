@@ -295,6 +295,18 @@ class Framework {
 
 
 
+	/**
+	 * Check if a value really is an id.
+	 * Handles string and int input.
+	 * Empty strings return FALSE.
+	 * @param int $int_id
+	 * @return bool
+	 */
+	public function is_id($int_id)
+	{
+		return (strlen($int_id) > 0 && strlen($int_id) == strlen(intval($int_id)));
+	}
+
 
 }
 
