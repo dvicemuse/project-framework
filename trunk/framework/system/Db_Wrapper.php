@@ -31,7 +31,7 @@
 
 		public function results()
 		{
-			if(is_array($this->_data))
+			if(is_array($this->_data) && count($this->_data) > 0)
 			{
 				return $this->_data;
 			}else{
@@ -42,7 +42,7 @@
 
 		public function count()
 		{
-			if(is_array($this->_data))
+			if(is_array($this->_data) && count($this->_data) > 0)
 			{
 				return count($this->_data);
 			}else{
