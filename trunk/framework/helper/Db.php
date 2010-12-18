@@ -150,8 +150,9 @@
 			$columns = $this->get_column_names($table_name);
 			if($columns)
 			{
+				pr($columns);
 				// Loop through the columns
-				foreach($columns as $column => $d)
+				foreach($columns as $d => $column)
 				{
 					if($column_name == $column)
 					{
