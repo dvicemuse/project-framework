@@ -125,7 +125,28 @@ class Model_Base_Test extends UnitTestCase
 
 
 
+	// Test Db->column_exists()
+	function testColumnExists()
+	{
+		$t = new Framework();
+		$t->load_helper('Db');
 
+		// Table and column exists
+		$columns = $t->Db->column_exists('modelbasetest123', 'id');
+		$this->assertEqual($columns, TRUE);
+
+		// Table exists and column does not exist
+		$columns = $t->Db->column_exists('modelbasetest123', 'FAKE');
+		$this->assertEqual($columns, FALSE);
+
+		// Table does not exist
+	    try {
+	        $columns = $t->Db->column_names('FAKE_TABLE', 'id');
+	        $this->fail("Exception was expected.");
+	    } catch (Exception $e) {
+	        $this->pass();
+		}
+	}
 
 	
 }

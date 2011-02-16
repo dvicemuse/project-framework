@@ -163,7 +163,7 @@
 		/**
 		 * Get an array of table info.
 		 * @param string $table_name
-		 * @return mixed
+		 * @return array
 		 */
 		public function table_info($table_name)
 		{
@@ -187,8 +187,6 @@
 					return $this->table_info[$table_name];
 				}
 			}
-			// Made it to the end, fail
-			return FALSE;
 		}
 
 
