@@ -27,7 +27,7 @@ class Modelbasetest123 extends Model_Base {
 	}
 	function  __destruct() {
 		// Clean up
-		#mysql_query("DROP TABLE `modelbasetest123`");
+		mysql_query("DROP TABLE `modelbasetest123`");
 	}
 }
 
