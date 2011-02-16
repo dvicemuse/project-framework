@@ -5,7 +5,6 @@
 		public $conn;
 		public $q;
 		public $num_rows;
-		public $inserted_columns;
 		private $table_info;
 		private $error;
 		static private $_instance = null; // Singleton instance tracker
@@ -37,9 +36,9 @@
 			if($this->conn)
 			{
 				mysql_select_db($this->config['database_name'], $this->conn);
-			}else{
-				die('Database connection error.');
+				return;
 			}
+			throw new Exception("Unable to connect to the database.");
 		}
 
 
@@ -56,20 +55,17 @@
 			$this->q = mysql_query($query, $this->conn);
 			if($this->q)
 			{
-				$ret = TRUE;
-			}else{
-				$this->error = mysql_error();
-				$ret = FALSE;
+				return TRUE;
 			}
-			return $ret;
+			throw new Exception('SQL query failed.');
 		}
 
 
 
 		/**
-		 * Fetch a single row from the database. Returns FALSE on failure/no result.
+		 * Fetch a single row from the database. Returns array on success, FALSE on no result.
 		 * @param string $query
-		 * @return mixed
+		 * @return array|bool
 		 */
 		function get_row($query)
 		{
@@ -90,9 +86,9 @@
 
 
 		/**
-		 * Fetch multiple rows from the database. Returns FALSE on failure/no result.
+		 * Fetch multiple rows from the database. Returns array on success, FALSE on no result.
 		 * @param string $query
-		 * @return mixed
+		 * @return array|bool
 		 */
 		function get_rows($query)
 		{
@@ -121,10 +117,10 @@
 		 * @param string $table_name
 		 * @return mixed
 		 */
-		public function get_column_names($table_name)
+		public function column_names($table_name)
 		{
 			// Load table information
-			if($this->get_table_info($table_name))
+			if($this->table_info($table_name))
 			{
 				// Loop through the columns
 				foreach($this->table_info[$table_name] as $column => $d)
@@ -133,7 +129,7 @@
 				}
 				return $ret;
 			}
-			return FALSE;
+			throw new Exception('Table contains no columns.');
 		}
 
 
@@ -147,7 +143,7 @@
 		public function column_exists($table_name, $column_name)
 		{
 			// Load table information
-			$columns = $this->get_column_names($table_name);
+			$columns = $this->column_names($table_name);
 			if($columns)
 			{
 				// Loop through the columns
@@ -169,7 +165,7 @@
 		 * @param string $table_name
 		 * @return mixed
 		 */
-		public function get_table_info($table_name)
+		public function table_info($table_name)
 		{
 			// Check if the table info is already loaded
 			if(is_array($this->table_info[$table_name]))
@@ -218,11 +214,9 @@
 					}
 				}
 				// Add an error, there is no primary key for this table
-				$this->add_error("Primary key not defined in table `{$table_name}`. Db->get_primary_key()");
 				return FALSE;
 			}
 			// Made it to the end, fail
-			$this->add_error("Table information not available for table `{$table_name}`. Db->get_primary_key()");
 			return FALSE;
 		}
 
@@ -237,7 +231,6 @@
 		 */
 		function insert($table, $data)
 		{
-			$this->inserted_columns = array();
 			// Perform the query
 			if(!$this->query("SHOW COLUMNS FROM `{$table}`"))
 			{
@@ -260,7 +253,6 @@
 				{
 					if(is_array($fields[$k]) && $fields[$k]['key'] != 'PRI')
 					{
-						$this->inserted_columns[$k] = $k;
 						$v = $this->escape($v);
 						$query .= " `{$k}` = '{$v}', ";
 					}
@@ -289,7 +281,6 @@
 		{
 			if(!strstr(' '.$where, '='))
 			{
-				//$this->add_error('No where clause specified. Exiting update.');
 				return FALSE;
 			}
 			// Perform the query
@@ -436,21 +427,9 @@
 
 
 
-		/**
-		 * Return any errors.
-		 * @return mixed
-		 */
-		public function error()
-		{
-			if(!empty($this->error))
-			{
-				return $this->error;
-			}
-			return FALSE;
-		}
-
-
-		
+		// Compatibility functions
+		public function get_column_names($table_name){ return $this->column_names($table_name); }
+		public function get_table_info($table_name){ return $this->table_info($table_name); }
 	}
 
 ?>
