@@ -7,6 +7,7 @@
 		private $_limit;
 
 
+
 		/**
 		 * Get the current model name
 		 * @return string
@@ -15,6 +16,7 @@
 		{
 			return strtolower(get_class($this));
 		}
+
 
 
 		/**
@@ -141,7 +143,7 @@
 
 			// Generate query
 			$sql =  "SELECT * FROM {$this->model_name()} WHERE 1=1 {$clause} {$order} {$this->_limit}";
-#pr($sql);
+
 			// Reset where
 			$this->_where = array();
 			$this->_order = array();
