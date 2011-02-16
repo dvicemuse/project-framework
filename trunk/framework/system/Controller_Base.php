@@ -2,12 +2,14 @@
 
 	abstract class Controller_Base extends Framework
 	{
-		/*
+		/**
 		 * Add an error string or array
+		 * @param mixed $error
+		 * @return bool
 		 */
 		function add_error($error)
 		{
-			// See if error reporting has been disabled
+			// See if error reporting is enabled
 			if($this->config['log_error'] === TRUE)
 			{
 				$e = array(
@@ -16,17 +18,15 @@
 					'get' => $_GET,
 					'error' => $error
 				);
+				// Save to session
 				$_SESSION['Error'][] = $e;
-				$this->load_helper('Db');
-				$arr = array(
-					'error_array'	=> serialize($_SESSION['Error'])
-				);
 			}
+			return TRUE;
 		}
 
 
 
-		/*
+		/**
 		 * Render the error array
 		 */
 		function show_error()
@@ -44,6 +44,9 @@
 
 
 
+		/**
+		 * Show flash message
+		 */
 		function show_flash()
 		{
 			if(is_array($_SESSION['Flash']))
@@ -60,18 +63,27 @@
 
 
 
+		/**
+		 * Add a message
+		 * @param string $message
+		 * @return bool
+		 */
 		function add_flash($message)
 		{
 			if(!empty($message))
 			{
 				$_SESSION['Flash'][] = $message;
 			}
+			return TRUE;
 		}
 
 
 
-
-
+		/**
+		 * Return the path to an image file
+		 * @param string $path
+		 * @return string
+		 */
 		public function image_url($path)
 		{
 			$path = trim($path, ' /');
@@ -86,6 +98,11 @@
 
 
 
+		/**
+		 * Return the path to a javascript file
+		 * @param string $path
+		 * @return string
+		 */
 		public function javascript_url($path)
 		{
 			$path = trim($path, ' /');
@@ -99,6 +116,12 @@
 		}
 
 
+
+		/**
+		 * Return the path to a CSS file
+		 * @param string $path
+		 * @return string
+		 */
 		public function css_url($path)
 		{
 			$path = trim($path, ' /');
@@ -108,10 +131,15 @@
 			}else{
 				$wp = $this->config['web_path'];
 			}
-			return "{$wp}/template/{$this->config['template_name']}/js/{$path}";
+			return "{$wp}/template/{$this->config['template_name']}/css/{$path}";
 		}
 
 
+
+		/**
+		 * Return the current page path
+		 * @return string
+		 */
 		public function page_path()
 		{
 			return "{$this->config['web_path']}/".strtolower($this->info['current_module'])."/{$this->info['current_page']}";
@@ -119,14 +147,14 @@
 
 
 
+		/**
+		 * Reload the current  page
+		 */
 		public function reload_page()
 		{
 			header("Location: {$this->config['web_path']}/{$this->info['current_module']}/{$this->info['current_page']}");
 			exit;
 		}
-
-
-
 
 
 
