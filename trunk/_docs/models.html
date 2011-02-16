@@ -18,7 +18,7 @@
 	<h2>Model Basics</h2>
 	<p>
 		Models are PHP classes that are designed to work with information in your database. A basic model
-		might have functions to insert, update, and retrieve data. A very quick and insecure example:
+		might have functions to insert, update, and retrieve data. A simple model might look like:
 	</p>
 
 	<pre>
@@ -72,6 +72,10 @@ class Post extends Framework {
 	<p>The load_model() function returns the loaded model, enabling method chaining. The above example could be rewritten as:</p>
 	<code>$this->load_model('Blog')-><var>function()</var>;</code>
 
+
+
+	<h2>Extending Model With Model_Base Class</h2>
+	<p>Extending the Model_Base class allows access to many helpful methods.
 
 </div>
 <!-- END CONTENT -->
