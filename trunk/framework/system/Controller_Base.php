@@ -158,6 +158,34 @@
 
 
 
+
+		public function page_link($model, $page)
+		{
+			return "/".trim("{$this->config['web_path']}/".strtolower($model)."/{$page}", '/')."/";
+		}
+		
+
+
+		public function active($compare = '')
+		{
+			if(is_array($compare))
+			{
+				foreach($compare as $c)
+				{
+					if($this->info['current_page'] == $c)
+					{
+						echo 'class="active"';
+						break;
+					}
+				}
+			}else{
+				echo ($this->info['current_page'] == $compare ? 'class="active"' : '');
+			}
+		}
+
+
+
+
 	}
 
 ?>
