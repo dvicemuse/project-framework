@@ -38,11 +38,9 @@ class User extends Model_Base
 				$_SESSION['Login']['user_last_login'] = date('Y-m-d H:i:s');
 				return TRUE;
 			}else{
-				$this->add_flash('Incorrect username or password.');
 				return FALSE;
 			}
 		}else{
-			$this->add_flash('Incorrect username or password.');
 			return FALSE;
 		}
 		return FALSE;
