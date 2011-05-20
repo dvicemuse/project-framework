@@ -148,7 +148,7 @@
 
 
 		/**
-		 * Reload the current  page
+		 * Reload the current page
 		 */
 		public function reload_page()
 		{
@@ -158,7 +158,12 @@
 
 
 
-
+		/**
+		 * Return the path to a page
+		 * @param string $model
+		 * @param string $page
+		 * @return string
+		 */
 		public function page_link($model, $page)
 		{
 			return "/".trim("{$this->config['web_path']}/".strtolower($model)."/{$page}", '/')."/";
