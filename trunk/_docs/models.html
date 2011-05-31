@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Documentation Template</title>
+	<title>Framework Docs - Models</title>
 	<link rel='stylesheet' type='text/css' media='all' href='css/base.css' />
 	<meta http-equiv='expires' content='-1' />
 	<meta http-equiv= 'pragma' content='no-cache' />
@@ -17,7 +17,7 @@
 
 	<h2>Model Basics</h2>
 	<p>
-		Models are PHP classes that are designed to work with information in your database. A basic model
+		Models are PHP classes that are designed to work with information in your database. A model
 		might have functions to insert, update, and retrieve data. A simple model might look like:
 	</p>
 
@@ -75,8 +75,21 @@ class Post extends Framework {
 
 
 	<h2>Extending Model With Model_Base Class</h2>
-	<p>Extending the Model_Base class allows access to many helpful methods.
+	
+	<p>Extending the Model_Base class allows access to  additional methods related to retrieving records from the database. The get method for the above example could be rewritten as:</p>
+	
+	<pre>
+class Post extends Model_Base {
 
+	public function get($post_id)
+	{
+		return $this->get($post_id)->result();
+	}
+
+}
+	</pre>
+	
+	<p>For more information, see the <a href="model_base.html">Model Base</a> page.</p>
 </div>
 <!-- END CONTENT -->
 
