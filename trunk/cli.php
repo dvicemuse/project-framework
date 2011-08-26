@@ -11,7 +11,7 @@
 	}
 
 	// Initialize framework
-	include_once('framework/Framework.php');
+	include_once('system/Framework.php');
 	$frm = new Framework;
 
 

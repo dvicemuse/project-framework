@@ -276,15 +276,15 @@ class Framework
 	 */
 	function render_foot()
 	{
-		if(is_array($this->config['disable_headers']) && in_array($this->info['current_page'], $this->config['disable_headers']))
-		{
-			return TRUE;
-		}
-		if(file_exists("template/{$this->config['template_name']}/{$this->info['current_module']}/foot.php"))
+		#if(is_array($this->config['disable_headers']) && in_array($this->info['current_page'], $this->config['disable_headers']))
+		#{
+		#	return TRUE;
+		#}
+		if(file_exists("template/{$this->config->path->template_name}/{$this->info['current_module']}/foot.php"))
 		{
 			include("template/{$this->config['template_name']}/{$this->info['current_module']}/foot.php");
-		}else if(file_exists("template/{$this->config['template_name']}/foot.php")){
-			include("template/{$this->config['template_name']}/foot.php");
+		}else if(file_exists("template/{$this->config->path->template_name}/foot.php")){
+			include("template/{$this->config->path->template_name}/foot.php");
 		}
 	}
 
@@ -297,7 +297,7 @@ class Framework
 	{
 		// Lock the file path to the partial directory
 		$partial_name = str_replace('/', '', $partial_name);
-		$location = "template/{$this->config['template_name']}/{$this->info['current_module']}/Partial/{$partial_name}.php";
+		$location = "template/{$this->config->path->template_name}/{$this->info['current_module']}/Partial/{$partial_name}.php";
 		if(file_exists($location))
 		{
 			include($location);

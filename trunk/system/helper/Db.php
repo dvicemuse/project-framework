@@ -32,7 +32,7 @@
 		function __construct()
 		{
 			parent::__construct();
-pr($this->config->db->password);
+
 			// Put the connection into $this->conn
 			$this->conn = mysql_connect($this->config->db->host, $this->config->db->username, $this->config->db->password) or die(mysql_error());
 			if($this->conn)
