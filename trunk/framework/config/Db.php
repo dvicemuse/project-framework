@@ -3,8 +3,8 @@
 	class Db_Config
 	{
 		public $host		= 'localhost';
-		public $username	= 'root';
-		public $password	= '';
+		public $username	= 'framework';
+		public $password	= 'password';
 		public $database	= 'framework';
 	}
 
