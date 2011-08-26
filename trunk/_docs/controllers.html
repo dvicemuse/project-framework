@@ -30,35 +30,33 @@
 	</p>
 	<code>mysite.com<var>/blog/</var></code>
 
+	<p>
+		The controller class file for the example above would be located in
+	</p>
+	<code>www<var>/framework/controller/Blog.php</var></code>
 
-	
+
+
+
+	<h2>Multiple Word Controllers</h2>
+	<p>Controllers can be made up of multiple words. In a sample request for:</p>
+	<code>mysite.com<var>/blog_comment/list/</var></code>
+	<p>
+		The framework would attempt to load the controller class <var>Blog_Comment_Controller</var>,
+		and call the function <var>Blog_Comment_Controller:list()</var>.
+	</p>
+
+	<p>
+		The controller class file for the example above would be located in
+	</p>
+	<code>www<var>/framework/controller/Blog_Comment.php</var></code>
+
+
 	<h2>Naming Guidelines</h2>
 	<ul>
-		<li>One word</li>
-		<li>Begin with a capital letter</li>
+		<li>Each word begins with a capital letter</li>
+		<li>Singular</li>
 	</ul>
-
-
-
-	<h2>Anatomy of a Controller</h2>
-	<p>Controller classes are stored in the <var>framework/controller/</var> folder.</p>
-
-
-
-	<h2>Loading a Helper</h2>
-	<p>Models can be called from anywhere within the framework construct:</p>
-	<code>$this->load_helper('<var>Helper</var>');</code>
-
-	<p>Once loaded, you can access your helper functions using an object with the same name as your class:</p>
-	<code>
-		$this->load_helper('<var>Paginate</var>');
-		<br />$this-><var>Paginate</var>->function();
-	</code>
-
-	<p>The load_helper() function returns the helper class object, enabling method chaining. The above example could be rewritten as:</p>
-	<code>$this->load_model('<var>Paginate</var>')-><var>function()</var>;</code>
-
-
 </div>
 <!-- END CONTENT -->
 
