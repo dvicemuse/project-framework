@@ -31,11 +31,13 @@
 		 */
 		function __construct()
 		{
+			parent::__construct();
+pr($this->config->db->password);
 			// Put the connection into $this->conn
-			$this->conn = @mysql_connect($this->config['database_host'], $this->config['database_user'], $this->config['database_pass']);
+			$this->conn = mysql_connect($this->config->db->host, $this->config->db->username, $this->config->db->password) or die(mysql_error());
 			if($this->conn)
 			{
-				mysql_select_db($this->config['database_name'], $this->conn);
+				mysql_select_db($this->config->db->database, $this->conn);
 				return;
 			}
 			throw new Exception("Unable to connect to the database.");

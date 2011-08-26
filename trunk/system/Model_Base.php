@@ -9,6 +9,16 @@
 
 
 		/**
+		 * Construct function
+		 */
+		public function __construct()
+		{
+			parent::__construct();
+		}
+
+
+
+		/**
 		 * Get the current model name
 		 * @return string
 		 */

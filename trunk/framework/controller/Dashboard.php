@@ -4,7 +4,15 @@
 	{
 		public function __construct()
 		{
-			$this->config['secure_module'] = TRUE;
+			// Call parent constructor
+			parent::__construct();
+
+			// Make all pages require login
+			$this->require_login();
+		}
+
+		public function index()
+		{
 		}
 	}
 

@@ -7,6 +7,7 @@ class User extends Model_Base
 	 */
 	public function __construct()
 	{
+		parent::__construct();
 		$this->load_helper('Db');
 		$this->load_helper('Validate')->print_titles(FALSE)->print_errors(FALSE);
 	}

@@ -1,54 +1,53 @@
 <?php
 
-class Framework {
-
-	// Framework variables
-	public $config = array(
-		'script_path'		=> '/var/www/',
-		'web_path'			=> '',
-		'file_path'			=> '/var/www/files/',
-		'file_web_path'		=> 'http://38.108.125.251/files/',
-		'full_web_path'		=> 'http://38.108.125.251/',
-		'template_name'		=> 'flicker',
-		'encryption_key'	=> '123654$#*(7j(gdj7@^Oej**9@9ska90be8$7os&u13o*i',
-		'log_error'			=> TRUE,
-		'database_host'		=> 'localhost',
-		'database_user'		=> 'framework',
-		'database_pass'		=> 'password',
-		'database_name'		=> 'framework',
-
-		'log_in_module'		=> 'dashboard', // Front end module to trigger log in action
-
-		'no_reply_address'	=> 'no-reply@liquinoxhosting.com',
-		'no_reply_name'		=> 'Mail Robot',
-		'support_email'		=> 'dan@i-tul.com',
-
-		'secure_module'		=> FALSE, // Require the user to log in?
-		'disable_headers'	=> FALSE, // Hide the header and footer?
-	);
+class Framework
+{
+	public $config;
 	public $info;				// Debug information about the current module/page/routing
 	public $modules;			// Loaded modules
-
-
 
 	/**
 	 * Include the system classes
 	 */
-	public function  __construct()
+	public function __construct()
 	{
-		$class_files = array(
-			'Controller_Base',
-			'Db_Wrapper',
-			'Model_Base',
-		);
-		foreach($class_files as $file)
+		$application_path = __DIR__;
+
+		// Include system classes
+		foreach(array('Controller_Base', 'Db_Wrapper', 'Model_Base') as $file)
 		{
-			$f = "{$this->config['script_path']}framework/system/{$file}.php";
+			$f = $application_path."/{$file}.php";
 			if(file_exists($f))
 			{
 				include_once($f);
 			}else{
 				die('Could not include system class.');
+			}
+		}
+
+		// Include configuration classes
+		$this->config = new Config_Builder;
+		$handle = opendir(substr($application_path, 0, -7)."/framework/config/");
+		while(false !== ($file = readdir($handle)))
+		{
+			if(trim($file, '.') != '' && substr($file, -4) == '.php')
+			{
+				include_once(substr($application_path, 0, -7)."/framework/config/".$file);
+				$config_class_base_name = strtolower(substr($file, 0, -4));
+				$config_class_name = substr($file, 0, -4)."_Config";
+
+				$class_vars = get_class_vars($config_class_name);
+				if(is_array($class_vars))
+				{
+					if(empty($this->config->$config_class_base_name))
+					{
+						$this->config->$config_class_base_name = new Config_Builder;
+					}
+					foreach($class_vars as $name => $value)
+					{
+						$this->config->$config_class_base_name->$name = $value;
+					}
+				}
 			}
 		}
 	}
@@ -61,7 +60,7 @@ class Framework {
 	public function route()
 	{
 		// Parse the request url
-		$_SERVER['REQUEST_URI'] = str_replace($this->config['web_path'], '', $_SERVER['REQUEST_URI']);
+		$_SERVER['REQUEST_URI'] = str_replace($this->config->path->web_path, '', $_SERVER['REQUEST_URI']);
 		$routes = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
 
 		// Check for variables passed through the URL (/page/my_var:value/)
@@ -99,7 +98,7 @@ class Framework {
 		$routes[0] = ucfirst($routes[0]);
 
 		// Make sure that the requested page exists
-		if(!file_exists("{$this->config['script_path']}/framework/controller/{$routes[0]}.php") || !file_exists("template/{$this->config['template_name']}/{$routes[0]}/{$routes[1]}.php"))
+		if(!file_exists("{$this->config->path->application_path}framework/controller/{$routes[0]}.php") || !file_exists("{$this->config->path->application_path}template/{$this->config->path->template_name}/{$routes[0]}/{$routes[1]}.php"))
 		{
 			header("HTTP/1.0 404 Not Found");
 			$routes[0] = 'Error';
@@ -115,20 +114,32 @@ class Framework {
 			exit;
 		}
 
+		$frm->request = new Config_Builder;
+
+
 		// Set the query vars
 		$frm->info['query_vars'] = $query_vars;
+		$frm->request->vars = $query_vars;
 
 		// Set the current module
 		$frm->info['current_module'] = $routes[0];
+		$frm->request->controller_name = $routes[0];
 
 		// Set the current page
 		$frm->info['current_page'] = $routes[1];
+		$frm->request->method_name = $routes[1];
 
 		// Pass the routing information
 		$frm->info['raw_route'] = $routes;
+		$frm->request->raw = $routes;
 
 		// Render the current page
-		$frm->render($routes[1]);
+		try
+		{
+			$frm->render($routes[1]);
+		}catch(Exception $e){
+			pr($e);
+		}
 	}
 
 
@@ -139,9 +150,9 @@ class Framework {
 	 */
 	function load_model($module_name)
 	{
-		$location = "{$this->config['script_path']}/framework/model/{$module_name}.php";
+		$location = "{$this->config->path->application_path}framework/model/{$module_name}.php";
 		// Make sure the module is not already loaded
-		if(!is_object($this->$module_name))
+		if(!isset($this->$module_name))
 		{
 			if(file_exists($location))
 			{
@@ -166,7 +177,7 @@ class Framework {
 	 */
 	function load_helper($module_name)
 	{
-		$location = "{$this->config['script_path']}/framework/helper/{$module_name}.php";
+		$location = "{$this->config->path->application_path}system/helper/{$module_name}.php";
 		// Make sure the module is not already loaded
 		if(isset($this->$module_name) && is_object($this->$module_name))
 		{
@@ -196,11 +207,11 @@ class Framework {
 	 */
 	function load_controller($module_name)
 	{
-		$location = "{$this->config['script_path']}/framework/controller/{$module_name}.php";
+		$location = "{$this->config->path->application_path}framework/controller/{$module_name}.php";
 		// Make sure the module is not already loaded
 		if(file_exists($location))
 		{
-			if(!is_object($this->$module_name))
+			if(!isset($this->$module_name))
 			{
 				// Load the module into the current object
 				include_once($location);
@@ -221,10 +232,10 @@ class Framework {
 	{
 		$this->load_model('User');
 		// If secure module, make sure user is logged in
-		if($this->config['secure_module'] == TRUE && $this->User->is_logged_in() === FALSE)
+		if(isset($this->config->user_authorization->check) && in_array($page, $this->config->user_authorization->check) && $this->User->is_logged_in() === FALSE)
 		{
 			// Secure module, and user is not logged in
-			include("{$this->config['script_path']}/template/{$this->config['template_name']}/User/login.php");
+			include("{$this->config->path->application_path}/template/{$this->config->path->template_name}/User/login.php");
 			exit;
 		}
 		// See if a page load function exists
@@ -235,7 +246,7 @@ class Framework {
 		}
 		// Load requested page
 		$this->render_head();
-		include_once("{$this->config['script_path']}/template/{$this->config['template_name']}/{$this->info['current_module']}/{$page}.php");
+		include_once("{$this->config->path->application_path}/template/{$this->config->path->template_name}/{$this->info['current_module']}/{$page}.php");
 		$this->render_foot();
 	}
 
@@ -246,15 +257,15 @@ class Framework {
 	 */
 	function render_head()
 	{
-		if(is_array($this->config['disable_headers']) && in_array($this->info['current_page'], $this->config['disable_headers']))
+		#if(is_array($this->config['disable_headers']) && in_array($this->info['current_page'], $this->config['disable_headers']))
+		#{
+		#	return TRUE;
+		#}
+		if(file_exists("template/{$this->config->path->template_name}{$this->info['current_module']}/head.php"))
 		{
-			return TRUE;
-		}
-		if(file_exists("template/{$this->config['template_name']}/{$this->info['current_module']}/head.php"))
-		{
-			include(("template/{$this->config['template_name']}/{$this->info['current_module']}/head.php"));
-		}else if(file_exists("template/{$this->config['template_name']}/head.php")){
-			include("template/{$this->config['template_name']}/head.php");
+			include(("template/{$this->config->path->template_name}/{$this->info['current_module']}/head.php"));
+		}else if(file_exists("template/{$this->config->path->template_name}/head.php")){
+			include("template/{$this->config->path->template_name}/head.php");
 		}
 	}
 
@@ -319,7 +330,7 @@ class Framework {
 function pr($data)
 {
 	echo "<pre style=\"color:#FFF;background:#333;\">";
-	if($data === TRUE || $data === FALSE)
+	if(is_bool($data) || $data === NULL)
 	{
 		var_dump($data);
 	}else{
@@ -328,5 +339,7 @@ function pr($data)
 
 	echo "</pre>";
 }
+
+class Config_Builder{}
 
 ?>
