@@ -5,7 +5,7 @@
 	<? $this->show_error(); ?>
 	<? $this->show_flash(); ?>
 
-	<form method="post">
+	<form action="" method="post">
 
 		<div class="field_row_wrapper">
 			<h2>Email Address</h2>
@@ -16,7 +16,7 @@
 
 		<div class="clear"></div>
 		
-		<div class="cancel_reset">Don't need to reset you password? <a href="<?= $this->config['web_path']?>/<?= $this->config['log_in_module'] ?>/">Log in now</a>.</div>
+		<div class="cancel_reset">Don't need to reset you password? <a href="<?= $this->page_link($this->config->path->log_in_controller) ?>">Log in now</a>.</div>
 		
 		<div class="clear"></div>
 

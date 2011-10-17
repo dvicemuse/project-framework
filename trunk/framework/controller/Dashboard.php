@@ -11,9 +11,7 @@
 			$this->require_login();
 		}
 
-		public function index()
-		{
-		}
+		public function index(){ }
 	}
 
 ?>

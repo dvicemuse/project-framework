@@ -20,7 +20,7 @@
 
 		public function result()
 		{
-			if(is_array($this->_data[0]))
+			if(isset($this->_data[0]) && is_array($this->_data[0]))
 			{
 				return $this->_data[0];
 			}else{
@@ -31,7 +31,7 @@
 
 		public function results()
 		{
-			if(is_array($this->_data) && count($this->_data) > 0)
+			if(isset($this->_data) && is_array($this->_data) && count($this->_data) > 0)
 			{
 				return $this->_data;
 			}else{

@@ -169,7 +169,7 @@
 		 * @param string $page
 		 * @return string
 		 */
-		public function page_link($model, $page)
+		public function page_link($model = '', $page = '')
 		{
 			return "/".trim("{$this->config->path->web_path}".strtolower($model)."/{$page}", '/')."/";
 		}
