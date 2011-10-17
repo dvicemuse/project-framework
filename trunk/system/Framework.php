@@ -60,86 +60,60 @@ class Framework
 	public function route()
 	{
 		// Parse the request url
-		$_SERVER['REQUEST_URI'] = str_replace($this->config->path->web_path, '', $_SERVER['REQUEST_URI']);
-		$routes = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
+		$request = str_replace($this->config->path->web_path, '', $_SERVER['REQUEST_URI']);
 
-		// Check for variables passed through the URL (/page/my_var:value/)
-		$query_vars = array();
-		if(is_array($routes))
+		// Remove leading and trailing slashes, then add back
+		$request = "/".trim($request, '/')."/";
+
+		// Loop through defineed routes
+		if(is_array($this->config->route->base))
 		{
-			foreach($routes as $part)
+			foreach($this->config->route->base as $pattern => $route)
 			{
-				if(preg_match('/([a-zA-Z_-]*):([0-9a-zA-Z_-]*)/', $part, $match))
+				// Pattern matched
+				if(preg_match($pattern, $request, $m))
 				{
-					$query_vars[$match['1']] = $match['2'];
-				}else{
-					$routes_new[] = $part;
+					// Quick route definition check
+					if(!isset($route['controller']) || !isset($route['method']))
+					{
+						throw new Exception('Route method not set.');
+					}
+
+					if($this->is_id($route['controller']))
+					{
+						$route['controller'] = ucfirst($m[$route['controller']]);
+					}
+
+					if($this->is_id($route['method']))
+					{
+						$route['method'] = $m[$route['method']];
+					}
+
+					// Set up the controller
+					$frm = $this->load_controller($route['controller']);
+					if($frm !== FALSE)
+					{
+						$frm->request = new Config_Builder;
+						$frm->request->vars = explode('/', trim($request, '/'));
+						$frm->request->controller_name = $route['controller'];
+						$frm->request->method_name = $route['method'];
+						$frm->request->raw = explode('/', trim($request, '/'));
+
+						// Render the current page
+						try
+						{
+							$frm->render($route['method']);
+						}catch(Exception $e){
+							pr($e);
+						}
+					}
+
+					exit;
 				}
 			}
-			$routes = $routes_new;
 		}
 
-		// Empty module name, default to home
-		if(empty($routes[0]))
-		{
-			$routes[0] = 'home';
-		}
-
-		// Empty page name, default to index
-		if(empty($routes[1]))
-		{
-			$routes[1] = 'index';
-		}else if(is_numeric($routes[1])){
-			$routes[2] = $routes[1];
-			$routes[1] = 'index';
-		}
-
-		// Prep the module name
-		$routes[0] = ucfirst($routes[0]);
-
-		// Make sure that the requested page exists
-		if(!file_exists("{$this->config->path->application_path}framework/controller/{$routes[0]}.php") || !file_exists("{$this->config->path->application_path}template/{$this->config->path->template_name}/{$routes[0]}/{$routes[1]}.php"))
-		{
-			header("HTTP/1.0 404 Not Found");
-			$routes[0] = 'Error';
-			$routes[1] = 'index';
-		}
-
-		// Set up the controller
-		$frm = $this->load_controller($routes[0]);
-
-		// Check for controller
-		if($frm === FALSE)
-		{
-			exit;
-		}
-
-		$frm->request = new Config_Builder;
-
-
-		// Set the query vars
-		$frm->info['query_vars'] = $query_vars;
-		$frm->request->vars = $query_vars;
-
-		// Set the current module
-		$frm->info['current_module'] = $routes[0];
-		$frm->request->controller_name = $routes[0];
-
-		// Set the current page
-		$frm->info['current_page'] = $routes[1];
-		$frm->request->method_name = $routes[1];
-
-		// Pass the routing information
-		$frm->info['raw_route'] = $routes;
-		$frm->request->raw = $routes;
-
-		// Render the current page
-		try
-		{
-			$frm->render($routes[1]);
-		}catch(Exception $e){
-			pr($e);
-		}
+		throw new Exception("Routes not defined.");
 	}
 
 
@@ -239,15 +213,22 @@ class Framework
 			exit;
 		}
 		// See if a page load function exists
-		$function_name = $this->info['current_page'];
-		if(method_exists($this, $function_name))
+		if(method_exists($this, $this->request->method_name))
 		{
+			$function_name = $this->request->method_name;
 			$this->$function_name();
 		}
-		// Load requested page
-		$this->render_head();
-		include_once("{$this->config->path->application_path}/template/{$this->config->path->template_name}/{$this->info['current_module']}/{$page}.php");
-		$this->render_foot();
+
+		// Check that template exists
+		if(file_exists("{$this->config->path->application_path}/template/{$this->config->path->template_name}/{$this->request->controller_name}/{$page}.php"))
+		{
+			// Load requested page
+			$this->render_head();
+			include_once("{$this->config->path->application_path}/template/{$this->config->path->template_name}/{$this->request->controller_name}/{$page}.php");
+			$this->render_foot();
+		}else{
+			echo "404 - Template not found.";
+		}
 	}
 
 
@@ -257,13 +238,9 @@ class Framework
 	 */
 	function render_head()
 	{
-		#if(is_array($this->config['disable_headers']) && in_array($this->info['current_page'], $this->config['disable_headers']))
-		#{
-		#	return TRUE;
-		#}
-		if(file_exists("template/{$this->config->path->template_name}{$this->info['current_module']}/head.php"))
+		if(file_exists("template/{$this->config->path->template_name}/{$this->request->controller_name}/head.php"))
 		{
-			include(("template/{$this->config->path->template_name}/{$this->info['current_module']}/head.php"));
+			include(("template/{$this->config->path->template_name}/{$this->request->controller_name}/head.php"));
 		}else if(file_exists("template/{$this->config->path->template_name}/head.php")){
 			include("template/{$this->config->path->template_name}/head.php");
 		}
@@ -276,13 +253,9 @@ class Framework
 	 */
 	function render_foot()
 	{
-		#if(is_array($this->config['disable_headers']) && in_array($this->info['current_page'], $this->config['disable_headers']))
-		#{
-		#	return TRUE;
-		#}
-		if(file_exists("template/{$this->config->path->template_name}/{$this->info['current_module']}/foot.php"))
+		if(file_exists("template/{$this->config->path->template_name}/{$this->request->method_name}/foot.php"))
 		{
-			include("template/{$this->config['template_name']}/{$this->info['current_module']}/foot.php");
+			include("template/{$this->config->path->template_name}/{$this->request->method_name}/foot.php");
 		}else if(file_exists("template/{$this->config->path->template_name}/foot.php")){
 			include("template/{$this->config->path->template_name}/foot.php");
 		}
@@ -297,7 +270,7 @@ class Framework
 	{
 		// Lock the file path to the partial directory
 		$partial_name = str_replace('/', '', $partial_name);
-		$location = "template/{$this->config->path->template_name}/{$this->info['current_module']}/Partial/{$partial_name}.php";
+		$location = "template/{$this->config->path->template_name}/{$this->request->controller_name}/Partial/{$partial_name}.php";
 		if(file_exists($location))
 		{
 			include($location);

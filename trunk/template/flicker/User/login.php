@@ -4,16 +4,12 @@
 	if(!empty($_POST['login_submit']))
 	{
 		// Pass in login info to login class
-		if($this->User->log_user_in($_POST))
+		if($this->User->log_user_in($_POST) === FALSE)
 		{
-			// Logged in, so send the user to the page they requested
-			header("Location: {$this->page_link($this->info['current_module'], $this->info['currennt_page'])}");
-			exit;
-		}else{
 			$this->add_flash('Incorrect username or password.');
 		}
 		// Redirect to keep the back button working
-		header("Location: {$this->page_link($this->info['current_module'], $this->info['currennt_page'])}");
+		header("Location: {$this->page_link($this->request->controller_name, $this->request->method_name)}");
 		exit;
 	}
 

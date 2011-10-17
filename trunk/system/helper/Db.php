@@ -301,6 +301,7 @@
 					);
 				}
 				$data = $this->stripslashes_deep($data);
+				$query = '';
 				foreach($data as $k => $v)
 				{
 					if(is_array($fields[$k]) && $fields[$k]['key'] != 'PRI')

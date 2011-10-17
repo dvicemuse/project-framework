@@ -19,7 +19,7 @@
 					if($this->User->send_password_reset_email($get['user_id']))
 					{
 						$this->add_flash('Please check your email for password reset instructions.');
-						header("Location: {$this->config['web_path']}/{$this->config['log_in_module']}/");
+						header("Location: {$this->page_link($this->config->path->log_in_controller)}");
 						exit;
 					}
 				}else{
@@ -37,11 +37,11 @@
 			$this->load_helper('Validate')->print_titles(FALSE)->print_errors(FALSE);
 
 			// Validate hash
-			$user = $this->User->where('user_update_hash', $this->info['raw_route'][2])->get()->result();
+			$user = $this->User->where('user_update_hash', $this->request->raw[2])->get()->result();
 			if($user === FALSE)
 			{
 				// Hash does not exist
-				header("Location: {$this->config['web_path']}/{$this->config['log_in_module']}/");
+				header("Location: {$this->page_link($this->config->path->log_in_controller)}");
 				exit;
 			}
 
@@ -59,7 +59,7 @@
 					if($this->User->update_password($user['user_id'], $_POST['new_password']))
 					{
 						// Redirect to the default log in url
-						header("Location: {$this->config['web_path']}/{$this->config['log_in_module']}/");
+						header("Location: {$this->page_link($this->config->path->log_in_controller)}");
 						exit;
 					}
 				}else{
@@ -84,7 +84,7 @@
 		public function logout()
 		{
 			$this->User->logout();
-			header("Location: {$this->config['web_path']}/{$this->config['log_in_module']}/");
+			header("Location: {$this->page_link($this->config->path->log_in_controller)}");
 		}
 	}
 
