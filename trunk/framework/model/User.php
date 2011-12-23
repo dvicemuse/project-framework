@@ -38,11 +38,7 @@ class User extends Model_Base
 				$_SESSION['Login']  = $res->result();
 				$_SESSION['Login']['user_last_login'] = date('Y-m-d H:i:s');
 				return TRUE;
-			}else{
-				return FALSE;
 			}
-		}else{
-			return FALSE;
 		}
 		return FALSE;
 	}
