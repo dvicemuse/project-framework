@@ -4,7 +4,7 @@
 	{
 		public $base = array(
 			// Home page
-			'#^//$#D' => array('controller' => 'home', 'method' => 'index'),
+			'#^//$#D' => array('controller' => 'Home', 'method' => 'index'),
 
 			// Method request -> /dashboard/settings/
 			'#/(.*?)/(.*?)/#' => array('controller' => 1, 'method' => 2),
