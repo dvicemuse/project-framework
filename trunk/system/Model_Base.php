@@ -1,6 +1,6 @@
 <?php
 
-	abstract class Model_Base extends Framework
+	abstract class Model_Base extends ORM_Base
 	{
 		private $_where;
 		private $_order;
@@ -14,17 +14,6 @@
 		public function __construct()
 		{
 			parent::__construct();
-		}
-
-
-
-		/**
-		 * Get the current model name
-		 * @return string
-		 */
-		private function model_name()
-		{
-			return strtolower(get_class($this));
 		}
 
 
