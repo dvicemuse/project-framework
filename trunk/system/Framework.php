@@ -14,7 +14,7 @@ class Framework
 		$application_path = __DIR__;
 
 		// Include system classes
-		foreach(array('Controller_Base', 'Db_Wrapper', 'Model_Base') as $file)
+		foreach(array('Controller_Base', 'Db_Wrapper', 'ORM_Base', 'Model_Base') as $file)
 		{
 			$f = $application_path."/{$file}.php";
 			if(file_exists($f))
