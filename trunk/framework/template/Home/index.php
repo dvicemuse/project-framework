@@ -1,1 +1,1 @@
-This is the home page content. <a href="<?= $this->config['web_path'] ?>/dashboard/">Log in</a>
+This is the home page content. <a href="<?= $this->page_link('dashboard') ?>">Log in</a>
