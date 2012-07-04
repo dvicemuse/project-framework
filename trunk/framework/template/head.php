@@ -10,6 +10,7 @@
 <?= $this->show_flash();?>
 <?= $this->show_error();?>
 
+<p>Normal header</p>
 
 
 
