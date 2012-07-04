@@ -60,6 +60,10 @@ class Framework
 	public function route()
 	{
 		// Parse the request url
+		if($this->config->path->web_path == '/')
+		{
+			$this->config->path->web_path = '';
+		}
 		$request = str_replace($this->config->path->web_path, '', $_SERVER['REQUEST_URI']);
 
 		// Remove leading and trailing slashes, then add back
@@ -209,7 +213,7 @@ class Framework
 		if(isset($this->config->user_authorization->check) && in_array($page, $this->config->user_authorization->check) && $this->User->is_logged_in() === FALSE)
 		{
 			// Secure module, and user is not logged in
-			include("{$this->config->path->application_path}/template/{$this->config->path->template_name}/User/login.php");
+			include("{$this->config->path->application_path}/framework/template/User/login.php");
 			exit;
 		}
 		// See if a page load function exists
@@ -220,11 +224,11 @@ class Framework
 		}
 
 		// Check that template exists
-		if(file_exists("{$this->config->path->application_path}/template/{$this->config->path->template_name}/{$this->request->controller_name}/{$page}.php"))
+		if(file_exists("{$this->config->path->application_path}/framework/template/{$this->request->controller_name}/{$page}.php"))
 		{
 			// Load requested page
 			$this->render_head();
-			include_once("{$this->config->path->application_path}/template/{$this->config->path->template_name}/{$this->request->controller_name}/{$page}.php");
+			include_once("{$this->config->path->application_path}/framework/template/{$this->request->controller_name}/{$page}.php");
 			$this->render_foot();
 		}else{
 			echo "404 - Template not found.";
@@ -238,11 +242,11 @@ class Framework
 	 */
 	function render_head()
 	{
-		if(file_exists("template/{$this->config->path->template_name}/{$this->request->controller_name}/head.php"))
+		if(file_exists("framework/template/{$this->request->controller_name}/head.php"))
 		{
-			include(("template/{$this->config->path->template_name}/{$this->request->controller_name}/head.php"));
-		}else if(file_exists("template/{$this->config->path->template_name}/head.php")){
-			include("template/{$this->config->path->template_name}/head.php");
+			include(("framework/template/{$this->request->controller_name}/head.php"));
+		}else if(file_exists("template/head.php")){
+			include("framework/template/head.php");
 		}
 	}
 
@@ -253,11 +257,11 @@ class Framework
 	 */
 	function render_foot()
 	{
-		if(file_exists("template/{$this->config->path->template_name}/{$this->request->method_name}/foot.php"))
+		if(file_exists("framework/template/{$this->request->method_name}/foot.php"))
 		{
-			include("template/{$this->config->path->template_name}/{$this->request->method_name}/foot.php");
-		}else if(file_exists("template/{$this->config->path->template_name}/foot.php")){
-			include("template/{$this->config->path->template_name}/foot.php");
+			include("framework/template/{$this->request->method_name}/foot.php");
+		}else if(file_exists("template/foot.php")){
+			include("framework/template/foot.php");
 		}
 	}
 
@@ -270,7 +274,7 @@ class Framework
 	{
 		// Lock the file path to the partial directory
 		$partial_name = str_replace('/', '', $partial_name);
-		$location = "template/{$this->config->path->template_name}/{$this->request->controller_name}/Partial/{$partial_name}.php";
+		$location = "framework/template/{$this->request->controller_name}/Partial/{$partial_name}.php";
 		if(file_exists($location))
 		{
 			include($location);
