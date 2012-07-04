@@ -242,11 +242,11 @@ class Framework
 	 */
 	function render_head()
 	{
-		if(file_exists("framework/template/{$this->request->controller_name}/head.php"))
+		if(file_exists("{$this->config->path->application_path}/framework/template/{$this->request->controller_name}/head.php"))
 		{
-			include(("framework/template/{$this->request->controller_name}/head.php"));
-		}else if(file_exists("template/head.php")){
-			include("framework/template/head.php");
+			include("{$this->config->path->application_path}/framework/template/{$this->request->controller_name}/head.php");
+		}else if(file_exists("{$this->config->path->application_path}/framework/template/head.php")){
+			include("{$this->config->path->application_path}/framework/template/head.php");
 		}
 	}
 
@@ -257,11 +257,11 @@ class Framework
 	 */
 	function render_foot()
 	{
-		if(file_exists("framework/template/{$this->request->method_name}/foot.php"))
+		if(file_exists("{$this->config->path->application_path}/framework/template/{$this->request->controller_name}/foot.php"))
 		{
-			include("framework/template/{$this->request->method_name}/foot.php");
-		}else if(file_exists("template/foot.php")){
-			include("framework/template/foot.php");
+			include("{$this->config->path->application_path}/framework/template/{$this->request->controller_name}/foot.php");
+		}else if(file_exists("{$this->config->path->application_path}/framework/template/foot.php")){
+			include("{$this->config->path->application_path}/framework/template/foot.php");
 		}
 	}
 
@@ -274,7 +274,7 @@ class Framework
 	{
 		// Lock the file path to the partial directory
 		$partial_name = str_replace('/', '', $partial_name);
-		$location = "framework/template/{$this->request->controller_name}/Partial/{$partial_name}.php";
+		$location = "{$this->config->path->application_path}/framework/template/{$this->request->controller_name}/Partial/{$partial_name}.php";
 		if(file_exists($location))
 		{
 			include($location);
