@@ -98,7 +98,7 @@
 			}else{
 				$wp = rtrim($this->config->path->web_path, '/');
 			}
-			return "{$wp}/template/{$this->config->path->template_name}/images/{$path}";
+			return "{$wp}/framework/template/images/{$path}";
 		}
 
 
@@ -117,7 +117,7 @@
 			}else{
 				$wp = rtrim($this->config->path->web_path, '/');
 			}
-			return "{$wp}/template/{$this->config->path->template_name}/js/{$path}";
+			return "{$wp}/framework/template/js/{$path}";
 		}
 
 
@@ -136,7 +136,7 @@
 			}else{
 				$wp = rtrim($this->config->path->web_path, '/');
 			}
-			return "{$wp}/template/{$this->config->path->template_name}/css/{$path}";
+			return "{$wp}/framework/template/css/{$path}";
 		}
 
 
