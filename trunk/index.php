@@ -8,7 +8,7 @@
 		$frm = new Framework;
 		$frm->route();
 	}else{
-		pr("PHP >= 5.3 is required to make this thing work without major hacks.");
+		die("PHP >= 5.3 is required to make this thing work without major hacks.");
 	}
 
 ?>
