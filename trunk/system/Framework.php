@@ -209,6 +209,7 @@ class Framework
 	function render($page)
 	{
 		$this->load_model('User');
+		$this->load_model('Auth');
 		// If secure module, make sure user is logged in
 		if(isset($this->config->user_authorization->check) && in_array($page, $this->config->user_authorization->check) && $this->User->is_logged_in() === FALSE)
 		{

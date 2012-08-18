@@ -142,22 +142,11 @@
 
 
 		/**
-		 * Return the current page path
-		 * @return string
-		 */
-		public function page_path()
-		{
-			return "{$this->config['web_path']}/".strtolower($this->info['current_module'])."/{$this->info['current_page']}";
-		}
-
-
-
-		/**
 		 * Reload the current page
 		 */
 		public function reload_page()
 		{
-			header("Location: {$this->config['web_path']}/{$this->info['current_module']}/{$this->info['current_page']}");
+			header("Location: {$_SERVER['REQUEST_URI']}");
 			exit;
 		}
 
@@ -169,9 +158,12 @@
 		 * @param string $page
 		 * @return string
 		 */
-		public function page_link($model = '', $page = '')
+		public function page_link($model = '', $page = '', $id = '')
 		{
-			return "/".trim("{$this->config->path->web_path}".strtolower($model)."/{$page}", '/')."/";
+			$str = "/".trim("{$this->config->path->web_path}".strtolower($model)."/{$page}/{$id}", '/')."/";
+			if($str == '//'){ $str = '/'; }
+			
+			return $str;
 		}
 
 

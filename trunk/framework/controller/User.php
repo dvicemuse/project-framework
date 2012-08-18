@@ -21,9 +21,13 @@
 						$this->add_flash('Please check your email for password reset instructions.');
 						header("Location: {$this->page_link($this->config->path->log_in_controller)}");
 						exit;
+					}else{
+						$this->add_flash('There was a problem sending your password reset instructions.');
+						$this->reload_page();
 					}
 				}else{
 					$this->add_flash('There is no account with that email address.');
+					$this->reload_page();
 				}
 			}
 		}
@@ -83,7 +87,7 @@
 
 		public function logout()
 		{
-			$this->User->logout();
+			$this->Auth->logout();
 			header("Location: {$this->page_link($this->config->path->log_in_controller)}");
 		}
 	}
