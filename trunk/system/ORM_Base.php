@@ -314,7 +314,6 @@
 		{
 			return $this->_data;
 		}
-
 	}
 
 ?>
