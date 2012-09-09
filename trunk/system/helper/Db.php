@@ -5,7 +5,7 @@
 		public $conn;
 		public $q;
 		public $num_rows;
-		private $table_info;
+		private $table_info = array();
 		private $error;
 		static private $_instance = null; // Singleton instance tracker
 
@@ -34,10 +34,10 @@
 			parent::__construct();
 
 			// Put the connection into $this->conn
-			$this->conn = mysql_connect($this->config->db->host, $this->config->db->username, $this->config->db->password) or die(mysql_error());
+			$this->conn = mysql_connect($this->config()->db->host, $this->config()->db->username, $this->config()->db->password) or die(mysql_error());
 			if($this->conn)
 			{
-				mysql_select_db($this->config->db->database, $this->conn);
+				mysql_select_db($this->config()->db->database, $this->conn);
 				return;
 			}
 			throw new Exception("Unable to connect to the database.");
@@ -170,7 +170,7 @@
 		public function table_info($table_name)
 		{
 			// Check if the table info is already loaded
-			if(is_array($this->table_info[$table_name]))
+			if(isset($this->table_info[$table_name]) && is_array($this->table_info[$table_name]))
 			{
 				// Return saved data
 				return $this->table_info[$table_name];
@@ -241,6 +241,7 @@
 			{
 				return FALSE;
 			}else{
+				$query = '';
 				while($r = mysql_fetch_assoc($this->q))
 				{
 					$fields[$r['Field']] = array(
