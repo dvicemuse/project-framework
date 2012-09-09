@@ -2,21 +2,15 @@
 
 class Framework
 {
-	public $config;
-	public $info;				// Debug information about the current module/page/routing
-	public $modules;			// Loaded modules
-
 	/**
 	 * Include the system classes
 	 */
 	public function __construct()
 	{
-		$application_path = __DIR__;
-
 		// Include system classes
 		foreach(array('Controller_Base', 'Db_Wrapper', 'ORM_Base', 'Model_Base') as $file)
 		{
-			$f = $application_path."/{$file}.php";
+			$f = __DIR__ . "/{$file}.php";
 			if(file_exists($f))
 			{
 				include_once($f);
@@ -33,65 +27,41 @@ class Framework
 	 */
 	public function route()
 	{
-		// Parse the request url
-		if($this->config()->path->web_path == '/')
-		{
-			$this->config()->path->web_path = '';
-		}
-		$request = str_replace($this->config()->path->web_path, '', $_SERVER['REQUEST_URI']);
+		$route = $this->load_helper('Framework_Route');
 
-		// Remove leading and trailing slashes, then add back
-		$request = "/".trim($request, '/')."/";
-
-		// Loop through defineed routes
-		if(is_array($this->config()->route->base))
+		try
 		{
-			foreach($this->config()->route->base as $pattern => $route)
+			// Set up the controller
+			$frm = $this->load_controller($route->controller());
+			if($frm !== FALSE)
 			{
-				// Pattern matched
-				if(preg_match($pattern, $request, $m))
+				$frm->request = new Config_Builder;
+				$frm->request->vars = $route->vars();
+				$frm->request->controller_name = $route->controller();
+				$frm->request->method_name = $route->method();
+				$frm->request->raw = $route->raw();
+	
+				// Render the current page
+				try
 				{
-					// Quick route definition check
-					if(!isset($route['controller']) || !isset($route['method']))
-					{
-						throw new Exception('Route method not set.');
-					}
-
-					if($this->is_id($route['controller']))
-					{
-						$route['controller'] = ucfirst($m[$route['controller']]);
-					}
-
-					if($this->is_id($route['method']))
-					{
-						$route['method'] = $m[$route['method']];
-					}
-
-					// Set up the controller
-					$frm = $this->load_controller($route['controller']);
-					if($frm !== FALSE)
-					{
-						$frm->request = new Config_Builder;
-						$frm->request->vars = explode('/', trim($request, '/'));
-						$frm->request->controller_name = $route['controller'];
-						$frm->request->method_name = $route['method'];
-						$frm->request->raw = explode('/', trim($request, '/'));
-
-						// Render the current page
-						try
-						{
-							$frm->render($route['method']);
-						}catch(Exception $e){
-							pr($e);
-						}
-					}
-
-					exit;
+					$frm->render($route->method());
+				}catch(Exception $e){
+					pr($e);
 				}
+				exit;
 			}
+	
+			throw new Exception("Routes not defined.");
+		}catch(Exception $e){
+			
+			// @todo make this more elegant
+			header("HTTP/1.0 404 Not Found");
+			$frm = $this->load_controller('Error');
+			$frm->request->controller_name = 'Error';
+			$frm->request->method_name = 'index';
+			$frm->render('index');
+			die;
 		}
-
-		throw new Exception("Routes not defined.");
 	}
 
 
@@ -265,7 +235,7 @@ class Framework
 
 	/**
 	 * Config load helper
-	 * Gives easy access to $this->load_helper('Framework_Config')
+	 * Gives easy access to $this->load_helper('Framework_Config')->load()
 	 * @return Framework_Config
 	 */
 	 public function config()
@@ -292,9 +262,6 @@ class Framework
 
 
 
-
-
-
 // Global debug function
 function pr($data)
 {
@@ -308,6 +275,8 @@ function pr($data)
 
 	echo "</pre>";
 }
+
+
 
 class Config_Builder{}
 
