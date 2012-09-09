@@ -67,7 +67,7 @@ class User extends Model_Base
 				// Send reset email
 				$message = "
 					To reset your password, please follow the instructions on the web page below.
-					<br /><a href=\"{$this->config->path->full_web_path}user/update_password/{$hash}/\">{$this->config->path->full_web_path}user/update_password/{$hash}/</a>
+					<br /><a href=\"{$this->config()->path->full_web_path}user/update_password/{$hash}/\">{$this->config()->path->full_web_path}user/update_password/{$hash}/</a>
 				";
 
 				// Send email

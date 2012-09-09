@@ -5,9 +5,15 @@
 		public function __construct()
 		{
 			parent::__construct();
+			
+			// Remap to user table
 			$this->model_name = 'user';
 
-			$this->orm_load($_SESSION['Login']['user_id']);
+			// Load user if logged in
+			if(isset($_SESSION['Login']['user_id']))
+			{
+				$this->orm_load($_SESSION['Login']['user_id']);
+			}
 		}
 
 
