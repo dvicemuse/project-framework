@@ -101,11 +101,11 @@
 
 		/** 
 		 * Expose the request raw array
-		 * @todo implement
+		 * @return array
 		 */
 		public function raw()
 		{
-			return array();
+			return explode('/', trim($this->_base_request, '/'));
 		}
 	}
 
