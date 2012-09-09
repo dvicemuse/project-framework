@@ -92,11 +92,11 @@
 		public function image_url($path)
 		{
 			$path = trim($path, ' /');
-			if($this->config->path->web_path == '/')
+			if($this->config()->path->web_path == '/')
 			{
 				$wp = '';
 			}else{
-				$wp = rtrim($this->config->path->web_path, '/');
+				$wp = rtrim($this->config()->path->web_path, '/');
 			}
 			return "{$wp}/framework/template/images/{$path}";
 		}
@@ -111,11 +111,11 @@
 		public function javascript_url($path)
 		{
 			$path = trim($path, ' /');
-			if($this->config->path->web_path == '/')
+			if($this->config()->path->web_path == '/')
 			{
 				$wp = '';
 			}else{
-				$wp = rtrim($this->config->path->web_path, '/');
+				$wp = rtrim($this->config()->path->web_path, '/');
 			}
 			return "{$wp}/framework/template/js/{$path}";
 		}
@@ -130,11 +130,11 @@
 		public function css_url($path)
 		{
 			$path = trim($path, ' /');
-			if($this->config->path->web_path == '/')
+			if($this->config()->path->web_path == '/')
 			{
 				$wp = '';
 			}else{
-				$wp = rtrim($this->config->path->web_path, '/');
+				$wp = rtrim($this->config()->path->web_path, '/');
 			}
 			return "{$wp}/framework/template/css/{$path}";
 		}
@@ -160,7 +160,7 @@
 		 */
 		public function page_link($model = '', $page = '', $id = '')
 		{
-			$str = "/".trim("{$this->config->path->web_path}".strtolower($model)."/{$page}/{$id}", '/')."/";
+			$str = "/".trim("{$this->config()->path->web_path}".strtolower($model)."/{$page}/{$id}", '/')."/";
 			if($str == '//'){ $str = '/'; }
 			
 			return $str;
@@ -266,8 +266,8 @@
 			}
 
 			// Add to config
-			$this->config->user_authorization = new Config_Builder;
-			$this->config->user_authorization->check = $require_auth;
+			$this->config()->user_authorization = new Config_Builder;
+			$this->config()->user_authorization->check = $require_auth;
 
 			// Return
 			return $this;

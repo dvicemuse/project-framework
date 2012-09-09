@@ -19,7 +19,7 @@
 					if($this->User->send_password_reset_email($get['user_id']))
 					{
 						$this->add_flash('Please check your email for password reset instructions.');
-						header("Location: {$this->page_link($this->config->path->log_in_controller)}");
+						header("Location: {$this->page_link($this->config()->path->log_in_controller)}");
 						exit;
 					}else{
 						$this->add_flash('There was a problem sending your password reset instructions.');
@@ -45,7 +45,7 @@
 			if($user === FALSE)
 			{
 				// Hash does not exist
-				header("Location: {$this->page_link($this->config->path->log_in_controller)}");
+				header("Location: {$this->page_link($this->config()->path->log_in_controller)}");
 				exit;
 			}
 
@@ -63,7 +63,7 @@
 					if($this->User->update_password($user['user_id'], $_POST['new_password']))
 					{
 						// Redirect to the default log in url
-						header("Location: {$this->page_link($this->config->path->log_in_controller)}");
+						header("Location: {$this->page_link($this->config()->path->log_in_controller)}");
 						exit;
 					}
 				}else{
@@ -88,7 +88,7 @@
 		public function logout()
 		{
 			$this->Auth->logout();
-			header("Location: {$this->page_link($this->config->path->log_in_controller)}");
+			header("Location: {$this->page_link($this->config()->path->log_in_controller)}");
 		}
 	}
 
