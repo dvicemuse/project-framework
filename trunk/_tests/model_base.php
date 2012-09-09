@@ -2,7 +2,7 @@
 
 // Include the SimpleTest unit test library
 require_once(dirname(__FILE__) . '/simpletest/autorun.php');
-require_once(str_replace("_tests", "", dirname(__FILE__)) . '/framework/Framework.php');
+require_once(str_replace("_tests", "", dirname(__FILE__)) . '/system/Framework.php');
 
 // Start the framework (to include system classes)
 $f = new Framework();
