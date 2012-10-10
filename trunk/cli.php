@@ -14,27 +14,52 @@
 	include_once('system/Framework.php');
 	$frm = new Framework;
 
+	// Array for available plugin objects
+	$plugins = array();
 
-	// No parameters
-	if(!isset($_SERVER['argv'][1]))
+	// Get all cli plugins
+	$path = __DIR__."/system/cli/";
+	$handle = opendir($path);
+	while(false !== ($file = readdir($handle)))
 	{
-		//echo "\033[31mred\033[37m\r\n";
-		//echo "\033[32mgreen\033[37m\r\n";
-		//echo "\033[41;30mblack on red\033[40;37m\r\n";
-		echo "
-Available actions are:
+		$php_class_path = $path."{$file}/{$file}.php";
+		if(trim($file, '.') != '' && is_dir($path.$file) && is_file($php_class_path))
+		{
+			// Include class and initialize to plugin array
+			include_once($php_class_path);
+			$class_name = "CLI_{$file}";
+			$plugins[$file] = new $class_name($frm, $_SERVER['argv']);
+		}
+	}
 
-\033[41;30mBUILD\033[40;37m
-	Run build actions (create the user table).
-	\033[32mcli.php build\033[37m
-
-\033[41;30mGENERATE\033[40;37m
-	Create a model + controller + test suite + template folder with [name]
-	\033[32mcli.php generate [name]\033[37m
-
-		\n";
+	// Check arguments for which plugin to load
+	if(isset($plugins[ucfirst($_SERVER['argv'][1])]))
+	{
+		// Call plugin start method
+		try
+		{
+			$plugins[ucfirst($_SERVER['argv'][1])]->start();
+		
+		}catch(Exception $e){
+			print("\n".console_text("Operation Failed:", 'black_on_red')."");
+			die("{$e->getMessage()}\n\n");
+		}
+		// Done
 		exit;
 	}
+
+
+	// If we made it this far show plugin list
+	echo "\nPlugins Loaded (".count($plugins)."):\n\n";
+
+	// List all plugins
+	foreach($plugins as $param => $plugin)
+	{
+		echo console_text(strtoupper($param), 'black_on_red');
+		echo console_text("\t{$plugin->description}\n", '');
+		echo console_text("\t{$plugin->example}\n\n", 'green');
+	}
+	exit;
 
 
 	// Perform framework build actions
@@ -74,5 +99,25 @@ Available actions are:
 	}
 
 	echo "\n";
+
+
+	function console_text($string, $formatting = '')
+	{
+		if(!in_array($formatting, array('', 'red', 'green', 'black_on_red'))){ die('Unexpected console text format.'); }
+		switch($formatting)
+		{
+			case 'red':
+				return "\033[31m{$string}\033[37m\r\n";
+			break;
+			case 'green':
+				return "\033[32m{$string}\033[37m\r\n";
+			break;
+			case 'black_on_red':
+				return "\033[41;30m{$string}\033[40;37m\r\n";
+			break;
+			default:
+				return $string;
+		}
+	}
 
 ?>
