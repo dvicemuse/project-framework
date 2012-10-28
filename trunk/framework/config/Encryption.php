@@ -1,8 +1,26 @@
-<?php
+<?php 
+/**
+ * @file Encryption.php
+ * @package    Itul.Framework.Config
+ *
+ * @copyright  Copyright (C) 1999 - 2012 i-Tul Design and Software, Inc. All rights reserved.
+ * @license    see LICENSE.txt
+ */
 
-	class Encryption_Config
-	{
-		public $encryption_key = '123654$#*(7j(gdj7@^Oej**9@9ska90be8$7os&u13o*i';
-	}
-
-?>
+/**
+ * @class Encryption_Config 
+ * @brief Encryption Config class. Encryption key used for encrypting routines. Should be changed for each new website.
+ *
+ * @package  Itul.Framework.Config
+ * @since    1.0.0
+ */
+class Encryption_Config
+{
+	/**
+	 * @var string $encryption_key
+	 * @brief The key used for security routines.
+	 * 
+	 * @since  1.0.0
+	 */
+	public $encryption_key = '123654$#*(7j(gdj7@^Oej**9@9ska90be8$7os&u13o*i';
+}
