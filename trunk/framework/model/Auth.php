@@ -13,6 +13,8 @@
 			if(isset($_SESSION['Login']['user_id']))
 			{
 				$this->orm_load($_SESSION['Login']['user_id']);
+			}else{
+				$this->_data['user_id'] = NULL;
 			}
 		}
 
