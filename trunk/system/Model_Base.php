@@ -176,7 +176,38 @@
 			throw new Exception("Key must be numeric.");
 		}
 
-
+		
+		
+		public function dropdown($field_display_name, $blank_first = TRUE)
+		{
+			$return = array();
+			
+			if($blank_first)
+			{
+				$return[''] = '&nbsp;';
+			}
+			
+			$get = $this->load_helper('Db')->get_rows("SELECT * FROM `{$this->model_name()}` ");
+			if($get !== FALSE)
+			{
+				// Does the display field exist
+				if(!isset($get[0][$field_display_name]))
+				{
+					throw new Exception('Field display name not found in result.');
+				}
+				
+				// Add results to retun
+				foreach($get as $r)
+				{
+					$return[$r[$this->model_name()."_id"]] = $r[$field_display_name];
+				}
+			}
+			
+			return $return;
+		}
+		
+		
+		
 
 	}
 

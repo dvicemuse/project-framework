@@ -71,7 +71,7 @@
 		/**
 		 * Add a message
 		 * @param string $message
-		 * @return bool
+		 * @return Controller_Base
 		 */
 		function add_flash($message)
 		{
@@ -79,7 +79,7 @@
 			{
 				$_SESSION['Flash'][] = $message;
 			}
-			return TRUE;
+			return $this;
 		}
 
 
@@ -156,6 +156,7 @@
 		 * Return the path to a page
 		 * @param string $model
 		 * @param string $page
+		 * @param string $id
 		 * @return string
 		 */
 		public function page_link($model = '', $page = '', $id = '')
@@ -164,6 +165,20 @@
 			if($str == '//'){ $str = '/'; }
 			
 			return $str;
+		}
+		
+		
+		
+		/**
+		 * Redirect to a page
+		 * @param string $model
+		 * @param string $page
+		 * @param string $id
+		 */
+		public function redirect($model = '', $page = '', $id = '')
+		{
+			header("Location: {$this->page_link($model, $page, $id)}");
+			exit;
 		}
 
 
