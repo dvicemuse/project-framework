@@ -33,7 +33,7 @@
 	}
 
 	// Check arguments for which plugin to load
-	if(isset($plugins[ucfirst($_SERVER['argv'][1])]))
+	if(isset($_SERVER['argv'][1]) && isset($plugins[ucfirst($_SERVER['argv'][1])]))
 	{
 		// Call plugin start method
 		try
