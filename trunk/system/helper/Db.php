@@ -305,7 +305,7 @@
 				$query = '';
 				foreach($data as $k => $v)
 				{
-					if(is_array($fields[$k]) && $fields[$k]['key'] != 'PRI')
+					if(isset($fields[$k]) && is_array($fields[$k]) && $fields[$k]['key'] != 'PRI')
 					{
 						$v = $this->escape($v);
 						$query .= " `{$k}` = '{$v}', ";
@@ -409,10 +409,7 @@
 					$types=substr($types,$beginStr,$endStr-$beginStr);
 					$types=str_replace("'","",$types);
 					$types=split(',',$types);
-					if($sorted)
-					{
-						sort($types);
-					}
+					sort($types);
 				}
 			}
 			foreach($types as $v)
