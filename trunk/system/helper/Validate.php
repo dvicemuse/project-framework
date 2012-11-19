@@ -78,6 +78,12 @@
 		private function check_field($field_name)
 		{
 			$this->data_copy = $this->data;
+
+			if(!isset($this->data_copy[$field_name]))
+			{
+				$this->data_copy[$field_name] = '';
+			}
+			
 			$field = $this->data_copy[$field_name];
 			if(is_array($this->data_copy[$field_name]))
 			{
@@ -142,6 +148,11 @@
 				}
 				// Numeric
 				if($type == 'numeric' && !ctype_digit(str_replace('.', '', $field)))
+				{
+					$this->error[$field_name][] = $error;
+				}
+				// Positive number
+				if($type == 'positive' && doubleval($field) < 0)
 				{
 					$this->error[$field_name][] = $error;
 				}
@@ -238,7 +249,7 @@
 			}
 
 			// Check for errors
-			if(is_array($this->error[$field_name]))
+			if(isset($this->error[$field_name]) && is_array($this->error[$field_name]))
 			{
 				// If we need to print the errors
 				if($this->print_errors)
@@ -355,7 +366,7 @@
 			$hilight = '';
 
 			// Wrapper top
-			$o .= $this->field_wrapper_top($field_name, $field_label, $field_type, $hilight);
+			$o .= $this->field_wrapper_top($field_name, $field_label, 'select', $hilight);
 
 			// Start select
 			$o .= "<select name=\"{$field_name_copy}\" id=\"{$field_name}\" {$extra} {$hilight} />";
@@ -378,7 +389,7 @@
 			$o .= "</select>";
 
 			// Wrapper bottom
-			$o .= $this->field_wrapper_bottom($field_name, $field_label, $field_type);
+			$o .= $this->field_wrapper_bottom($field_name, $field_label, 'select');
 
 			// Return buffer
 			return $o;
@@ -512,6 +523,39 @@
 			}
 			// Return self
 			return $this;
+		}
+
+		
+		/**
+		 * Set the error array
+		 * @param array $error_array
+		 * @return Validate
+		 */
+		public function set_error($error_array)
+		{
+			if(is_array($error_array))
+			{
+				$this->error = $error_array;
+				return $this;
+			}
+			throw new Exception('Array expected.');
+		}
+
+
+
+		/**
+		 * Set the error array
+		 * @param array $error_array
+		 * @return Validate
+		 */
+		public function set_data($data_array)
+		{
+			if(is_array($data_array))
+			{
+				$this->data = $data_array;
+				return $this;
+			}
+			throw new Exception('Array expected.');
 		}
 
 
