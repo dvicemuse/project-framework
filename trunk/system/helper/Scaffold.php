@@ -49,7 +49,7 @@
 
 
 		// Beta function... will need to be cleaned up
-		public function set_join_table($table_1, $column_1, $table_2, $column_2, $join_type=false)
+		public function set_join_table($table_1, $column_1, $table_2, $column_2)
 		{
 			// Check the column names
 			if($this->Db->column_exists($table_1, $column_1) && $this->Db->column_exists($table_2, $column_2))
@@ -60,7 +60,6 @@
 					'table_2' => $table_2,
 					'column_1' => $column_1,
 					'column_2' => $column_2,
-					'type' => $join_type,	
 				);
 
 				if(!in_array($table_1, $this->scaffold_config->table_names))
@@ -117,31 +116,27 @@
 		// Set the sort column
 		public function set_sort_column($column_name)
 		{
-			foreach($this->scaffold_config->table_names as $table)
+			$table = $this->Db->check_column_exists($this->scaffold_config->table_names, $column_name);
+			if($table !== FALSE)
 			{
-				$table = $this->Db->check_column_exists($table, $column_name);
-				if($table !== FALSE)
-				{
-					#$this->scaffold_config->show_columns[$column_name]['table'] = $this->scaffold_config->table_name;
-					$this->scaffold_config->criteria->sort_column = $column_name;
-					$this->scaffold_config->criteria->sort_table = $table;
-					return TRUE;
-				}
+				$this->scaffold_config->show_columns[$column_name]['table'] = $table;
+				$this->scaffold_config->criteria->sort_column = $column_name;
+				return TRUE;
+			}else{
+				return FALSE;
 			}
-			return FALSE;
 		}
 
 
 		// Set the table name
 		public function set_table_name($table_name)
 		{
+			$table_name = strtolower($table_name);
 			if($this->Db->get_table_info($table_name))
 			{
 				$this->scaffold_config->table_name = $table_name;
 				$this->scaffold_config->table_names[] = $table_name; # Used for joins
-				return TRUE;
-			}else{
-				return FALSE;
+				return $this;
 			}
 		}
 
@@ -169,7 +164,7 @@
 
 			$total_results = $this->Db->get_row("
 				SELECT
-					count(`{$this->scaffold_config->table_name}`.`{$primary_key}`) as `count`
+					count(`{$primary_key}`) as `count`
 				FROM
 					`{$this->scaffold_config->table_name}`
 					{$this->join()}
@@ -177,19 +172,9 @@
 					{$this->where()}
 			");
 			$this->total_results = $total_results['count'];
-			/**
-			 * Added the following to bypass tables that don't use table_filedname foreign keys
-			 */
-			if(!empty($this->scaffold_config->show_columns)){
-				$fields_list = implode(',',array_keys($this->scaffold_config->show_columns));	
-			}else{
-				$fields_list = '*';
-			}
-			#pr($fields_list);
-			
 			$sql = "
 				SELECT
-					{$fields_list}
+					*
 				FROM
 					`{$this->scaffold_config->table_name}`
 					{$this->join()}
@@ -206,6 +191,8 @@
 
 			// Format data columns
 			$this->column_format();
+			
+			return $this;
 		}
 
 
@@ -240,6 +227,7 @@
 
 		private function sort_column()
 		{
+			$table = '';
 			if(!empty($this->scaffold_config->show_columns[$this->scaffold_config->criteria->sort_column]['table']))
 			{
 				$table = "`{$this->scaffold_config->show_columns[$this->scaffold_config->criteria->sort_column]['table']}`.";
@@ -252,6 +240,7 @@
 		// Return the where clause for the current search query
 		private function where()
 		{
+			$q = '';
 			if(!empty($this->where_parts))
 			{
 				foreach($this->scaffold_config->table_names as $table)
@@ -285,8 +274,7 @@
 			{
 				foreach($this->scaffold_config->join_tables as $k => $i)
 				{
-					$type = $i['type'] ? $i['type'] :'';
-					$join .= "{$type} JOIN `{$i['table_1']}` ON `{$i['table_1']}`.`{$i['column_1']}` = `{$i['table_2']}`.`{$i['column_2']}`";
+					$join .= " JOIN `{$i['table_1']}` ON `{$i['table_1']}`.`{$i['column_1']}` = `{$i['table_2']}`.`{$i['column_2']}`";
 				}
 			}
 			return $join;
@@ -332,8 +320,6 @@
 			}
 
 			unset($conf->page);
-
-			$url = '';
 
 			// Make the url for this sort
 			foreach($conf as $k=>$v)
@@ -419,5 +405,6 @@
 		}
 
 	}
+
 
 ?>
