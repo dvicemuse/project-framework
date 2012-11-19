@@ -1,11 +1,11 @@
 <?php
 
-	#include_once(__DIR__."/Field_Builder.php");
+	include_once(__DIR__."/Field_Builder.php");
 
 	class CLI_Generate
 	{
 		// Description
-		public $description = 'Create a model + test suite + controller + template folder with [name]';
+		public $description = 'Create a model + controller + template folder with [name]';
 		public $example = 'cli.php generate [name]';
 		
 		// Construct variables
@@ -18,6 +18,7 @@
 		
 		// Are we going to generate CRUD?
 		private $_crud = FALSE;
+		private $_crud_data = array();
 
 
 
@@ -52,7 +53,7 @@
 			echo console_text("Generating framework code for: '{$this->_name}'", 'green');
 
 			// Check for CRUD
-			#$this->_check_crud();
+			$this->_check_crud();
 
 			// Generate controller
 			$this->_controller();
@@ -63,8 +64,7 @@
 			// Generate model
 			$this->_template();
 
-			// When done just isn't enough
-			echo console_text('Reticulating Splines', 'green');
+			// Done
 			echo console_text('Done.', 'green');
 			
 			// Return
@@ -134,8 +134,15 @@
 			// Create controller from template
 			echo console_text("Controller: CREATING", 'green');
 			
+			// Basic or CRUD template?
+			$controller_template = 'controller';
+			if($this->_crud === TRUE)
+			{
+				$controller_template = 'controller_CRUD';
+			}
+			
 			// Get template and fill in variables
-			if($this->_render_template('controller', array('NAME' => $this->_name), $controller_file))
+			if($this->_render_template($controller_template, array('NAME' => $this->_name, 'NAME_LOWERCASE' => strtolower($this->_name)), $controller_file))
 			{
 				echo console_text("...SUCCESS", 'green');
 			}else{
@@ -181,9 +188,22 @@
 
 			// Create model from template
 			echo console_text("Model: CREATING", 'green');
-			
+
+			// Basic or CRUD template?
+			$model_template = 'model';
+			$validation_array_string = '';
+			if($this->_crud === TRUE)
+			{
+				$model_template = 'model_CRUD';
+				foreach($this->_crud_data as $form_builder)
+				{
+					$validation_array_string .= $form_builder->rule_string();
+				}
+				$validation_array_string = trim($this->indent_string(trim($validation_array_string), 4));
+			}
+
 			// Get template and fill in variables
-			if($this->_render_template('model', array('NAME' => $this->_name), $model_file))
+			if($this->_render_template($model_template, array('NAME' => $this->_name, 'NAME_LOWERCASE' => strtolower($this->_name), 'VALIDATION_ARRAY' => $validation_array_string), $model_file))
 			{
 				echo console_text("...SUCCESS", 'green');
 			}else{
@@ -209,20 +229,52 @@
 			// Template folder already exists
 			if(is_dir($template_path))
 			{
-				echo console_text("Template: EXISTS", 'green');
+				echo console_text("Template Folder: EXISTS", 'green');
 				echo console_text("...SKIPPED", 'green');
-				return $this;
-			}
-			
-			// Create template folder
-			echo console_text("Template: CREATING", 'green');
-			if(@mkdir($template_path) === TRUE)
-			{
-				echo console_text("...SUCCESS", 'green');
 			}else{
-				echo console_text("...FAILED", 'red');
+				// Create template folder
+				echo console_text("Template Folder: CREATING", 'green');
+				if(@mkdir($template_path) === TRUE)
+				{
+					echo console_text("...SUCCESS", 'green');
+				}else{
+					echo console_text("...FAILED", 'red');
+				}
 			}
-		
+
+			// Building CRUD?
+			if($this->_crud)
+			{
+				// Folder exists
+				if(is_dir($template_path))
+				{
+					$template_names = array('template_index', 'template_manage');
+					
+					// Make form field string
+					$form_field_string = '';
+					foreach($this->_crud_data as $form_builder)
+					{
+						$form_field_string .= $form_builder->field_string();
+					}
+					$form_field_string = trim($this->indent_string(trim($form_field_string), 1));
+					
+					foreach($template_names as $template_name)
+					{
+						// Get template and fill in variables
+						echo console_text("Template File ".str_replace('template_', '', $template_name).".php: CREATING", 'green');
+						if($this->_render_template($template_name, array('NAME' => $this->_name, 'NAME_LOWERCASE' => strtolower($this->_name), 'FORM_FIELDS' => $form_field_string), $template_path."/".str_replace('template_', '', $template_name).'.php'))
+						{
+							echo console_text("...SUCCESS", 'green');
+						}else{
+							echo console_text("...FAILED", 'red');
+							return $this;
+						}
+					}
+				}else{
+					echo console_text("...ABORTING TEMPLATE FILE CREATION", 'red');
+				}
+			}
+
 			// Done
 			return $this;
 		}	
@@ -309,25 +361,66 @@
 		 */
 		private function _check_crud()
 		{
-			$this->_crud = $this->_get_input_confirm("Would you like to add CRUD for no additional charge?");
+			// Make sure there is a table
+			try
+			{
+				// Will throw exception is does not exist
+				$this->_fw->load_helper('Db')->get_rows("SHOW COLUMNS FROM `{$this->_table_name}`");
+				
+				// Ask
+				$this->_crud = $this->_get_input_confirm("Would you like to add CRUD for no additional charge?");
+				
+				// Check response
+				if($this->_crud)
+				{
+					$this->_crud_data_get();
+				}
+
+			}catch(Exception $e){
+				// Table does not exist so do not offer to build
+			}
 		}
 
 		
 		
-		private function _crud_variables()
+		/**
+		 * Build the crud data array
+		 */
+		private function _crud_data_get()
 		{
 			$columns = $this->_fw->load_helper('Db')->get_rows("SHOW COLUMNS FROM `{$this->_table_name}`");
-			#pr("SHOW COLUMNS FROM `{$this->_table_name}`");
 			foreach($columns as $column)
-			{
+			{		
 				$f = new Field_Builder($this->_fw, $this->_table_name, $column);
-				$f->process();
-				
-				print_r($f);
+				$this->_crud_data[] = $f->process();
 			}
 		}
 
 
+
+		/**
+		 * Indent a block of text by line
+		 * @param string $text
+		 * @param int $indent_tabs
+		 * @return string
+		 */
+		 private function indent_string($text, $indent_tabs)
+		 {
+			 $lines = explode("\n", str_replace("\r", "", $text));
+			 
+			 $indent = '';
+			 for($x = 1; $x <= $indent_tabs; $x++)
+			 {
+				 $indent .= "\t";
+			 }
+			 
+			 foreach($lines as $k => $v)
+			 {
+				 $lines[$k] = $indent.$v;
+			 }
+			 return implode("\n", $lines);
+		 }
+		 
 
 
 		/**
