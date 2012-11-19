@@ -102,7 +102,7 @@ class Model_Base_Test extends UnitTestCase
 
 
 	
-	// Test Db->get_rows()
+	// Test Db->column_names()
 	function testColumnNames()
 	{
 		$t = new Framework();
