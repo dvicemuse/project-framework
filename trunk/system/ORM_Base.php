@@ -2,6 +2,7 @@
 
 	abstract class ORM_Base extends Framework
 	{
+		protected $_loaded = FALSE;
 		protected $_data;
 		protected $_to_many = array();
 		protected $_to_many_map = array();
@@ -54,6 +55,7 @@
 					$load_data = $this->load_helper('Db')->get_row("SELECT * FROM `{$this->model_name()}` WHERE `{$this->Db->get_primary_key($this->model_name())}` = '{$this->Db->escape($id)}'   ");
 					if($load_data !== FALSE)
 					{
+						$this->_loaded = TRUE;
 						$this->_data = $load_data;
 						return $this;
 					}
@@ -308,6 +310,84 @@
 
 
 		/**
+		 * Set orm daa for an object
+		 * @param array $data_array
+		 * @return Model_Base
+		 */
+		public function orm_set($data_array)
+		{
+			// Check that array was passed
+			if(!is_array($data_array)){ throw new Exception('Array expected.');}
+			
+			// Add data to model
+			foreach($data_array as $k => $v)
+			{
+				$this->_data[$k] = $v;
+			}
+			
+			// Return
+			return $this;
+		}
+
+		
+		
+		/**
+		 * Save an object
+		 * @param Validate $validate
+		 */
+		public function orm_save()
+		{
+			// Validate
+			$validate = $this->load_helper('Validate');
+			if($validate->run($this->_data, $this->_validate()))
+			{
+				if($this->_loaded === TRUE)
+				{
+					// Update
+					if($this->_data["{$this->model_name()}_id"] != '')
+					{
+						$this->load_helper('Db')->update($this->model_name(), $this->_data, " {$this->model_name()}_id = '{$this->id()}' ");
+						return $this->orm_load($this->id());
+					}
+				}else{
+					// Insert
+					$id = $this->load_helper('Db')->insert($this->model_name(), $this->_data);
+					return $this->orm_load($id);
+				}
+			}
+			throw new ORM_Exception('Object failed validation.', 0, $validate);
+		}
+
+
+
+		/**
+		 * Delete an object
+		 * @return bool
+		 */
+		public function orm_delete()
+		{
+			if($this->_loaded === TRUE)
+			{
+				$this->load_helper('Db')->query("DELETE FROM {$this->model_name()} WHERE {$this->model_name()}_id = '{$this->id()}' ");
+				return TRUE;
+			}
+			throw new Exception('Object not loaded.');
+		}
+		
+		
+		
+		/**
+		 * Default validation function
+		 * @return array
+		 */
+		protected function _validate()
+		{
+			// Actual validation rues shoud be defined in the model class
+			return array();
+		}
+		
+
+		/**
 		 * Debug data function
 		 */
 		public function expose_data()
@@ -316,4 +396,28 @@
 		}
 	}
 
+	
+	class ORM_Exception extends Exception
+	{
+		private $_validate_object;
+		
+		public function __construct($message = null, $code = 0, $validate_object = NULL)
+		{
+			if(!$message)
+			{
+				throw new $this('Unknown '. get_class($this));
+			}
+			
+			$this->_validate_object = $validate_object;
+			
+			parent::__construct($message, $code);
+		}
+
+		public function getValidate()
+		{
+			return $this->_validate_object;
+		}
+	}
+	
+	
 ?>
