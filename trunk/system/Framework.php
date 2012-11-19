@@ -27,6 +27,7 @@ class Framework
 	 */
 	public function route()
 	{
+		// Route this request
 		$route = $this->load_helper('Framework_Route');
 
 		try
@@ -35,6 +36,7 @@ class Framework
 			$frm = $this->load_controller($route->controller());
 			if($frm !== FALSE)
 			{
+				// Request vars
 				$frm->request = new Config_Builder;
 				$frm->request->vars = $route->vars();
 				$frm->request->controller_name = $route->controller();
@@ -53,7 +55,6 @@ class Framework
 	
 			throw new Exception("Routes not defined.");
 		}catch(Exception $e){
-			
 			// @todo make this more elegant
 			header("HTTP/1.0 404 Not Found");
 			$frm = $this->load_controller('Error');
@@ -129,6 +130,7 @@ class Framework
 	}
 
 
+
 	/*
 	 * Load a controller class
 	 */
@@ -150,6 +152,7 @@ class Framework
 			return FALSE;
 		}
 	}
+
 
 
 	/*
