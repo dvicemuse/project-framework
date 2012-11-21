@@ -19,7 +19,7 @@
 					if($this->User->send_password_reset_email($get['user_id']))
 					{
 						$this->add_flash('Please check your email for password reset instructions.');
-						header("Location: {$this->page_link($this->config()->path->log_in_controller)}");
+						header("Location: {$this->page_link('')}");
 						exit;
 					}else{
 						$this->add_flash('There was a problem sending your password reset instructions.');
@@ -45,7 +45,7 @@
 			if($user === FALSE)
 			{
 				// Hash does not exist
-				header("Location: {$this->page_link($this->config()->path->log_in_controller)}");
+				header("Location: {$this->page_link('')}");
 				exit;
 			}
 
