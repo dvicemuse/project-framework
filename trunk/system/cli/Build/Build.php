@@ -146,7 +146,7 @@
 		private function _path()
 		{
 			// Full web path
-			$full_web_path = $this->_get_input("Full URL used to access this site? ex: http://framework.com/dashboard/");
+			$full_web_path = $this->_get_input("Full URL used to access this site (http://framework.com/dashboard/):");
 			echo console_text("UPDATING FULL WEB PATH", 'green');
 			$this->_set_config_variable('Path', 'full_web_path', $full_web_path);
 			echo console_text("...SUCCESS", 'green');
