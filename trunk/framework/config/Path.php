@@ -39,12 +39,4 @@ class Path_Config
 	 * @since  1.0.0
 	 */
 	public $application_path	= "/var/www/";
-	
-	/**
-	 * @var string $log_in_controller
-	 * @brief The controller responsible for login verification/authentication. Should not be changed unless you know what the consequences are.
-	 * 
-	 * @since  1.0.0
-	 */
-	public $log_in_controller	= "dashboard";
 }
