@@ -63,7 +63,7 @@
 					if($this->User->update_password($user['user_id'], $_POST['new_password']))
 					{
 						// Redirect to the default log in url
-						header("Location: {$this->page_link($this->config()->path->log_in_controller)}");
+						header("Location: {$this->page_link('')}");
 						exit;
 					}
 				}else{
@@ -88,7 +88,7 @@
 		public function logout()
 		{
 			$this->Auth->logout();
-			header("Location: {$this->page_link($this->config()->path->log_in_controller)}");
+			header("Location: {$this->page_link('')}");
 		}
 	}
 
