@@ -37,6 +37,7 @@ class Framework
 		}
 		if($failed || $this->config()->path->application_path == '')
 		{
+			// Paths not set up so just include the template
 			include_once('framework/template/Error/not_configured.php');
 			exit;
 		}
