@@ -1,5 +1,5 @@
 
-<p>This is the normal footer</p>
+<p>Normal footer</p>
 
 </body>
 </html>
