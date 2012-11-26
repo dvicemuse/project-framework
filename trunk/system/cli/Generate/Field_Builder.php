@@ -74,6 +74,12 @@
 			$rules['reqd'] = 'Field is required.';
 			$rules['max['.$length.']'] = "Max length of {$length} characters exceeded.";
 			
+			// Unique value
+			if($this->_raw['Key'] == 'UNI')
+			{
+				$rules["unique[{$this->_table_name()}.{$this->_name()}]"] = 'Field unique constraint fails.';
+			}
+			
 			// Done
 			$this->_rules = $this->_make_rule_array_string($rules);
 			$this->_field_print = '<?= $this->Validate->print_field(\''.$this->_name().'\', \''.$this->_friendly_name().'\', \'text\'); ?>'."\n";
@@ -85,7 +91,13 @@
 		{
 			// Basic validation
 			$rules['reqd'] = 'Field is required.';
-			
+
+			// Unique value
+			if($this->_raw['Key'] == 'UNI')
+			{
+				$rules["unique[{$this->_table_name()}.{$this->_name()}]"] = 'Field unique constraint fails.';
+			}
+
 			// Done
 			$this->_rules = $this->_make_rule_array_string($rules);
 			$this->_field_print = '<?= $this->Validate->print_field(\''.$this->_name().'\', \''.$this->_friendly_name().'\', \'textarea\'); ?>'."\n";
@@ -133,19 +145,59 @@
 			$length = $parts[2];
 			$extra = $parts[3];
 
+			// Default field output
+			$this->_field_print = '<?= $this->Validate->print_field(\''.$this->_name().'\', \''.$this->_friendly_name().'\', \'text\'); ?>'."\n";
+
 			// Basic validation
 			$rules['reqd'] = 'Field is required.';
 			$rules['numeric'] = 'Field must be numeric.';
-			
+
 			// Only positive values
 			if(strpos($extra, 'unsigned') !== FALSE)
 			{
 				$rules['positive'] = 'Field must be a positive value.';
 			}
+
+			// Unique value
+			if($this->_raw['Key'] == 'UNI')
+			{
+				$rules["unique[{$this->_table_name()}.{$this->_name()}]"] = 'Field unique constraint fails.';
+			}
+
+			// Foreign key check
+			$sql = "
+				SELECT 
+					concat(referenced_table_name, '.', referenced_column_name) AS `reference`,
+					referenced_table_name AS `table`,
+					referenced_column_name AS `column`
+				FROM
+					information_schema.key_column_usage
+				WHERE
+					referenced_table_name IS NOT NULL
+					AND table_name = '{$this->_table_name()}'
+					AND column_name = '{$this->_name()}'
+			";
+			$fk_check = $this->_fw->load_helper('Db')->get_row($sql);
+			if($fk_check !== FALSE)
+			{
+				// Foreign key rule
+				$rules['exists['.$fk_check['reference'].']'] = 'Field key constraint fails.';
+				
+				// Does foreign table have a name field?
+				$dropdown_column_name = $fk_check['column'];
+				$dropdown_label_name = $this->_friendly_name();
+				if($this->_fw->load_helper('Db')->column_exists($fk_check['table'], "{$fk_check['table']}_name"))
+				{
+					$dropdown_column_name = "{$fk_check['table']}_name";
+					$dropdown_label_name = $this->_friendly_name($dropdown_column_name);
+				}
+				
+				// Show dropdown of values
+				$this->_field_print = '<?= $this->Validate->print_select(\''.$this->_name().'\', \''.$dropdown_label_name.'\', $this->load_model(\''.$this->_table_name_to_model_name($fk_check['table']).'\')->dropdown(\''.$dropdown_column_name.'\')); ?>'."\n";
+			}
 			
 			// Done
 			$this->_rules = $this->_make_rule_array_string($rules);
-			$this->_field_print = '<?= $this->Validate->print_field(\''.$this->_name().'\', \''.$this->_friendly_name().'\', \'text\'); ?>'."\n";
 		}
 
 
@@ -219,9 +271,23 @@
 
 
 
-		private function _friendly_name()
+		private function _friendly_name($override = NULL)
 		{
-			return ucwords(str_replace('_', ' ', $this->_raw['Field']));
+			$string = $this->_raw['Field'];
+			if($override !== NULL)
+			{
+				$string = $override;
+			}
+			
+			return ucwords(str_replace('_', ' ', $string));
+		}
+		
+		
+		
+		private function _table_name_to_model_name($table_name)
+		{
+			$table_name = ucwords(str_replace('_', ' ', $table_name));
+			return str_replace(' ', ' ', $table_name);
 		}
 	}
 

@@ -48,7 +48,12 @@ class Framework
 				{
 					$frm->render($route->method());
 				}catch(Exception $e){
-					pr($e);
+					header("HTTP/1.0 500 Internal Server Error");
+					$frm = $this->load_controller('Error');
+					$frm->request->controller_name = 'Error';
+					$frm->request->method_name = 'error_500';
+					$frm->render('error_500');
+					die;
 				}
 				exit;
 			}
@@ -59,8 +64,8 @@ class Framework
 			header("HTTP/1.0 404 Not Found");
 			$frm = $this->load_controller('Error');
 			$frm->request->controller_name = 'Error';
-			$frm->request->method_name = 'index';
-			$frm->render('index');
+			$frm->request->method_name = 'error_404';
+			$frm->render('error_404');
 			die;
 		}
 	}
@@ -184,7 +189,12 @@ class Framework
 			include_once("{$this->config()->path->application_path}/framework/template/{$this->request->controller_name}/{$page}.php");
 			$this->render_foot();
 		}else{
-			echo "404 - Template not found.";
+			header("HTTP/1.0 404 Not Found");
+			$frm = $this->load_controller('Error');
+			$frm->request->controller_name = 'Error';
+			$frm->request->method_name = 'error_404';
+			$frm->render('error_404');
+			die;
 		}
 	}
 
