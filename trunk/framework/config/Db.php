@@ -30,7 +30,7 @@ class Db_Config
 	 * 
 	 * @since  1.0.0
 	 */
-	public $username	= 'root';
+	public $username	= '';
 	
 	/**
 	 * @var string $password
@@ -38,7 +38,7 @@ class Db_Config
 	 * 
 	 * @since  1.0.0
 	 */
-	public $password	= 'password';
+	public $password	= '';
 	
 	/**
 	 * @var string $database
@@ -46,6 +46,6 @@ class Db_Config
 	 * 
 	 * @since  1.0.0
 	 */
-	public $database	= 'framework';
+	public $database	= '';
 	
 }
