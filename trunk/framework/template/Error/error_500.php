@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="pl">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>404 - Page not found</title>
+	<title>500 - Internal Server Error</title>
 	<style type="text/css">
 
 * {
