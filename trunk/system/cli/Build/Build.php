@@ -134,6 +134,41 @@
 			$this->_set_config_variable('Db', 'password', $database_password);
 			echo console_text("...SUCCESS", 'green');
 			
+			try
+			{
+				// Create user table
+				echo console_text("CREATING USER TABLE", 'green');
+				$sql = "
+					CREATE TABLE IF NOT EXISTS `user` (
+						`user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+						`user_email` varchar(75) DEFAULT NULL,
+						`user_password` char(40) DEFAULT NULL,
+						`user_first_name` varchar(50) DEFAULT NULL,
+						`user_last_name` varchar(50) DEFAULT NULL,
+						`user_update_hash` varchar(32) DEFAULT NULL,
+						`user_last_login` datetime DEFAULT NULL,
+						`user_create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+						PRIMARY KEY (`user_id`)
+					)ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+				";
+				$this->_fw->load_helper('Db')->query($sql);
+				echo console_text("...SUCCESS", 'green');
+
+				// Create user record
+				echo console_text("CREATING USER RECORD (test@test.com : password)", 'green');
+				$sql = "
+					INSERT INTO
+						`user`
+						(`user_id`, `user_email`, `user_password`, `user_first_name`, `user_last_name`, `user_update_hash`, `user_last_login`, `user_create_time`)
+					VALUES
+						(1, 'test@test.com', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 'Test', 'User', 'a09a563afe50e95dbc0dad61ca12630b', '2012-11-25 15:42:07', '0000-00-00 00:00:00');
+				";
+				$this->_fw->load_helper('Db')->query($sql);
+				echo console_text("...SUCCESS", 'green');
+			}catch(Exception $e){
+				echo console_text("...FAILED", 'red');
+			}
+			
 			return $this;
 		}
 
