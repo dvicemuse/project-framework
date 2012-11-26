@@ -30,7 +30,7 @@ class Path_Config
 	 *
 	 * @since  1.0.0
 	 */
-	public $full_web_path		= "http://192.168.1.104/";
+	public $full_web_path		= "";
 	
 	/**
 	 * @var string $application_path
@@ -38,5 +38,5 @@ class Path_Config
 	 * 
 	 * @since  1.0.0
 	 */
-	public $application_path	= "/var/www/";
+	public $application_path	= "";
 }
