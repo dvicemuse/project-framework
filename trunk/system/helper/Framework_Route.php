@@ -54,13 +54,14 @@
 		private function _remove_base_path()
 		{
 			// Parse the request url
+			$web_path = $this->config()->path->web_path;
 			if($this->config()->path->web_path == '/')
 			{
-				$this->config()->path->web_path = '';
+				$web_path = '';
 			}
 			
 			// Remove the base path @todo make this not use str_replace
-			$this->_base_request = str_replace($this->config()->path->web_path, '', $this->_base_request);
+			$this->_base_request = str_replace($web_path, '', $this->_base_request);
 			
 			// Remove leading and trailing slashes, then add back
 			$this->_base_request = "/".trim($this->_base_request, '/')."/";
