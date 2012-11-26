@@ -204,7 +204,7 @@
 					$this->error[$field_name][] = $error;
 				}
 				// Date (5/10/09)(05/10/2009)
-				if($type == 'date' && !eregi('^([0-1]{1})?([0-9]{1})/([0-3]{1})([0-9]{1})/([0-9]{2,4})$', $field))
+				if($type == 'date' && (!eregi('^([0-9]{1,4})(/|-)([0-9]{1,2})(/|-)([0-9]{1,4})$', $field) || strtotime($field) === FALSE))
 				{
 					$this->error[$field_name][] = $error;
 				}

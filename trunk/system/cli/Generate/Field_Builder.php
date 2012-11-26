@@ -51,28 +51,45 @@
 			{
 				$this->$method_name($m);
 			}else{
-				echo "nope... {$m[1]}";
+				// Default to char field
+				$this->_type_varchar($m);
 			}
 			return $this;
 		}
 		
 		
+		
+		private function _type_date($parts)
+		{
+			// Basic validation
+			$rules['reqd'] = 'Field is required.';
+			$rules['date'] = 'Invalid date.';
+		
+			// Done
+			$this->_rules = $this->_make_rule_array_string($rules);
+			$this->_field_print = '<?= $this->Validate->print_field(\''.$this->_name().'\', \''.$this->_friendly_name().'\', \'text\'); ?>'."\n";
+		}		
+		
+				
 
 		private function _type_char($parts)
 		{
 			return $this->_type_varchar($parts);
 		}
-		
-		
-		
+
+
+
 		private function _type_varchar($parts)
 		{
-			// Field max length
-			$length = $parts[2];
-			
 			// Basic validation
 			$rules['reqd'] = 'Field is required.';
-			$rules['max['.$length.']'] = "Max length of {$length} characters exceeded.";
+
+			// Field max length
+			if(isset($parts[2]))
+			{
+				$length = $parts[2];
+				$rules['max['.$length.']'] = "Max length of {$length} characters exceeded.";
+			}
 			
 			// Unique value
 			if($this->_raw['Key'] == 'UNI')

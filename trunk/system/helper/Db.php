@@ -254,10 +254,16 @@
 				$data = $this->stripslashes_deep($data);
 				foreach($data as $k => $v)
 				{
-					if(is_array($fields[$k]) && $fields[$k]['key'] != 'PRI')
+					if(isset($fields[$k]) && is_array($fields[$k]) && $fields[$k]['key'] != 'PRI')
 					{
-						$v = $this->escape($v);
-						$query .= " `{$k}` = '{$v}', ";
+						if($fields[$k]['type'] == 'date')
+						{
+							$v = date('Y-m-d', strtotime($v));
+							$query .= " `{$k}` = '{$v}', ";
+						}else{
+							$v = $this->escape($v);
+							$query .= " `{$k}` = '{$v}', ";
+						}
 					}
 				}
 				$query = trim($query, ' ,');
@@ -309,8 +315,14 @@
 				{
 					if(isset($fields[$k]) && is_array($fields[$k]) && $fields[$k]['key'] != 'PRI')
 					{
-						$v = $this->escape($v);
-						$query .= " `{$k}` = '{$v}', ";
+						if($fields[$k]['type'] == 'date')
+						{
+							$v = date('Y-m-d', strtotime($v));
+							$query .= " `{$k}` = '{$v}', ";
+						}else{
+							$v = $this->escape($v);
+							$query .= " `{$k}` = '{$v}', ";
+						}
 					}
 				}
 				$query = trim($query, ' ,');
