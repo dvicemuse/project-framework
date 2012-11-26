@@ -28,7 +28,14 @@ class Framework
 	public function route()
 	{
 		// Is this thing set up?
-		if($this->config()->path->application_path == '')
+		$failed = FALSE;
+		try
+		{
+			$this->load_helper('Db');
+		}catch(Exception $e){
+			$failed = TRUE;
+		}
+		if($failed || $this->config()->path->application_path == '')
 		{
 			include_once('framework/template/Error/not_configured.php');
 			exit;

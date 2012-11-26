@@ -34,13 +34,15 @@
 			parent::__construct();
 
 			// Put the connection into $this->conn
-			$this->conn = mysql_connect($this->config()->db->host, $this->config()->db->username, $this->config()->db->password) or die(mysql_error());
+			$this->conn = @mysql_connect($this->config()->db->host, $this->config()->db->username, $this->config()->db->password);
 			if($this->conn)
 			{
 				mysql_select_db($this->config()->db->database, $this->conn);
 				return;
+			}else{
+				throw new Exception('Invalid MySQL connection parameters.');
 			}
-			throw new Exception("Unable to connect to the database.");
+			throw new Exception("Unable to select database.");
 		}
 
 
