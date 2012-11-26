@@ -1,6 +1,6 @@
 <?php
 
-	class Validate
+	class Validate extends Framework
 	{
 		public $data;						// Data storage
 		public $rules;						// Rule storage
@@ -107,6 +107,28 @@
 				if($type == 'reqd' && empty($field))
 				{
 					$this->error[$field_name][] = $error;
+				}
+				// Unique db value
+				if(preg_match('/unique\[([_a-zA-Z]{1,}).([_a-zA-Z]{1,})\]/i', $type, $m))
+				{
+					$table = $m[1];
+					$column = $m[2];
+					
+					if($this->load_helper('Db')->get_row("SELECT `{$column}` FROM `{$table}` WHERE `{$column}` = '{$this->load_helper('Db')->escape($field)}' ") !== FALSE)
+					{
+						$this->error[$field_name][] = $error;
+					}
+				}
+				// Db value exists
+				if(preg_match('/exists\[([_a-zA-Z]{1,}).([_a-zA-Z]{1,})\]/i', $type, $m))
+				{
+					$table = $m[1];
+					$column = $m[2];
+					
+					if($this->load_helper('Db')->get_row("SELECT `{$column}` FROM `{$table}` WHERE `{$column}` = '{$this->load_helper('Db')->escape($field)}' ") === FALSE)
+					{
+						$this->error[$field_name][] = $error;
+					}
 				}
 				// Max length
 				if(preg_match('/max\[(\d+)\]/i', $type, $m))

@@ -77,12 +77,12 @@ html, body {
 
 	<div class="boxed-helper">
 		<div class="cell">
-			<h1><strong>404</strong> File Not Found</h1>
-			<p>The page you are looking for has been moved or doesn't exist anymore.</p>
+			<h1><strong>500</strong> Internal Server Error</h1>
+			<p>The page you requested could not be displayed.</p>
 			<ul>
-				<li>The link you clicked to get here could be incorrect..</li>
-				<li>The page you tried to view is no longer at this location.</li>
-				<li>The server could be having trouble processing your request.</li>
+				<li>The link you clicked to get here could be incorrect.</li>
+				<li>The page may have requested a resource that is unavailable.</li>
+				<li>The server could be running under unusually high load.</li>
 			</ul>
 		</div>
 	</div>

@@ -36,12 +36,7 @@
 			if(isset($this->request->raw[2]))
 			{
 				// Check ID/permissions
-				try
-				{
-					$|NAME_LOWERCASE|->check_permission_load($this->request->raw[2]);
-				}catch(Exception $e){
-					die('Could not load object.');
-				}
+				$|NAME_LOWERCASE|->check_permission_load($this->request->raw[2]);
 
 				// Set data to validate
 				$this->load_helper('Validate')->set_data($|NAME_LOWERCASE|->expose_data());
@@ -71,19 +66,14 @@
 			$this->load_helper('Validate');
 			
 			// |NAME| object
-			$music = $this->load_model('|NAME|');
+			$|NAME_LOWERCASE| = $this->load_model('|NAME|');
 
 			// Load object
 			if(isset($this->request->raw[2]))
 			{
 				// Check ID/permissions
-				try
-				{
-					$|NAME_LOWERCASE|->check_permission_load($this->request->raw[2])->orm_delete();
-					$this->add_flash('Deleted.')->redirect('|NAME_LOWERCASE|');
-				}catch(Exception $e){
-					die('Could not load object.');
-				}
+				$|NAME_LOWERCASE|->check_permission_load($this->request->raw[2])->orm_delete();
+				$this->add_flash('Deleted.')->redirect('|NAME_LOWERCASE|');
 			}
 			exit;
 		}
