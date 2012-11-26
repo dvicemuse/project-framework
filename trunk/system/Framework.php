@@ -68,7 +68,6 @@ class Framework
 					$frm->request->controller_name = 'Error';
 					$frm->request->method_name = 'error_500';
 					$frm->render('error_500');
-					die;
 				}
 				exit;
 			}
