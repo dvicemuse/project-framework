@@ -178,28 +178,46 @@
 
 		
 		
+		/**
+		 * Create an array of column values ([ID] => [COLUMN VALUE])
+		 * @param string $field_display_name
+		 * @param bool $blank_first
+		 * @return array
+		 */
 		public function dropdown($field_display_name, $blank_first = TRUE)
 		{
+			// Initialize return
 			$return = array();
 			
-			if($blank_first)
+			// Bool check
+			if(!is_bool($blank_first))
+			{
+				throw new Exception('Boolean expected.');
+			}
+			
+			// Blank first element return
+			if($blank_first === TRUE)
 			{
 				$return[''] = '&nbsp;';
 			}
 			
-			$get = $this->load_helper('Db')->get_rows("SELECT * FROM `{$this->model_name()}` ");
-			if($get !== FALSE)
+			// Get results
+			$get = $this->get();
+			if($get->count() > 0)
 			{
-				// Does the display field exist
-				if(!isset($get[0][$field_display_name]))
-				{
-					throw new Exception('Field display name not found in result.');
-				}
+				// Primary key
+				$key = $this->load_helper('Db')->get_primary_key($this->model_name());
 				
 				// Add results to retun
-				foreach($get as $r)
+				foreach($get->results() as $r)
 				{
-					$return[$r[$this->model_name()."_id"]] = $r[$field_display_name];
+					// Does the display field exist
+					if(!isset($r[$field_display_name]))
+					{
+						throw new Exception('Field display name not found in result.');
+					}
+					
+					$return[$r[$key]] = $r[$field_display_name];
 				}
 			}
 			

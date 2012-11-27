@@ -251,6 +251,75 @@ class Model_Base_Test extends UnitTestCase
 	}
 	
 	
+	
+	// Test Model_Base->dropdown
+	function testDropdown()
+	{
+		$t = new Modelbasetest123;
+		
+		// Result set 1, blank first element
+		$result = $t->dropdown('text', TRUE);
+		
+		// Count
+		$this->assertEqual(count($result), 9);
+
+		// Value test
+		$this->assertEqual(next($result), 'Apple');
+		$this->assertEqual(end($result), 'Grape');
+
+		// First key = ''
+		reset($result);
+		$this->assertEqual(key($result), '');
+
+		// Result set 2
+		// Model base query check
+		$result = $t->where('group', 2)->dropdown('text', FALSE);
+
+		// Count
+		$this->assertEqual(count($result), 3);
+
+		// Value test
+		$this->assertEqual(current($result), 'Grape');
+		$this->assertEqual(next($result), 'Banana');
+		$this->assertEqual(next($result), 'Mango');
+		
+		// First key != ''
+		reset($result);
+		$this->assertEqual(key($result), 3);
+		
+		// Result set 3
+		// Ordering
+		$result = $t->order('text', 'DESC')->dropdown('text', FALSE);
+		$this->assertEqual(key($result), 6);
+		$this->assertEqual(end($result), 'Apple');
+
+		// Result set 4
+		// Empty result no default
+		$result = $t->where('group', 'FAKE')->dropdown('text', FALSE);
+		$this->assertEqual($result, array());
+
+		// Result set 5
+		// Empty result default
+		$result = $t->where('group', 'FAKE')->dropdown('text', TRUE);
+		$this->assertEqual(count($result), 1);
+		$this->assertEqual(key($result), '');
+
+		// Invalid column
+	    try {
+	        $t->dropdown('FAKE');
+	        $this->fail("Exception was expected.");
+	    } catch (Exception $e) {
+	        $this->pass();
+		}
+
+		// Invalid first value param
+	    try {
+	        $t->dropdown('text', NULL);
+	        $this->fail("Exception was expected.");
+	    } catch (Exception $e) {
+	        $this->pass();
+		}
+	}
 }
 
 ?>
