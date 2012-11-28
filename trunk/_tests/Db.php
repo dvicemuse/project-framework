@@ -30,8 +30,8 @@ class Model_Base_Test extends UnitTestCase
 	function __construct()
 	{
 		$f = new Framework();
-		$f->load_helper('Db');
-		
+		$this->Db = $f->load_helper('Db');
+
 		reset_data($f->Db);
 	}
 
@@ -50,19 +50,16 @@ class Model_Base_Test extends UnitTestCase
 	// Test Db->query()
 	function testQuery()
 	{
-		$t = new Framework();
-		$t->load_helper('Db');
-
 		// Simple query
-		$result = $t->Db->query("SELECT * FROM modelbasetest123");
+		$result = $this->Db->query("SELECT * FROM modelbasetest123");
 		$this->assertEqual($result, TRUE);
 
 		// Make sure it saves the result
-		$this->assertEqual(mysql_num_rows($t->Db->q), 8);
+		$this->assertEqual(mysql_num_rows($this->Db->q), 8);
 
 		// Bad query
 	    try {
-	        $result = $t->Db->query("FAKE QUERY");
+	        $result = $this->Db->query("FAKE QUERY");
 	        $this->fail("Exception was expected.");
 	    } catch (Exception $e) {
 	        $this->pass();
@@ -74,17 +71,22 @@ class Model_Base_Test extends UnitTestCase
 	// Test Db->get_row()
 	function testRow()
 	{
-		$t = new Framework();
-		$t->load_helper('Db');
-
 		// Result returned
-		$result = $t->Db->get_row("SELECT * FROM modelbasetest123 WHERE id = 1 LIMIT 1");
+		$result = $this->Db->get_row("SELECT * FROM modelbasetest123 WHERE id = 1 LIMIT 1");
 		$this->assertEqual(is_array($result), TRUE);
 		$this->assertEqual($result['id'], 1);
 
 		// No result, bool FALSE returned
-		$result = $t->Db->get_row("SELECT * FROM modelbasetest123 WHERE id = 300 LIMIT 1");
+		$result = $this->Db->get_row("SELECT * FROM modelbasetest123 WHERE id = 300 LIMIT 1");
 		$this->assertIdentical($result, FALSE);
+
+		// Bad query
+	    try {
+	        $columns = $this->Db->get_row('FAKE_QUERY');
+	        $this->fail("Exception was expected.");
+	    } catch (Exception $e) {
+	        $this->pass();
+		}
 	}
 
 
@@ -92,18 +94,23 @@ class Model_Base_Test extends UnitTestCase
 	// Test Db->get_rows()
 	function testRows()
 	{
-		$t = new Framework();
-		$t->load_helper('Db');
-
 		// Results returned
-		$result = $t->Db->get_rows("SELECT * FROM modelbasetest123 WHERE `group` = 1 ORDER BY id ASC");
+		$result = $this->Db->get_rows("SELECT * FROM modelbasetest123 WHERE `group` = 1 ORDER BY id ASC");
 		$this->assertEqual(is_array($result), TRUE);
 		$this->assertEqual($result[0]['text'], 'Apple');
 		$this->assertEqual($result[1]['text'], 'Orange');
 
 		// No result, bool FALSE returned
-		$result = $t->Db->get_row("SELECT * FROM modelbasetest123 WHERE id = 300");
+		$result = $this->Db->get_row("SELECT * FROM modelbasetest123 WHERE id = 300");
 		$this->assertIdentical($result, FALSE);
+
+		// Bad query
+	    try {
+	        $columns = $this->Db->get_rows('FAKE_QUERY');
+	        $this->fail("Exception was expected.");
+	    } catch (Exception $e) {
+	        $this->pass();
+		}
 	}
 
 
@@ -111,18 +118,15 @@ class Model_Base_Test extends UnitTestCase
 	// Test Db->column_names()
 	function testColumnNames()
 	{
-		$t = new Framework();
-		$t->load_helper('Db');
-
 		// Table exists
-		$columns = $t->Db->column_names('modelbasetest123');
+		$columns = $this->Db->column_names('modelbasetest123');
 		$this->assertEqual(is_array($columns), TRUE);
 		$this->assertEqual($columns[0], 'id');
 		$this->assertEqual($columns[3], 'datetime');
 
 		// Table does not exist
 	    try {
-	        $columns = $t->Db->column_names('FAKE_TABLE');
+	        $columns = $this->Db->column_names('FAKE_TABLE');
 	        $this->fail("Exception was expected.");
 	    } catch (Exception $e) {
 	        $this->pass();
@@ -134,20 +138,17 @@ class Model_Base_Test extends UnitTestCase
 	// Test Db->column_exists()
 	function testColumnExists()
 	{
-		$t = new Framework();
-		$t->load_helper('Db');
-
 		// Table and column exists
-		$columns = $t->Db->column_exists('modelbasetest123', 'id');
+		$columns = $this->Db->column_exists('modelbasetest123', 'id');
 		$this->assertEqual($columns, TRUE);
 
 		// Table exists and column does not exist
-		$columns = $t->Db->column_exists('modelbasetest123', 'FAKE');
+		$columns = $this->Db->column_exists('modelbasetest123', 'FAKE');
 		$this->assertEqual($columns, FALSE);
 
 		// Table does not exist
 	    try {
-	        $columns = $t->Db->column_names('FAKE_TABLE', 'id');
+	        $columns = $this->Db->column_names('FAKE_TABLE', 'id');
 	        $this->fail("Exception was expected.");
 	    } catch (Exception $e) {
 	        $this->pass();
@@ -159,9 +160,6 @@ class Model_Base_Test extends UnitTestCase
 	// Test Db->update()
 	function testUpdate()
 	{
-		$t = new Framework();
-		$this->Db = $t->load_helper('Db');
-		
 		// Invalid table name
 	    try {
 	        $columns = $this->Db->update('FAKE', array(), 'id = 1');
@@ -233,9 +231,6 @@ class Model_Base_Test extends UnitTestCase
 	// Test Db->insert()
 	function testInsert()
 	{
-		$t = new Framework();
-		$this->Db = $t->load_helper('Db');
-
 		// Data array
 	    try {
 	        $columns = $this->Db->insert('modelbasetest123', '');
@@ -292,7 +287,35 @@ class Model_Base_Test extends UnitTestCase
 		// Clean data for next set of tests
 		reset_data($this->Db);
 		$this->Db->table_info('modelbasetest123', TRUE); // Clear table info cache
-	}	
+	}
+
+	
+	
+	// Test Db->stripslashes_deep()
+	function testStripslashedDeep()
+	{
+		// Array to test
+		$in = array(
+			'key1' => addslashes("key's 1"),
+			'key2' => array(
+				'key2' => addslashes("key's 2"),
+			),
+			'key3' => NULL,
+			'key4' => array(
+				'key4' => TRUE,
+			),
+		);
+		
+		// Get stripslash_deep result
+		$result = $this->Db->stripslashes_deep($in);
+		
+		// Test
+		$this->assertEqual($result['key1'], "key's 1");
+		$this->assertEqual($result['key2']['key2'], "key's 2");
+		$this->assertNull($result['key3']);
+		$this->assertIdentical($result['key4']['key4'], TRUE);
+	}
+	
 }
 
 ?>
