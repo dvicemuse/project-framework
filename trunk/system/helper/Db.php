@@ -61,7 +61,7 @@
 			{
 				return TRUE;
 			}
-			throw new Exception('SQL query failed.'.$query);
+			throw new Exception('SQL query failed.');
 		}
 
 
@@ -133,7 +133,7 @@
 				}
 				return $ret;
 			}
-			throw new Exception('Table contains no columns.');
+			// Exception will be thrown by query() if table does not exist
 		}
 
 
@@ -159,7 +159,7 @@
 					}
 				}
 			}
-			return FALSE;
+			// Exception will be thrown by query() if table does not exist
 		}
 
 
