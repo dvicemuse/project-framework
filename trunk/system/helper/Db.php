@@ -37,7 +37,7 @@
 			$this->conn = @mysql_connect($this->config()->db->host, $this->config()->db->username, $this->config()->db->password);
 			if($this->conn)
 			{
-				mysql_select_db($this->config()->db->database, $this->conn);
+				@mysql_select_db($this->config()->db->database, $this->conn);
 				return;
 			}else{
 				throw new Exception('Invalid MySQL connection parameters.');
@@ -61,7 +61,7 @@
 			{
 				return TRUE;
 			}
-			throw new Exception('SQL query failed.');
+			throw new Exception('SQL query failed.'.$query);
 		}
 
 
@@ -169,8 +169,14 @@
 		 * @param string $table_name
 		 * @return array
 		 */
-		public function table_info($table_name)
+		public function table_info($table_name, $force_table_info_update = FALSE)
 		{
+			// Force an overwrite of the table data
+			if($force_table_info_update === TRUE)
+			{
+				unset($this->table_info[$table_name]);
+			}
+			
 			// Check if the table info is already loaded
 			if(isset($this->table_info[$table_name]) && is_array($this->table_info[$table_name]))
 			{
@@ -185,6 +191,7 @@
 						$this->table_info[$table_name][$r['Field']] = array(
 							'type' => $r['Type'],
 							'key' => $r['Key'],
+							'null' => ($r['Null'] == 'YES'),
 						);
 					}
 					// Return table info
@@ -226,55 +233,64 @@
 
 		/**
 		 * Insert a record with a keyed array of values. Returns the integer
-		 * insert ID, or FALSE on failure
 		 * @param string $table
 		 * @param array $data
 		 * @return mixed.
 		 */
 		function insert($table, $data)
 		{
-			// Perform the query
-			if(!$this->query("SHOW COLUMNS FROM `{$table}`"))
+			// Array data expected
+			if(is_array($data) === FALSE)
 			{
-				return FALSE;
+				throw new Exception('Array $data expected');
 			}
-			// Get results from query
-			if(mysql_num_rows($this->q) == 0)
+			
+			// Remove slashes
+			$data = $this->stripslashes_deep($data);
+			
+			// Table info
+			$table_info = $this->table_info($table);
+			
+			// Initialize query
+			$query = '';
+
+			// Loop through data array
+			foreach($data as $k => $v)
 			{
-				return FALSE;
-			}else{
-				$query = '';
-				while($r = mysql_fetch_assoc($this->q))
+				// Field exists in table, and is not primary key
+				if(isset($table_info[$k]) && $table_info[$k]['key'] != 'PRI')
 				{
-					$fields[$r['Field']] = array(
-						'type' => $r['Type'],
-						'key' => $r['Key'],
-					);
-				}
-				$data = $this->stripslashes_deep($data);
-				foreach($data as $k => $v)
-				{
-					if(isset($fields[$k]) && is_array($fields[$k]) && $fields[$k]['key'] != 'PRI')
+					if(($v == '' || $v === NULL) && $table_info[$k]['null'] === TRUE)
 					{
-						if($fields[$k]['type'] == 'date')
+						// Field is empty, and column allows NULL value
+						$query .= " `{$k}` = NULL, ";
+					}else if($table_info[$k]['type'] == 'date'){
+						// Date field conversion
+						$date = strtotime($v);
+						if($date !== FALSE)
 						{
-							$v = date('Y-m-d', strtotime($v));
+							$v = date('Y-m-d', $date);
 							$query .= " `{$k}` = '{$v}', ";
 						}else{
-							$v = $this->escape($v);
-							$query .= " `{$k}` = '{$v}', ";
+							if($table_info[$k]['null'] === TRUE)
+							{
+								$query .= " `{$k}` = NULL, ";
+							}else{
+								$query .= " `{$k}` = '', ";
+							}
 						}
+					}else{
+						// Regular field assignment
+						$v = $this->escape($v);
+						$query .= " `{$k}` = '{$v}', ";
 					}
 				}
-				$query = trim($query, ' ,');
-				$complete = "INSERT INTO `{$table}` SET {$query}";
-				if($this->query($complete))
-				{
-					return mysql_insert_id($this->conn);
-				}else{
-					return false;
-				}
 			}
+			$query = trim($query, ' ,');
+			$complete = "INSERT INTO `{$table}` SET {$query}";
+			
+			$this->query($complete);
+			return mysql_insert_id($this->conn);
 		}
 
 
@@ -288,47 +304,62 @@
 		 */
 		function update($table, $data, $where)
 		{
+			// Array data expected
+			if(is_array($data) === FALSE)
+			{
+				throw new Exception('Array $data expected');
+			}
+			
+			// Require some sort of limit in the where clause
 			if(!strstr(' '.$where, '='))
 			{
-				return FALSE;
+				throw new Exception('Assignment expected in $where');
 			}
-			// Perform the query
-			if(!$this->query("SHOW COLUMNS FROM `{$table}`"))
+			
+			// Remove slashes
+			$data = $this->stripslashes_deep($data);
+			
+			// Table info
+			$table_info = $this->table_info($table);
+			
+			// Initialize query
+			$query = '';
+
+			// Loop through data array
+			foreach($data as $k => $v)
 			{
-				return FALSE;
-			}
-			// Get results from query
-			if(mysql_num_rows($this->q) == 0)
-			{
-				return FALSE;
-			}else{
-				while($r = mysql_fetch_assoc($this->q))
+				// Field exists in table, and is not primary key
+				if(isset($table_info[$k]) && $table_info[$k]['key'] != 'PRI')
 				{
-					$fields[$r['Field']] = array(
-						'type' => $r['Type'],
-						'key' => $r['Key'],
-					);
-				}
-				$data = $this->stripslashes_deep($data);
-				$query = '';
-				foreach($data as $k => $v)
-				{
-					if(isset($fields[$k]) && is_array($fields[$k]) && $fields[$k]['key'] != 'PRI')
+					if(($v == '' || $v === NULL) && $table_info[$k]['null'] === TRUE)
 					{
-						if($fields[$k]['type'] == 'date')
+						// Field is empty, and column allows NULL value
+						$query .= " `{$k}` = NULL, ";
+					}else if($table_info[$k]['type'] == 'date'){
+						// Date field conversion
+						$date = strtotime($v);
+						if($date !== FALSE)
 						{
-							$v = date('Y-m-d', strtotime($v));
+							$v = date('Y-m-d', $date);
 							$query .= " `{$k}` = '{$v}', ";
 						}else{
-							$v = $this->escape($v);
-							$query .= " `{$k}` = '{$v}', ";
+							if($table_info[$k]['null'] === TRUE)
+							{
+								$query .= " `{$k}` = NULL, ";
+							}else{
+								$query .= " `{$k}` = '', ";
+							}
 						}
+					}else{
+						// Regular field assignment
+						$v = $this->escape($v);
+						$query .= " `{$k}` = '{$v}', ";
 					}
 				}
-				$query = trim($query, ' ,');
-				$complete = "UPDATE `{$table}` SET {$query} WHERE {$where}";
-				return $this->query($complete);
 			}
+			$query = trim($query, ' ,');
+			$complete = "UPDATE `{$table}` SET {$query} WHERE {$where}";
+			return $this->query($complete);
 		}
 
 
@@ -365,7 +396,11 @@
 			{
 				foreach($value as $k=>$v)
 				{
-					$value[$k] = $this->stripslashes_deep($v);
+					// Preserve NULL and BOOL values
+					if($v != NULL && !is_bool($v))
+					{
+						$value[$k] = $this->stripslashes_deep($v);
+					}
 				}
 				return $value;
 			}else{

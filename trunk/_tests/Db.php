@@ -7,6 +7,20 @@ require_once(str_replace("_tests", "", dirname(__FILE__)) . '/system/Framework.p
 // Start the framework (to include system classes)
 $f = new Framework();
 
+function reset_data($Db)
+{
+	mysql_query("DROP TABLE IF EXISTS `modelbasetest123`;");
+	mysql_query("CREATE TABLE  `modelbasetest123` (`id` INT( 10 ) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY , `group` INT( 10 ) UNSIGNED NOT NULL , `text` VARCHAR( 255 ) NULL , `datetime` DATETIME NOT NULL, `date` DATE NOT NULL) ENGINE = MYISAM ;") or die(mysql_error());
+	mysql_query("INSERT INTO `modelbasetest123` SET `group` = '1',  `text` = 'Apple',  `datetime` = '2010-12-3 5:00:00',  `date` = '2010-12-03' ");
+	mysql_query("INSERT INTO `modelbasetest123` SET `group` = '1',  `text` = 'Orange',  `datetime` = '2010-12-3 5:00:00',  `date` = '2010-12-03' ");
+	mysql_query("INSERT INTO `modelbasetest123` SET `group` = '2',  `text` = 'Grape',  `datetime` = '2010-12-3 5:00:00',  `date` = '2010-12-06' ");
+	mysql_query("INSERT INTO `modelbasetest123` SET `group` = '2',  `text` = 'Banana',  `datetime` = '2010-12-3 5:00:00',  `date` = '2010-12-07' ");
+	mysql_query("INSERT INTO `modelbasetest123` SET `group` = '2',  `text` = 'Mango',  `datetime` = '2010-12-3 5:00:00',  `date` = '2010-12-08' ");
+	mysql_query("INSERT INTO `modelbasetest123` SET `group` = '3',  `text` = 'Pear',  `datetime` = '2010-12-3 5:00:00',  `date` = '2010-12-09' ");
+	mysql_query("INSERT INTO `modelbasetest123` SET `group` = '4',  `text` = 'Orange',  `datetime` = '2010-12-3 5:00:00',  `date` = '2010-12-09' ");
+	mysql_query("INSERT INTO `modelbasetest123` SET `group` = '5',  `text` = 'Grape',  `datetime` = '2010-12-3 5:00:00',  `date` = '2010-12-16' ");
+}
+
 // Set up the unit test class
 class Model_Base_Test extends UnitTestCase
 {
@@ -17,16 +31,8 @@ class Model_Base_Test extends UnitTestCase
 	{
 		$f = new Framework();
 		$f->load_helper('Db');
-		mysql_query("DROP TABLE IF EXISTS `modelbasetest123`;");
-		mysql_query("CREATE TABLE  `modelbasetest123` (`id` INT( 10 ) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY , `group` INT( 10 ) UNSIGNED NOT NULL , `text` VARCHAR( 255 ) NOT NULL , `date` DATETIME NOT NULL) ENGINE = MYISAM ;") or die(mysql_error());
-		$f->Db->insert('modelbasetest123', array('group' => '1', 'text' => 'Apple', 'date' => '2010-12-3 5:00:00'));
-		$f->Db->insert('modelbasetest123', array('group' => '1', 'text' => 'Orange', 'date' => '2010-12-3 7:00:00'));
-		$f->Db->insert('modelbasetest123', array('group' => '2', 'text' => 'Grape', 'date' => '2010-12-6 8:00:00'));
-		$f->Db->insert('modelbasetest123', array('group' => '2', 'text' => 'Banana', 'date' => '2010-12-7 3:00:00'));
-		$f->Db->insert('modelbasetest123', array('group' => '2', 'text' => 'Mango', 'date' => '2010-12-8 5:00:00'));
-		$f->Db->insert('modelbasetest123', array('group' => '3', 'text' => 'Pear', 'date' => '2010-12-9 7:00:00'));
-		$f->Db->insert('modelbasetest123', array('group' => '4', 'text' => 'Orange', 'date' => '2010-12-9 8:00:00'));
-		$f->Db->insert('modelbasetest123', array('group' => '5', 'text' => 'Grape', 'date' => '2010-12-16 9:00:00'));
+		
+		reset_data($f->Db);
 	}
 
 
@@ -112,7 +118,7 @@ class Model_Base_Test extends UnitTestCase
 		$columns = $t->Db->column_names('modelbasetest123');
 		$this->assertEqual(is_array($columns), TRUE);
 		$this->assertEqual($columns[0], 'id');
-		$this->assertEqual($columns[3], 'date');
+		$this->assertEqual($columns[3], 'datetime');
 
 		// Table does not exist
 	    try {
@@ -148,7 +154,145 @@ class Model_Base_Test extends UnitTestCase
 		}
 	}
 
-	
+
+
+	// Test Db->update()
+	function testUpdate()
+	{
+		$t = new Framework();
+		$this->Db = $t->load_helper('Db');
+		
+		// Invalid table name
+	    try {
+	        $columns = $this->Db->update('FAKE', array(), 'id = 1');
+	        $this->fail("Exception was expected.");
+	    } catch (Exception $e) {
+	        $this->pass();
+		}
+
+		// Data array
+	    try {
+	        $columns = $this->Db->update('modelbasetest123', '', 'id = 1');
+	        $this->fail("Exception was expected.");
+	    } catch (Exception $e) {
+	        $this->pass();
+		}
+		
+		// No where clause assignment
+	    try {
+	        $columns = $this->Db->update('modelbasetest123', array(), '');
+	        $this->fail("Exception was expected.");
+	    } catch (Exception $e) {
+	        $this->pass();
+		}
+		
+		// Normal field update
+		$this->Db->update('modelbasetest123', array('text' => 'NEW'), 'id = 1');
+		$row = $this->Db->get_row("SELECT * FROM modelbasetest123 WHERE id = 1");
+		$this->assertEqual($row['text'], 'NEW');
+		
+		// NULL passed as field value
+		$this->Db->update('modelbasetest123', array('text' => NULL), 'id = 1');
+		$row = $this->Db->get_row("SELECT * FROM modelbasetest123 WHERE id = 1");
+		$this->assertNull($row['text']);
+
+		// Empty string passed to nullable field
+		$this->Db->update('modelbasetest123', array('text' => ''), 'id = 1');
+		$row = $this->Db->get_row("SELECT * FROM modelbasetest123 WHERE id = 1");
+		$this->assertNull($row['text']);
+
+		// NULL passed to non nullable field
+		$return_id = $this->Db->update('modelbasetest123', array('group' => NULL), 'id = 1');
+		$row = $this->Db->get_row("SELECT * FROM modelbasetest123 WHERE id = 1 ");
+		$this->assertEqual($row['group'], 0);
+
+		// Date field
+		$this->Db->update('modelbasetest123', array('date' => '4/15/1956'), 'id = 1');
+		$row = $this->Db->get_row("SELECT * FROM modelbasetest123 WHERE id = 1");
+		$this->assertEqual($row['date'], '1956-04-15');
+
+		// Date field invalid NULL not allowed
+		$this->Db->update('modelbasetest123', array('date' => '100/100/1000'), 'id = 1');
+		$row = $this->Db->get_row("SELECT * FROM modelbasetest123 WHERE id = 1");
+		$this->assertEqual($row['date'], '0000-00-00');
+
+		// Date field invalid NULL allowed
+		$this->Db->query('ALTER TABLE  `modelbasetest123` CHANGE  `date`  `date` DATE NULL DEFAULT NULL');
+		$this->Db->table_info('modelbasetest123', TRUE); // Clear table info cache
+		$this->Db->update('modelbasetest123', array('date' => '100/100/1000'), 'id = 1');
+		$row = $this->Db->get_row("SELECT * FROM modelbasetest123 WHERE id = 1");
+		$this->assertEqual($row['date'], NULL);
+		
+		// Clean data for next set of tests
+		reset_data($this->Db);
+		$this->Db->table_info('modelbasetest123', TRUE); // Clear table info cache
+	}
+
+
+
+	// Test Db->insert()
+	function testInsert()
+	{
+		$t = new Framework();
+		$this->Db = $t->load_helper('Db');
+
+		// Data array
+	    try {
+	        $columns = $this->Db->insert('modelbasetest123', '');
+	        $this->fail("Exception was expected.");
+	    } catch (Exception $e) {
+	        $this->pass();
+		}
+		
+		// Invalid table name
+	    try {
+	        $columns = $this->Db->insert('FAKE', array());
+	        $this->fail("Exception was expected.");
+	    } catch (Exception $e) {
+	        $this->pass();
+		}
+		
+		// ID return value and normal field insert
+		$return_id = $this->Db->insert('modelbasetest123', array('text' => 'NEW'));
+		$row = $this->Db->get_row("SELECT * FROM modelbasetest123 WHERE id = '{$return_id}' ");
+		$this->assertEqual($row['text'], 'NEW');
+		
+		// NULL passed as field value
+		$return_id = $this->Db->insert('modelbasetest123', array('text' => NULL));
+		$row = $this->Db->get_row("SELECT * FROM modelbasetest123 WHERE id = '{$return_id}' ");
+		$this->assertNull($row['text']);
+
+		// Empty string passed to nullable field
+		$return_id = $this->Db->insert('modelbasetest123', array('text' => ''));
+		$row = $this->Db->get_row("SELECT * FROM modelbasetest123 WHERE id = '{$return_id}' ");
+		$this->assertNull($row['text']);
+
+		// NULL passed to non nullable field
+		$return_id = $this->Db->insert('modelbasetest123', array('group' => NULL));
+		$row = $this->Db->get_row("SELECT * FROM modelbasetest123 WHERE id = '{$return_id}' ");
+		$this->assertEqual($row['group'], 0);
+
+		// Date field
+		$return_id = $this->Db->insert('modelbasetest123', array('date' => '4/15/1956'));
+		$row = $this->Db->get_row("SELECT * FROM modelbasetest123 WHERE id = '{$return_id}' ");
+		$this->assertEqual($row['date'], '1956-04-15');
+
+		// Date field invalid, NULL not allowed
+		$return_id = $this->Db->insert('modelbasetest123', array('date' => '100/100/1000'));
+		$row = $this->Db->get_row("SELECT * FROM modelbasetest123 WHERE id = '{$return_id}' ");
+		$this->assertEqual($row['date'], '0000-00-00');
+
+		// Date field invalid NULL allowed
+		$this->Db->query('ALTER TABLE  `modelbasetest123` CHANGE  `date`  `date` DATE NULL DEFAULT NULL');
+		$this->Db->table_info('modelbasetest123', TRUE); // Clear table info cache
+		$return_id = $this->Db->insert('modelbasetest123', array('date' => '100/100/1000'));
+		$row = $this->Db->get_row("SELECT * FROM modelbasetest123 WHERE id = '{$return_id}'");
+		$this->assertNull($row['date']);
+		
+		// Clean data for next set of tests
+		reset_data($this->Db);
+		$this->Db->table_info('modelbasetest123', TRUE); // Clear table info cache
+	}	
 }
 
 ?>

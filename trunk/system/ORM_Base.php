@@ -2,12 +2,13 @@
 
 	abstract class ORM_Base extends Framework
 	{
-		protected $_loaded = FALSE;
+		protected $_loaded		= FALSE;
 		protected $_data;
-		protected $_to_many = array();
-		protected $_to_many_map = array();
-		protected $_to_one = array();
-		protected $_to_one_map = array();
+		protected $_to_many		= array();
+		protected $_to_many_map	= array();
+		protected $_to_one		= array();
+		protected $_to_one_map	= array();
+		protected $_transform	= array();
 
 
 
@@ -57,6 +58,7 @@
 					{
 						$this->_loaded = TRUE;
 						$this->_data = $load_data;
+						$this->_orm_from_database_transform();
 						return $this;
 					}
 					throw new Exception("Object with ID '{$id}' does not exist.");
@@ -93,6 +95,17 @@
 				return $this->_data["{$this->model_name()}_{$name}"];
 			}else if(isset($this->_data[$name])){
 				return $this->_data[$name];
+			}
+
+			// Set value
+			if(substr($name, 0, 4) == 'set_')
+			{
+				$name = substr($name, 4);
+				if(isset($this->_data["{$this->model_name()}_{$name}"]))
+				{
+					$this->_data["{$this->model_name()}_{$name}"] = $arguments[0];
+				}
+				return $this;
 			}
 
 			// One to many
@@ -341,6 +354,8 @@
 			$validate = $this->load_helper('Validate');
 			if($validate->run($this->_data, $this->_validate()))
 			{
+				// Transform data
+				$this->_orm_to_database_transform();
 				if($this->_loaded === TRUE)
 				{
 					// Update
@@ -374,6 +389,72 @@
 			throw new Exception('Object not loaded.');
 		}
 		
+		
+		
+		/**
+		 * Transparent ORM column transformation
+		 * Pass a value through a model function on set/get
+		 * @param string $column
+		 * @param string $to_database
+		 * @param string $from_database
+		 * @return ORM_Base
+		 *
+		 public function __construct {
+	  		$this->ORM_transform('table_date', '_set_date', '_get_date');
+		 }
+		 protected function _set_date($value) {
+			 return date('Y-m-d', strtotime($value));
+		 }
+		 protected function _get_date($value) {
+			 return date('m-d-Y', strtotime($value));
+		 }
+		 *
+		 */
+		 public function orm_transform($column, $to_database, $from_database)
+		 {
+			 $this->_transform[$column] = array('to_database' => $to_database, 'from_database' => $from_database);
+			 
+			 return $this;
+		 }
+		 
+		 
+		 
+		/**
+		 * Perform ORM transformations on load
+		 * @return ORM_Base
+		 */
+		private function _orm_from_database_transform()
+		{
+			foreach($this->_transform as $column => $function_array)
+			{
+				if(isset($this->_data[$column]))
+				{
+					$function = $function_array['from_database'];
+					$this->_data[$column] = $this->$function($this->_data[$column]);
+				}
+			}
+			return $this;
+		}
+
+
+
+		/**
+		 * Perform ORM transformations on save
+		 * @return ORM_Base
+		 */
+		private function _orm_to_database_transform()
+		{
+			foreach($this->_transform as $column => $function_array)
+			{
+				if(isset($this->_data[$column]))
+				{
+					$function = $function_array['to_database'];
+					$this->_data[$column] = $this->$function($this->_data[$column]);
+				}
+			}
+			return $this;
+		}		 
+		 
 		
 		
 		/**
