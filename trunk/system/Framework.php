@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file Framework.php
  * @package    Itul.Framework
  *
  * @copyright  Copyright (C) 1999 - 2012 i-Tul Design and Software, Inc. All rights reserved.
@@ -7,8 +8,8 @@
  */
 
 /**
- * Framework application class.
- * 
+ * @class Framework
+ * @brief Framework application class.
  * Base application class for the iTul CMS system
  *
  * @package  Itul.Framework
@@ -17,10 +18,7 @@
 class Framework
 {
 	/**
-
-	 * Constructor for the framework
-	 * 
-	 * Includes the system classes needed by framework
+	 * @brief Constructor for the framework. Includes the system classes needed by framework
 	 */
 	public function __construct()
 	{
@@ -41,9 +39,7 @@ class Framework
 
 
 	/**
-	 * Route the application.
-	 * 
-	 * Routing is the process of examining the request environment to determine which
+	 * @brief Route the application. Routing is the process of examining the request environment to determine which
 	 * module and page should receive the request.
 	 */
 	public function route()
@@ -112,13 +108,10 @@ class Framework
 
 
 	/**
-	 * Load a model
-
-	 * 
-	 * Load an instance of the model requested into the name space of the current object.
+	 * @brief Load a model. Load an instance of the model requested into the name space of the current object.
 	 * Subsequent requests can use $this->ModelName->method() to call methods of the object 
 	 *  
-	 * @param string module_name - The name of the model to load
+	 * @param string $module_name - The name of the model to load
 	 * @return mixed - instance of the model requested or false if unable to locate the model
 	 * 
 	 * @example To load the User model use the following $this->load_model('User');
@@ -149,12 +142,10 @@ class Framework
 
 
 	/**
-	 * Load a helper
-	 * 
-	 * Load an instance of the helper requested into the name space of the current object.
+	 * @brief Load a helper. Load an instance of the helper requested into the name space of the current object.
 	 * Subsequent requests can use $this->HelperName->method() to call methods of the object 
 	 *  
-	 * @param string module_name - The name of the helper to load
+	 * @param string $module_name - The name of the helper to load
 	 * @return mixed - instance of the helper requested or false if unable to locate the helper
 	 * 
 	 * @example To load the Validate helper use the following $this->load_helper('Validate');
@@ -193,12 +184,10 @@ class Framework
 
 
 	/**
-	 * Load a controller
-	 * 
-	 * Load an instance of the controller requested into the name space of the current object.
+	 * @brief Load a controller. Load an instance of the controller requested into the name space of the current object.
 	 * Subsequent requests can use $this->ControllerName->method() to call methods of the object 
 	 *  
-	 * @param string module_name - The name of the controller to load
+	 * @param string $module_name - The name of the controller to load
 	 * @return mixed - instance of the controller requested or false if unable to locate the controller
 	 * 
 	 * @example To load the Admin controller use the following $this->load_controller('Admin');
@@ -224,13 +213,10 @@ class Framework
 
 
 	/**
-	 * Render the application.
+	 * @brief Render the application. Rendering is the process of pushing the document buffers into the template
+	 * placeholders, retrieving data from the document and pushing it into the buffer.
 	 * 
-	 * Rendering is the process of pushing the document buffers into the template
-	 * placeholders, retrieving data from the document and pushing it into
-	 * the buffer.
-	 * 
-	 * @param string page - template page to display (header, page, footer)
+	 * @param string $page - template page to display (header, page, footer)
 	 */
 	function render($page)
 	{
@@ -272,7 +258,8 @@ class Framework
 
 
 	/**
-	 * Render the header for the current page.
+	 * @brief Render the header for the current page. Each controller can supply/use it's own unique header by simply placing
+	 * a head.php file in the framework/template/ControllerName/ subdirectory
 	 * 
 	 * Called by $this->render($page);
 	 */
@@ -290,7 +277,8 @@ class Framework
 
 
 	/**
-	 * Render the footer for the current page.
+	 * @brief Render the footer for the current page. Each controller can supply/use it's own unique footer by simply placing
+	 * a foot.php file in the framework/template/ControllerName/ subdirectory
 	 * 
 	 * Called by $this->render($page);
 	 */
@@ -308,11 +296,10 @@ class Framework
 
 
 	/**
-	 * Render a partial element for the current page.
-	 *
-	 * Partial page elements should be placed in /template/ControllerName/Partial/
+	 * @brief Render a partial element for the current page. Each controller can supply/use it's own unique partial page elements
+	 * by simply placing a $partial_name.php file in the framework/template/ControllerName/Partial subdirectory
 	 * 
-	 * @param string partial_name - name fo the partial page element to load 
+	 * @param string $partial_name - name for the partial page element to load 
 	 */
 	function render_partial($partial_name)
 	{
@@ -328,11 +315,7 @@ class Framework
 
 
 	/**
-
-	 * Loads the framework configuration
-	 *  
-	 * Gives easy access to $this->load_helper('Framework_Config')->load()
-
+	 * @brief Loads the framework configuration. Gives easy access to $this->load_helper('Framework_Config')->load()
 	 * 
 	 * @return object Framework_Config - instance of all configuration setting in framework/config
 	 */
@@ -344,13 +327,10 @@ class Framework
 
 
 	/**
-
-	 * Check if a value is an integer id.
+	 * @brief Check if a value is an integer id. Handles string and int input. Empty strings return FALSE.
 	 * 
-	 * Handles string and int input. Empty strings return FALSE.
-	 * 
-	 * @param int int_id - value to check if it is an integer
-	 * @return bool - true if value is an integer false otherwise
+	 * @param integer $int_id - value to check if it is an integer
+	 * @return boolean - true if value is an integer false otherwise
 	 */
 	public function is_id($int_id)
 	{
@@ -363,10 +343,9 @@ class Framework
 
 
 /**
- * Displays print_r debug information
+ * @brief Displays print_r debug information. Shows debug information in a pre tag with styling
  * 
- * Shows debug information in a pre tag with styling
- * @param mixed data - object, boolean or array to display with print_r or var_dump
+ * @param mixed $data - object, boolean or array to display with print_r or var_dump
  */ 
 function pr($data)
 {
@@ -383,12 +362,10 @@ function pr($data)
 
 
 /**
- * Configuration Builder class
- * 
- * Used by Framework_Config->load() for loading configuration information
+ * @brief Configuration Builder class. Wrapper class used by Framework_Config->load() for 
+ * loading configuration information
  *
  * @package  Itul.Framework
- * @subpackage Config
  * @since    1.0.0
  */
 class Config_Builder{}
