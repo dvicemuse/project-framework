@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 	// Do not show warnings
