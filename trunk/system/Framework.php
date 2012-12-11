@@ -112,30 +112,40 @@ class Framework
 	 * Subsequent requests can use $this->ModelName->method() to call methods of the object 
 	 *  
 	 * @param string $module_name - The name of the model to load
+	 * @param bool $force_new - Force creation of a new object
 	 * @return mixed - instance of the model requested or false if unable to locate the model
 	 * 
 	 * @example To load the User model use the following $this->load_model('User');
 	 */
-	function load_model($module_name)
+	function load_model($module_name, $force_new = FALSE)
 	{
-		$location = "{$this->config()->path->application_path}framework/model/{$module_name}.php";
-		// Make sure the module is not already loaded
-		if(!isset($this->$module_name))
+		// Check that the class exists
+		if(class_exists($module_name) === FALSE)
 		{
+			$location = "{$this->config()->path->application_path}framework/model/{$module_name}.php";
 			if(file_exists($location))
 			{
-				// Load the module into the current object
+				// Include the class file
 				include_once($location);
+			}
+		}
+		
+		// Check that the class exists
+		if(class_exists($module_name) !== FALSE)
+		{
+			if(!isset($this->$module_name) || $force_new === TRUE)
+			{
 				$this->$module_name = new $module_name();
 				// Return the object
 				return $this->$module_name;
 			}else{
-				return FALSE;
+				// Return the object
+				return $this->$module_name;
 			}
-		}else{
-			// Return the object
-			return $this->$module_name;
 		}
+		
+		// Class was not returned
+		throw new Exception("Failed to load model class.");
 	}
 
 
