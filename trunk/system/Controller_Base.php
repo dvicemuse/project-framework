@@ -24,6 +24,8 @@ abstract class Controller_Base extends Framework
 		parent::__construct();
 	}
 
+
+
 	/**
 	 * @brief Add error to Session error variable. For display later
 	 * with show_error(). Only sets session variable if configuration log_error is true
@@ -68,6 +70,7 @@ abstract class Controller_Base extends Framework
 	}
 
 
+
 	/**
 	 * @brief Add an information message to Session flash variable. For display later
 	 * with show_flash().
@@ -83,7 +86,9 @@ abstract class Controller_Base extends Framework
 		}
 		return $this;
 	}
-	
+
+
+
 	/**
 	 * @brief Display the Session flash variable. Shows previously set informational messages from add_flash() and
 	 * removes/empties Session flash variable.
@@ -101,6 +106,7 @@ abstract class Controller_Base extends Framework
 		}
 		$_SESSION['Flash'] = '';
 	}
+
 
 
 	/**
@@ -208,6 +214,7 @@ abstract class Controller_Base extends Framework
 		header("Location: {$this->page_link($controller, $method, $id)}");
 		exit;
 	}
+
 
 
 	/**
