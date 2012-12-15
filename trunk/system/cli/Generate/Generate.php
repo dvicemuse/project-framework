@@ -157,7 +157,7 @@
 
 
 		/**
-		 * Make the controller class file
+		 * Make the model class file
 		 * @return CLI_Generate
 		 */
 		private function _model()
@@ -166,8 +166,9 @@
 			$model_file = "{$this->_model_path()}{$this->_name}.php";
 
 			// Does the model file already exist?
-			if($this->_fw->load_model($this->_name) !== FALSE)
+			try
 			{
+				$this->_fw->load_model($this->_name);
 				$replace_model = $this->_get_input_confirm('Model already exists. Replace?');
 				if($replace_model === FALSE)
 				{
@@ -184,6 +185,8 @@
 						return $this;
 					}
 				}
+			}catch(Exception $e){
+				// Model does not exist, carry on
 			}
 
 			// Create model from template
@@ -327,7 +330,7 @@
 		{
 			$template_dir = __DIR__."/template/";
 			$template_path = $template_dir.$template_name.".php";
-			
+		
 			// Variables are in an array
 			if(!is_array($variables))
 			{
@@ -348,7 +351,7 @@
 			{
 				$template_string = str_replace("|{$search}|", $replace, $template_string);
 			}
-			
+
 			// Return bool
 			return !(file_put_contents($file_save_path, $template_string) === FALSE);
 		}
