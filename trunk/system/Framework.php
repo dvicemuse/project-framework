@@ -81,11 +81,18 @@ class Framework
 					$frm->render($route->method());
 				}catch(Exception $e){
 
-					header("HTTP/1.0 500 Internal Server Error");
-					$frm = $this->load_controller('Error');
-					$frm->request->controller_name = 'Error';
-					$frm->request->method_name = 'error_500';
-					$frm->render('error_500');
+					if($this->config()->mode->current == 'dev')
+					{
+						// Raw exception
+						pr($e);
+					}else{
+						// Production error message
+						header("HTTP/1.0 500 Internal Server Error");
+						$frm = $this->load_controller('Error');
+						$frm->request->controller_name = 'Error';
+						$frm->request->method_name = 'error_500';
+						$frm->render('error_500');
+					}
 				}
 				exit;
 			}
@@ -180,7 +187,7 @@ class Framework
 				$this->$module_name = Db::Instance();
 			}else if($module_name == 'Framework_Config')
 			{
-				$this->$module_name = Framework_Config::Instance();
+				return Framework_Config::Instance();
 			}else{
 				$this->$module_name = new $module_name();
 			}
@@ -232,8 +239,9 @@ class Framework
 	{
 		$this->load_model('User');
 		$this->load_model('Auth');
-		// If secure module, make sure user is logged in
-		if(isset($this->config()->user_authorization->check) && in_array($page, $this->config()->user_authorization->check) && $this->User->is_logged_in() === FALSE)
+
+		// If secure module, make sure user is logged in		
+		if(isset($this->_auth->user_authorization->check) && in_array($page, $this->_auth->user_authorization->check) && $this->User->is_logged_in() === FALSE)
 		{
 			// Secure module, and user is not logged in
 			include("{$this->config()->path->application_path}/framework/template/User/login.php");
