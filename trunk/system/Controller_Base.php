@@ -319,8 +319,8 @@ abstract class Controller_Base extends Framework
 		}
 
 		// Add to config
-		$this->config()->user_authorization = new Config_Builder;
-		$this->config()->user_authorization->check = $require_auth;
+		$this->_auth->user_authorization = new Config_Builder;
+		$this->_auth->user_authorization->check = $require_auth;
 
 		// Return
 		return $this;
