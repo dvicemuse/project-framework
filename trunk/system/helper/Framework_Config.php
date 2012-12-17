@@ -2,8 +2,9 @@
 
 	class Framework_Config
 	{
-		static private $_instance = null; // Singleton instance tracker
-
+		static private $_instance = NULL; // Singleton instance tracker
+		private $_data = NULL;
+		
 
 
 		/**
@@ -27,7 +28,14 @@
 		 */
 		public function load()
 		{
-			$config = new Config_Builder;
+			// Load check
+			if($this->_data !== NULL)
+			{
+				return $this->_data;
+			}
+			
+			// Set data property
+			$this->_data = new Config_Builder;
 			
 			// Include configuration classes
 			$handle = opendir(substr(__DIR__, 0, -14)."/framework/config/");
@@ -38,22 +46,26 @@
 					include_once(substr(__DIR__, 0, -14)."/framework/config/".$file);
 					$config_class_base_name = strtolower(substr($file, 0, -4));
 					$config_class_name = substr($file, 0, -4)."_Config";
-	
-					$class_vars = get_class_vars($config_class_name);
+					
+					// Initialize class
+					$tmp = new $config_class_name;
+
+					// Get vars
+					$class_vars = get_object_vars($tmp);
 					if(is_array($class_vars))
 					{
 						if(empty($config->$config_class_base_name))
 						{
-							$config->$config_class_base_name = new Config_Builder;
+							$this->_data->$config_class_base_name = new Config_Builder;
 						}
 						foreach($class_vars as $name => $value)
 						{
-							$config->$config_class_base_name->$name = $value;
+							$this->_data->$config_class_base_name->$name = $value;
 						}
 					}
 				}
 			}
-			return $config;
+			return $this->_data;
 		}
 		
 		
