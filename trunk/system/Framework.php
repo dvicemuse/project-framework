@@ -23,7 +23,7 @@ class Framework
 	public function __construct()
 	{
 		// Include system classes
-		foreach(array('Controller_Base', 'Db_Wrapper', 'ORM_Base', 'Model_Base') as $file)
+		foreach(array('Controller_Base', 'Db_Wrapper', 'ORM_Base', 'Model_Base', 'ORM_Wrapper') as $file)
 		{
 			$f = __DIR__ . "/{$file}.php";
 			if(file_exists($f))
