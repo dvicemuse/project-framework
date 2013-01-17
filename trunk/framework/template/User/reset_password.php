@@ -15,9 +15,9 @@
 		<input type="submit" name="reset_submit" value="Send Password Reset Email" class="submit_button" title="Send a password reset link to your email address." />
 
 		<div class="clear"></div>
-		
-		<div class="cancel_reset">Don't need to reset you password? <a href="<?= $this->page_link($this->config->path->log_in_controller) ?>">Log in now</a>.</div>
-		
+
+		<div class="cancel_reset">Don't need to reset you password? <a href="<?= $this->page_link('') ?>">Go back</a>.</div>
+
 		<div class="clear"></div>
 
 	</form>
