@@ -67,7 +67,7 @@
 				// Use the model base query builder settings
 				if($id === NULL)
 				{
-					$return = array();
+					$return = new ORM_Wrapper;
 					$results = $this->get();
 					if($results->count() != 0)
 					{
@@ -76,7 +76,7 @@
 						{
 							$eval = '$object = new '.ucfirst($this->model_name()).';';
 							eval($eval);
-							$return[] = $object->orm_load($row[$key]);
+							$return->push($object->orm_load($row[$key]));
 						}
 					}
 					return $return;
@@ -119,7 +119,7 @@
 				}
 				$get_records = $this->load_helper('Db')->get_rows($sql);
 
-				$return = array();
+				$return = new ORM_Wrapper;
 
 				if($get_records !== FALSE)
 				{
@@ -129,7 +129,7 @@
 						$this->load_model($model_name);
 						$eval = '$object = new '.$model_name.';';
 						eval($eval);
-						$return[] = $object->orm_load($r["{$this->_to_many[$name]}_id"]);
+						$return->push($object->orm_load($r["{$this->_to_many[$name]}_id"]));
 					}
 				}
 				return $return;
@@ -144,11 +144,6 @@
 				eval($eval);
 				
 				$return = $object->orm_load($this->_data[$name."_id"]);
-				if(is_object($return))
-				{
-					return $return;
-				}
-				
 				return $return;
 			}
 			
@@ -169,7 +164,7 @@
 				
 				$get_record = $this->load_helper('Db')->get_row($sql);
 
-				$return = NULL;
+				$return = new ORM_Wrapper;
 
 				if($get_record !== FALSE)
 				{
@@ -178,7 +173,7 @@
 					$eval = '$object = new '.$model_name.';';
 					eval($eval);
 					
-					$return = $object->orm_load($get_record["{$join_table}_id"]);
+					$return->push($object->orm_load($get_record["{$join_table}_id"]));
 				}
 				return $return;
 			}
@@ -205,7 +200,7 @@
 				
 				$get_record = $this->load_helper('Db')->get_rows($sql);
 
-				$return = array();
+				$return = new ORM_Wrapper;
 
 				if($get_record !== FALSE)
 				{
@@ -215,7 +210,7 @@
 						$this->load_model($model_name);
 						$eval = '$object = new '.$model_name.';';
 						eval($eval);
-						$return[] = $object->orm_load($record["{$join_table}_id"]);
+						$return->push($object->orm_load($record["{$join_table}_id"]));
 					}
 				}
 				return $return;
