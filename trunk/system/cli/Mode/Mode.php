@@ -4,7 +4,7 @@
 	{
 		// Description
 		public $description = 'Set or display the current build mode';
-		public $example = 'cli.php mode [dev|prod|current]';
+		public $example = 'cli.php mode [dev|prod]';
 		
 		// Construct variables
 		private $_fw;
@@ -38,18 +38,13 @@
 		public function start()
 		{
 			// Set mode
-			$this->_mode = $this->_args[2];
+			$this->_mode = isset($this->_args[2]) ? $this->_args[2] : NULL;
 			
 			// Validate
 			$this->_valid_mode();
 			
 			// Get or set
-			if($this->_mode == 'current')
-			{
-				echo $this->_get_mode()."\n";
-			}else{
-				$this->_set_mode();
-			}
+			$this->_set_mode();
 
 			// Return
 			return $this;
@@ -90,8 +85,8 @@
 						throw new Exception('Failed to remove development mode folder');
 					}
 				}
-			}else{
-				throw new Exception('Unknown set mode');
+			}else if($this->_mode === NULL){
+				echo $this->_get_mode()."\n";
 			}
 			
 			return $this;
@@ -117,7 +112,7 @@
 		private function _valid_mode()
 		{
 			// Check
-			if(in_array($this->_mode, array('dev', 'prod', 'current')))
+			if(in_array($this->_mode, array('dev', 'prod', '')))
 			{
 				return $this;
 			}
