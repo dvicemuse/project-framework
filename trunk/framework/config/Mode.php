@@ -1,5 +1,17 @@
 <?php
+/**
+ * @file Mode.php
+ * @package    ProjectFramework.Config
+ *
+ * @license    see LICENSE.txt
+ */
 
+/**
+ * @class Mode_Config
+ * @brief Mode Config class. Settings used for production vs. development environments.
+ *
+ * @since    1.0.0
+ */
 	class Mode_Config
 	{
 		public $current = NULL;

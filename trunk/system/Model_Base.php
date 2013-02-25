@@ -1,11 +1,35 @@
 <?php
+/**
+ * @file Model_Base.php
+ * @package    ProjectFramework
+ *
+ * @license    see LICENSE.txt
+ */
 
+/**
+ * @class Model_Base
+ * @brief Base Model class. Abstract base class for CMS model classes
+ *
+ * @package  ProjectFramework
+ * @since    1.0.0
+ */
 	abstract class Model_Base extends ORM_Base
 	{
-		private $_where;
-		private $_order;
-		private $_limit;
-
+		/**
+		 * @var $_where
+		 * @brief array of WHERE clause elements for resultset
+		 */
+		protected $_where;
+		/**
+		 * @var $_order
+		 * @brief array of ORDER BY clause elements to sort resultset
+		 */
+		protected $_order;
+		/**
+		 * @var $_limit
+		 * @brief string of LIMIT clause for resultset
+		 */
+		protected $_limit;
 
 
 		/**
@@ -19,36 +43,41 @@
 
 
 		/**
-		 * Set the result order
-		 * @param int $column
-		 * @param int $offset
-		 * @return self
+		 * @brief Limit the number of items returned in the resultset.
+		 * 
+		 * @param int $rows - number of rows to return
+		 * @param int $offset - page offset, defaults to 0 (first page)
+		 * @return object - self/this
+		 * @throws Exception - if rows not greater than 0 or offset isn't an integer 
 		 */
-		public function limit($columns, $offset = FALSE)
+		public function limit($rows, $offset = FALSE)
 		{
-			if($this->is_id($columns) &&  $columns > 0)
+			if($this->is_id($rows) &&  $rows > 0)
 			{
 				if($offset === FALSE || $this->is_id($offset))
 				{
-					$this->_limit = " LIMIT ".trim(" {$offset},{$columns} ", ' ,');
+					$offset = $offset >= 0 ? $offset : 0;
+					$this->_limit = " LIMIT ".trim(" {$offset},{$rows} ", ' ,');
 					return $this;
 				}
-				throw new Exception("Column offset must be an integer.");
+				throw new Exception("Page offset must be an integer.");
 			}
-			throw new Exception("Column limit must be an integer greater than 0.");
+			throw new Exception("Row limit must be an integer greater than 0.");
 		}
 
 
 
 		/**
-		 * Set the result order
-		 * @param $column
-		 * @param $order
-		 * @return self
+		 * @brief Set the result order.
+		 * 
+		 * @param string $column - column name to sort results by
+		 * @param string $order - ordinality of sort, DESC for descending ASC for ascending
+		 * @return object - self/this
+		 * @throws Exception - if column does not exist or ordinality is not DESC or SC 
 		 */
 		public function order($column, $value)
 		{
-			$value = strtoupper($value);
+			$value = strtoupper(trim($value));
 			if($this->load_helper('Db')->column_exists($this->model_name(), $column) === TRUE)
 			{
 				if($value == 'ASC' || $value == 'DESC')
@@ -64,10 +93,12 @@
 
 
 		/**
-		 * Add an AND to the where clause
-		 * @param string $column
-		 * @param string $value
-		 * @return self
+		 * @brief AND element to the where clause.
+		 * 
+		 * @param string $column - column name to add to WHERE clause array
+		 * @param string $value - value column must be equal to
+		 * @return object - self/this
+		 * @throws Exception - if column does not exist in the database table for the model 
 		 */
 		public function where($column, $value)
 		{
@@ -82,10 +113,12 @@
 
 
 		/**
-		 * Add an AND LIKE to the where clause
-		 * @param string $column
-		 * @param string $value
-		 * @return self
+		 * @brief AND element to the where clause using LIKE.
+		 * 
+		 * @param string $column - column name to add to WHERE clause array
+		 * @param string $value - pattern column must be like, add widlcards % _ to value to expand match
+		 * @return object - self/this
+		 * @throws Exception - if column does not exist in the database table for the model
 		 */
 		public function like($column, $value)
 		{
@@ -98,11 +131,14 @@
 		}
 
 
-
+		
 		/**
-		 *
-		 * @param int $key_id
-		 * @return object
+		 * @brief Get result set using where, order and limit clauses.
+		 * Resets where, order and limit clauses.
+		 * 
+		 * @param int $key_id - specific primary key id to retrieve, default retrieves all 
+		 * @return object - DB_Wrapper of result set returned or empty
+		 * @see DB_Wrapper
 		 */
 		public function get($key_id = FALSE)
 		{
@@ -111,7 +147,7 @@
 			// Parameter is an integer (primary key)
 			if($key_id != FALSE)
 			{
-				if(strlen($key_id) == strlen(intval($key_id)))
+				if($this->is_id($key_id))
 				{
 					// Reset where, and add primary key limit
 					$this->_where = array(0 => " AND `{$this->Db->get_primary_key($this->model_name())}` = '{$key_id}' ");
@@ -156,9 +192,11 @@
 
 
 		/**
-		 * Check if a primary key exists
-		 * @param int $key_id
-		 * @return bool
+		 * @brief Check if a primary key exists.
+		 * 
+		 * @param int $key_id - specific primary key id to check 
+		 * @return bool - true if primary key is found, false otherwise
+		 * @throws Exception - if key is not numeric
 		 */
 		public function exists($key_id)
 		{
@@ -179,10 +217,13 @@
 		
 		
 		/**
-		 * Create an array of column values ([ID] => [COLUMN VALUE])
-		 * @param string $field_display_name
-		 * @param bool $blank_first
-		 * @return array
+		 * @brief Create an array of column values ([ID] => [COLUMN VALUE]).
+		 * Uses the primary key for the table as ID
+		 * 
+		 * @param string $field_display_name - COLUMN VALUE to display in dropdown, should match table column name  
+		 * @param bool $blank_first - display a blank line as the first value, default is true
+		 * @return array - result set usable in Validate->print_select statements
+		 * @throws Exception - blank param is not a boolean or display field is not a column in the table
 		 */
 		public function dropdown($field_display_name, $blank_first = TRUE)
 		{
@@ -223,8 +264,6 @@
 			
 			return $return;
 		}
-		
-		
 		
 
 	}

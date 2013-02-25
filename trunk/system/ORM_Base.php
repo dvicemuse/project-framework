@@ -1,13 +1,60 @@
 <?php
+/**
+ * @file ORM_Base.php
+ * @package    ProjectFramework
+ *
+ * @license    see LICENSE.txt
+ */
 
+/**
+ * @class ORM_Base
+ * @brief Base Object Relation Model class. Abstract base class for CMS ORM classes
+ *
+ * @package  ProjectFramework
+ * @since    1.0.0
+ */
 	abstract class ORM_Base extends Framework
 	{
+		/**
+		 * @var $_loaded
+		 * @brief boolean check to ensure object currently loaded via ORM_load call
+		 */
 		protected $_loaded		= FALSE;
+		
+		/**
+		 * @var $_data
+		 * @brief array of data for object/model
+		 */
 		protected $_data;
+		
+		/**
+		 * @var $_to_many
+		 * @brief array defining one to many relationships
+		 */
 		protected $_to_many		= array();
+		
+		/**
+		 * @var $_to_many_map
+		 * @brief array defining one to many relationships with mapping tables
+		 */
 		protected $_to_many_map	= array();
+		
+		/**
+		 * @var $_to_one
+		 * @brief array defining one to one relationships
+		 */
 		protected $_to_one		= array();
+		
+		/**
+		 * @var $_to_one_map
+		 * @brief array defining one to one relationships with mapping tables
+		 */
 		protected $_to_one_map	= array();
+		
+		/**
+		 * @var $_transform
+		 * @brief array of transformation mappings for to/from tables
+		 */
 		protected $_transform	= array();
 
 
@@ -23,8 +70,9 @@
 
 
 		/**
-		 * Get the current model name
-		 * @return string
+		 * @brief Get the current model name.
+		 * 
+		 * @return string - lowercase model/class name
 		 */
 		public function model_name()
 		{
@@ -41,9 +89,11 @@
 
 
 		/**
-		 * Load an object
-		 * @param int|string $id
-		 * @return ORM_Base
+		 * @brief Load an object.
+		 * 
+		 * @param int|string $id - primary key identifier for the object to load
+		 * @return mixed - instance or array of ORM_Wrapper
+		 * @throws Exception - when id doesn't exist or the table doesn't exist
 		 */
 		public function orm_load($id = NULL)
 		{
@@ -86,7 +136,14 @@
 		}
 
 
-
+		/**
+		 * @brief Magic method override.
+		 * 
+		 * @param string $name - method to call
+		 * @param array $arguments - parameters for method
+		 * @return mixed - instance of a ORM_Base derived class | array of ORM_Wrapper | unknown
+		 * @throws Exception - if unable to identify/locate the method $name
+		 */
 		public function __call($name, $arguments)
 		{
 			// Data column exists
@@ -220,8 +277,6 @@
 		}
 
 
-
-
 		/**
 		 * Set one to many relationship
 		 * @param string $table
@@ -259,10 +314,12 @@
 
 
 		/**
-		 * Set one to one relationship
-		 * @param string $table
-		 * @param string $map_table
-		 * @return ORM_Base
+		 * @brief Set one to one relationship.
+		 * 
+		 * @param string $table - name of the table/model
+		 * @param string $map_table - table with id to id relationship mapping
+		 * @return object - ORM_Base
+		 * @throws Exception - if table doesn't exist
 		 */
 		public function has_one($table, $map_table = NULL)
 		{
@@ -295,14 +352,16 @@
 
 
 		/**
-		 * Check if a primary key exists
-		 * @param int $key_id
-		 * @return bool
+		 * @brief Check if a primary key exists.
+		 * 
+		 * @param int $key_id - primary key to check existance of
+		 * @return bool - true if the key is found, false otherwise
+		 * @throws Exception - if key is not numeric
 		 */
 		public function exists($key_id)
 		{
 			// Primary key
-			if(strlen($key_id) == strlen(ereg_replace('[^0-9]', '', $key_id)))
+			if(strlen($key_id) == strlen(preg_replace('/\D*/', '', $key_id)))
 			{
 				$get = $this->get(intval($key_id));
 				if($get->count() > 0)
@@ -318,9 +377,11 @@
 
 
 		/**
-		 * Set orm daa for an object
+		 * @brief Set orm data for an object.
+		 * 
 		 * @param array $data_array
-		 * @return Model_Base
+		 * @return object - ORM_Base derived object
+		 * @throws Exception - if data is not an array 
 		 */
 		public function orm_set($data_array)
 		{
@@ -340,8 +401,10 @@
 		
 		
 		/**
-		 * Save an object
-		 * @param Validate $validate
+		 * @brief - Save an object in the database.
+		 * 
+		 * @return object - ORM loaded model
+		 * @throws Exception - object fails validation routine for save
 		 */
 		public function orm_save()
 		{
@@ -371,8 +434,10 @@
 
 
 		/**
-		 * Delete an object
-		 * @return bool
+		 * @brief Delete an object.
+		 * 
+		 * @return bool - true if object deleted from database
+		 * @throws Exception - object not currently loaded via orm_load call
 		 */
 		public function orm_delete()
 		{
@@ -387,23 +452,13 @@
 		
 		
 		/**
-		 * Transparent ORM column transformation
+		 * @brief Transparent ORM column transformation.
 		 * Pass a value through a model function on set/get
-		 * @param string $column
-		 * @param string $to_database
-		 * @param string $from_database
-		 * @return ORM_Base
-		 *
-		 public function __construct {
-	  		$this->ORM_transform('table_date', '_set_date', '_get_date');
-		 }
-		 protected function _set_date($value) {
-			 return date('Y-m-d', strtotime($value));
-		 }
-		 protected function _get_date($value) {
-			 return date('m-d-Y', strtotime($value));
-		 }
-		 *
+		 * 
+		 * @param string $column - name of column to transform
+		 * @param string $to_database - name of database to transform column to
+		 * @param string $from_database - name of database to transform column from
+		 * @return object - ORM_Base derived object
 		 */
 		 public function orm_transform($column, $to_database, $from_database)
 		 {
@@ -411,12 +466,23 @@
 			 
 			 return $this;
 		 }
-		 
+		 /*@todo remove dead code
+		 public function __construct {
+		 	$this->ORM_transform('table_date', '_set_date', '_get_date');
+		 }
+		 protected function _set_date($value) {
+		 	return date('Y-m-d', strtotime($value));
+		 }
+		 protected function _get_date($value) {
+		 	return date('m-d-Y', strtotime($value));
+		 }
+		 */		 
 		 
 		 
 		/**
-		 * Perform ORM transformations on load
-		 * @return ORM_Base
+		 * @brief Perform ORM transformations on load.
+		 * 
+		 * @return object - ORM_Base derived object
 		 */
 		private function _orm_from_database_transform()
 		{
@@ -434,8 +500,9 @@
 
 
 		/**
-		 * Perform ORM transformations on save
-		 * @return ORM_Base
+		 * @brief Perform ORM transformations on save.
+		 * 
+		 * @return object - ORM_Base derived object
 		 */
 		private function _orm_to_database_transform()
 		{
@@ -453,18 +520,21 @@
 		
 		
 		/**
-		 * Default validation function
-		 * @return array
+		 * @brief Default validation function.
+		 * Should be defined/overridden in derived classes.
+		 * 
+		 * @return array - rules for validation functionality
 		 */
 		protected function _validate()
 		{
-			// Actual validation rues shoud be defined in the model class
 			return array();
 		}
 		
 
 		/**
-		 * Debug data function
+		 * @brief Debug data function.
+		 * 
+		 * @return array
 		 */
 		public function expose_data()
 		{
@@ -472,9 +542,16 @@
 		}
 	}
 
-	
+	/**
+	 * @brief ORM Exception object.
+	 * 
+	 */
 	class ORM_Exception extends Exception
 	{
+		/**
+		 * @var $_validate_object
+		 * @brief validation object currently loaded via helper call
+		 */
 		private $_validate_object;
 		
 		public function __construct($message = null, $code = 0, $validate_object = NULL)
@@ -488,7 +565,11 @@
 			
 			parent::__construct($message, $code);
 		}
-
+		
+		/**
+		 * @brief Gets the validation object for this exception
+		 * @return object - Validate class
+		 */
 		public function getValidate()
 		{
 			return $this->_validate_object;
