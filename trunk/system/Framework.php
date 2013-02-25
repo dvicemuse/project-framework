@@ -379,10 +379,11 @@ function pr($data)
 
 
 /**
- * @brief Configuration Builder class. Wrapper class used by Framework_Config->load() for 
- * loading configuration information
+ * @class Config_Builder
+ * @brief Configuration Builder class. 
+ * Wrapper class used by Framework_Config->load() for loading configuration information.
  *
- * @package  Project.Framework
+ * @package  ProjectFramework
  * @since    1.0.0
  */
 class Config_Builder{}
