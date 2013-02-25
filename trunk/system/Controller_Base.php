@@ -1,17 +1,16 @@
 <?php
 /**
  * @file Controller_Base.php
- * @package    Itul.Framework
+ * @package    ProjectFramework
  *
- * @copyright  Copyright (C) 1999 - 2012 i-Tul Design and Software, Inc. All rights reserved.
  * @license    see LICENSE.txt
  */
 
 /**
  * @class Controller_Base
- * @brief Controller Base class. Abstract Base application class for the iTul CMS system
+ * @brief Controller Base class. Abstract Base application class for the PHP Project CMS system
  *
- * @package  Itul.Framework
+ * @package  ProjectFramework
  * @since    1.0.0
  */
 abstract class Controller_Base extends Framework

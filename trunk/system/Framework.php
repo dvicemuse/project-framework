@@ -1,18 +1,17 @@
 <?php
 /**
  * @file Framework.php
- * @package    Itul.Framework
+ * @package    ProjectFramework
  *
- * @copyright  Copyright (C) 1999 - 2012 i-Tul Design and Software, Inc. All rights reserved.
  * @license    see LICENSE.txt
  */
 
 /**
  * @class Framework
  * @brief Framework application class.
- * Base application class for the iTul CMS system
+ * Base application class for the PHP Project CMS system
  *
- * @package  Itul.Framework
+ * @package  ProjectFramework
  * @since    1.0.0
  */
 class Framework
@@ -383,7 +382,7 @@ function pr($data)
  * @brief Configuration Builder class. Wrapper class used by Framework_Config->load() for 
  * loading configuration information
  *
- * @package  Itul.Framework
+ * @package  Project.Framework
  * @since    1.0.0
  */
 class Config_Builder{}

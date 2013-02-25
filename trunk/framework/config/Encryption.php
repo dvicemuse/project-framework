@@ -1,9 +1,8 @@
 <?php 
 /**
  * @file Encryption.php
- * @package    Itul.Framework.Config
+ * @package    ProjectFramework.Config
  *
- * @copyright  Copyright (C) 1999 - 2012 i-Tul Design and Software, Inc. All rights reserved.
  * @license    see LICENSE.txt
  */
 
@@ -11,7 +10,7 @@
  * @class Encryption_Config 
  * @brief Encryption Config class. Encryption key used for encrypting routines. Should be changed for each new website.
  *
- * @package  Itul.Framework.Config
+ * @package  ProjectFramework.Config
  * @since    1.0.0
  */
 class Encryption_Config

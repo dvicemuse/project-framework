@@ -1,9 +1,8 @@
 <?php
 /**
  * @file Db.php
- * @package    Itul.Framework.Config
+ * @package    ProjectFramework.Config
  *
- * @copyright  Copyright (C) 1999 - 2012 i-Tul Design and Software, Inc. All rights reserved.
  * @license    see LICENSE.txt
  */
 

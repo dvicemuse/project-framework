@@ -1,9 +1,8 @@
 <?php
 /**
  * @file Db_Wrapper.php
- * @package    Itul.Framework
+ * @package    ProjectFramework
  *
- * @copyright  Copyright (C) 1999 - 2012 i-Tul Design and Software, Inc. All rights reserved.
  * @license    see LICENSE.txt
  */
 
@@ -11,7 +10,7 @@
  * @class Db_Wrapper
  * @brief Wrapper Database class. Wrapper class for raw database resultsets
  *
- * @package  Itul.Framework
+ * @package  ProjectFramework
  * @since    1.0.0
  */
 class Db_Wrapper
