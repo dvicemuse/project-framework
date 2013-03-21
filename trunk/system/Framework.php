@@ -240,7 +240,7 @@ class Framework
 		$this->load_model('Auth');
 
 		// If secure module, make sure user is logged in		
-		if(isset($this->_auth->user_authorization->check) && in_array($page, $this->_auth->user_authorization->check) && $this->User->is_logged_in() === FALSE)
+		if(isset($this->_auth->user_authorization->check) && in_array($page, $this->_auth->user_authorization->check) && $this->Auth->is_logged_in() === FALSE)
 		{
 			// Secure module, and user is not logged in
 			include("{$this->config()->path->application_path}/framework/template/User/login.php");
