@@ -96,29 +96,6 @@ class User extends Model_Base
 		return FALSE;
 	}
 
-
-
-	/**
-	 * Check if a user is logged in
-	 * @return bool
-	 */
-	public function is_logged_in()
-	{
-		return !empty($_SESSION['Login']);
-	}
-
-
-	
-	/**
-	 * Clear login information from session
-	 * @return bool
-	 */
-	public function logout()
-	{
-		unset($_SESSION['Login']);
-		return TRUE;
-	}
-
 }
 
 ?>
