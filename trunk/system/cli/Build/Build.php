@@ -199,10 +199,10 @@
 			echo console_text("...SUCCESS", 'green');
 
 			// .htaccess file path update
+			echo console_text("UPDATING HTACCESS PATH", 'green');
 			$htaccess_location = str_replace('/system/cli/Build', '', __DIR__)."/.htaccess";
 			if(is_writable($htaccess_location))
 			{
-				echo console_text("UPDATING HTACCESS PATH", 'green');
 				$htaccess_contents = 'RewriteEngine On
 RewriteBase '.$web_path.'
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -210,6 +210,8 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php/$1 [L]';
 				file_put_contents($htaccess_location, $htaccess_contents);
 				echo console_text("...SUCCESS", 'green');
+			}else{
+				echo console_text("...HTACCESS FILE NOT WRITABLE", 'red');
 			}
 
 			// Application path
