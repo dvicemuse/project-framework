@@ -7,11 +7,16 @@
 			// Call parent constructor
 			parent::__construct();
 
-			// Make all pages require login
 			$this->require_login();
+			//$this->disable_header(NULL);
 		}
 
-		public function index(){ }
+
+
+		public function index()
+		{
+			
+		}
 	}
 
 ?>
