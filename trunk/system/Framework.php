@@ -65,6 +65,7 @@ class Framework
 		{
 			// Set up the controller
 			$frm = $this->load_controller($route->controller());
+
 			if($frm !== FALSE)
 			{
 				// Request vars
@@ -73,7 +74,7 @@ class Framework
 				$frm->request->controller_name = $route->controller();
 				$frm->request->method_name = $route->method();
 				$frm->request->raw = $route->raw();
-	
+
 				// Render the current page
 				try
 				{
@@ -211,6 +212,7 @@ class Framework
 	function load_controller($module_name)
 	{
 		$location = "{$this->config()->path->application_path}framework/controller/{$module_name}.php";
+
 		// Make sure the module is not already loaded
 		if(file_exists($location))
 		{
@@ -282,11 +284,14 @@ class Framework
 	 */
 	function render_head()
 	{
-		if(file_exists("{$this->config()->path->application_path}/framework/template/{$this->request->controller_name}/head.php"))
+		if(!isset($this->config()->disable_header) || (isset($this->config()->disable_header) && !in_array($this->request->method_name, $this->config()->disable_header)))
 		{
-			include("{$this->config()->path->application_path}/framework/template/{$this->request->controller_name}/head.php");
-		}else if(file_exists("{$this->config()->path->application_path}/framework/template/head.php")){
-			include("{$this->config()->path->application_path}/framework/template/head.php");
+			if(file_exists("{$this->config()->path->application_path}/framework/template/{$this->request->controller_name}/head.php"))
+			{
+				include("{$this->config()->path->application_path}/framework/template/{$this->request->controller_name}/head.php");
+			}else if(file_exists("{$this->config()->path->application_path}/framework/template/head.php")){
+				include("{$this->config()->path->application_path}/framework/template/head.php");
+			}
 		}
 	}
 
@@ -299,14 +304,16 @@ class Framework
 	 * 
 	 * Called by $this->render($page);
 	 */
-
-	 function render_foot()
+	function render_foot()
 	{
-		if(file_exists("{$this->config()->path->application_path}/framework/template/{$this->request->controller_name}/foot.php"))
+		if(!isset($this->config()->disable_header) || (is_array($this->config()->disable_header) && !isset($this->request->method_name, $this->config()->disable_header)))
 		{
-			include("{$this->config()->path->application_path}/framework/template/{$this->request->controller_name}/foot.php");
-		}else if(file_exists("{$this->config()->path->application_path}/framework/template/foot.php")){
-			include("{$this->config()->path->application_path}/framework/template/foot.php");
+			if(file_exists("{$this->config()->path->application_path}/framework/template/{$this->request->controller_name}/foot.php"))
+			{
+				include("{$this->config()->path->application_path}/framework/template/{$this->request->controller_name}/foot.php");
+			}else if(file_exists("{$this->config()->path->application_path}/framework/template/foot.php")){
+				include("{$this->config()->path->application_path}/framework/template/foot.php");
+			}
 		}
 	}
 

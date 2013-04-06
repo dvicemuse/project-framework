@@ -241,6 +241,47 @@ abstract class Controller_Base extends Framework
 
 
 	/**
+	 * Disable single or multiple page headers
+	 * @param string|array
+	 * @return Controller_Base
+	 */
+	public function disable_header($mixed = NULL)
+	{
+		// Default
+		if($mixed === NULL)
+		{
+			return $this;
+		}
+		
+		// Recursive check for values
+		if(is_array($mixed))
+		{
+			// Array found, loop and pass individual values
+			foreach($mixed as $k => $v)
+			{
+				$this->disable_header($v);
+			}
+			return $this;
+		}else if(is_string($mixed)){
+			// Initialize disable header in config
+			if(!isset($this->config()->disable_headers))
+			{
+				$this->config()->disable_header = array();
+			}
+			// Push value to array
+			$this->config()->disable_header[] = $mixed;
+			
+			// Done
+			return $this;
+		}
+		
+		// Something other than null|string|array was passed
+		throw new Exception('Unsupported type passed to Controller_Base::disable_header()');
+	}
+
+
+
+	/**
 	 * @brief Set login requirements for a page.
 	 *
 	 * @param string|array $pages_requiring_login - string or array of strings for pages that require login

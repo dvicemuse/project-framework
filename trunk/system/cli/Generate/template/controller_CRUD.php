@@ -7,6 +7,7 @@
 			parent::__construct();
 			
 			//$this->require_login(NULL, NULL);
+			//$this->disable_header(NULL);
 		}
 
 
