@@ -169,19 +169,45 @@ class Framework
 	 */
 	function load_helper($module_name)
 	{
-		$location = __DIR__."/helper/{$module_name}.php";
-
-		// Make sure the module is not already loaded
+		// Check if helper is already loaded
 		if(isset($this->$module_name) && is_object($this->$module_name))
 		{
 			return $this->$module_name;
 		}
-		
+
+		// Paths to class files
+		$location = __DIR__."/helper/{$module_name}.php";
+		$location_override = str_replace('/system', '', __DIR__)."/framework/helper/{$module_name}.php";
+
+		// Check override
+		if(!in_array($module_name, array('Db', 'Framework_Config')) && file_exists($location_override))
+		{
+			// Include class it extends first
+			if(file_exists($location))
+			{
+				include_once($location);
+			}
+
+			// Include override
+			include_once($location_override);
+
+			// Suffix class name with override
+			$module_name_override = $module_name."_Override";
+
+			// Initialize class
+			$this->$module_name = new $module_name_override();
+
+			// Return override helper
+			return $this->$module_name;
+		}
+
+		// No override, load system helper
 		if(file_exists($location))
 		{
 			// Load the module into the current object
 			include_once($location);
-
+			
+			// Messy singleton hack
 			if($module_name == 'Db')
 			{
 				$this->$module_name = Db::Instance();
@@ -191,11 +217,13 @@ class Framework
 			}else{
 				$this->$module_name = new $module_name();
 			}
-
+			
+			// Return helper
 			return $this->$module_name;
-		}else{
-			return FALSE;
 		}
+		
+		// Not able to load helper
+		throw new Exception('Helper does not exist.');
 	}
 
 
