@@ -691,7 +691,17 @@
 					$table = $m[1];
 					$column = $m[2];
 					
-					if($this->load_helper('Db')->get_row("SELECT `{$column}` FROM `{$table}` WHERE `{$column}` = '{$this->load_helper('Db')->escape($value)}' ") !== FALSE)
+					// Get primary key
+					$key = $this->load_helper('Db')->get_primary_key($table);
+					
+					// Check if key is in data array
+					$where = '';
+					if($key != FALSE && isset($this->data[$key]) && !empty($this->data[$key]))
+					{
+						$where = " AND `{$key}` != '{$this->load_helper('Db')->escape($this->data[$key])}' ";
+					}
+					
+					if($this->load_helper('Db')->get_row("SELECT `{$column}` FROM `{$table}` WHERE `{$column}` = '{$this->load_helper('Db')->escape($value)}' {$where} ") !== FALSE)
 					{
 						$this->error[$field_name][] = $error;
 					}
