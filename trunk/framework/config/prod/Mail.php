@@ -20,7 +20,7 @@ class Mail_Config
 	 *
 	 * @since  1.0.0
 	 */
-	public $no_reply_name		= "Mail Robot";
+	public $no_reply_name		= 'no-reply';
 	
 	/**
 	 * @var string $no_reply_address	
@@ -28,7 +28,7 @@ class Mail_Config
 	 *
 	 * @since  1.0.0
 	 */
-	public $no_reply_address	= "no-reply@site.com";
+	public $no_reply_address	= 'no-reply@podcastrocket.com';
 
 	
 }

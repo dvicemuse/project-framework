@@ -21,7 +21,7 @@ class Path_Config
 	 *
 	 * @since  1.0.0
 	 */
-	public $web_path			= "";
+	public $web_path			= '/';
 	
 	/**
 	 * @var string $full_web_path
@@ -29,7 +29,7 @@ class Path_Config
 	 *
 	 * @since  1.0.0
 	 */
-	public $full_web_path		= "";
+	public $full_web_path		= 'http://morris.cdn.podcastrocket.com/';
 	
 	/**
 	 * @var string $application_path
@@ -37,5 +37,5 @@ class Path_Config
 	 * 
 	 * @since  1.0.0
 	 */
-	public $application_path	= "";
+	public $application_path	= '/var/www/';
 }
