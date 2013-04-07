@@ -36,6 +36,6 @@ class Memcache_Config
 	 *
 	 * @since  1.0.0
 	 */
-	public $cache_time	= '600';
+	public $cache_time	= '1200';
 	
 }
