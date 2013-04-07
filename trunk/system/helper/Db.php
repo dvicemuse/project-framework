@@ -32,7 +32,14 @@
 		function __construct()
 		{
 			parent::__construct();
+		}
 
+
+		/**
+		 * Connect
+		 */
+		private function _connect()
+		{
 			// Put the connection into $this->conn
 			$this->conn = @mysql_connect($this->config()->db->host, $this->config()->db->username, $this->config()->db->password);
 			if($this->conn)
@@ -42,8 +49,9 @@
 			}else{
 				throw new Exception('Invalid MySQL connection parameters.');
 			}
-			throw new Exception("Unable to select database.");
+			throw new Exception("Unable to select database.");	
 		}
+
 
 
 
@@ -54,6 +62,12 @@
 		 */
 		function query($query)
 		{
+			// Start database connection
+			if(empty($this->conn))
+			{
+				$this->_connect();
+			}
+			
 			$this->q = NULL;
 			$this->num_rows = NULL;
 			$this->q = mysql_query($query, $this->conn);
