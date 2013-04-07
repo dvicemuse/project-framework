@@ -36,6 +36,10 @@
 		 */
 		public function start()
 		{
+			// Check mode
+			echo console_text("Checking mode...", 'green');
+			$this->_mode();
+			
 			// Path
 			echo console_text("Updating path config...", 'green');
 			$this->_path();
@@ -53,6 +57,43 @@
 			$this->_mail();
 			
 			// Return
+			return $this;
+		}
+
+
+
+		/**
+		 * Update database configuration
+		 * @return CLI_Build
+		 */
+		private function _mode()
+		{
+			// Include the CLI_Mode class
+			include_once('../Mode/Mode.php');
+			
+			// Initialize CLI_Mode class
+			$mode = new CLI_Mode($this->_fw, NULL);
+			
+			$pass = FALSE;
+			while($pass === FALSE)
+			{
+				// Check if user wants to updsate encryption key
+				if($this->_get_input_confirm('The current mode is "'.$mode->_get_mode().'" is this correct ?'))
+				{
+					// Break out of loop
+					$pass = TRUE;
+				}else{
+					// Determine new mode
+					$new_mode = ($mode->_get_mode() == 'dev') ? 'prod' : 'dev';
+					echo console_text("UPDATING MODE", 'green');
+					
+					// Initialize CLI_Mode class with new mode argument
+					$mode = new CLI_Mode($this->_fw, array('2' => $new_mode));
+					$mode->start();
+					echo console_text("...SUCCESS", 'green');
+				}
+			}
+			
 			return $this;
 		}
 
@@ -304,7 +345,13 @@ RewriteRule ^(.*)$ index.php/$1 [L]';
 		 */
 		private function _config_file_location($config_name)
 		{
-			$location = str_replace('/system/cli/Build', '', __DIR__) . "/framework/config/{$config_name}.php";
+			// Include the CLI_Mode class
+			include_once('../Mode/Mode.php');
+			
+			// Initialize CLI_Mode class
+			$mode = new CLI_Mode($this->_fw, NULL);
+
+			$location = str_replace('/system/cli/Build', '', __DIR__) . "/framework/config/{$mode->_get_mode()}/{$config_name}.php";
 			if(file_exists($location))
 			{
 				if(is_writable($location))
@@ -352,6 +399,9 @@ RewriteRule ^(.*)$ index.php/$1 [L]';
 			}
 			return ($input == 'y');
 		}
+
+
+
 	}
 
 ?>

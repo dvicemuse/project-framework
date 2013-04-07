@@ -71,6 +71,12 @@
 					{
 						throw new Exception('Failed to create development mode folder');
 					}
+					
+					// Check if dev config files exist (assume if one file exists everything is good)
+					if(!file_exists($this->_config_folder_location('dev')."Db.php"))
+					{
+						system("cp {$this->_config_folder_location('prod')}* {$this->_config_folder_location('dev')} ");
+					}
 				}
 			}else if($this->_mode == 'prod'){
 				// Check if dev folder exists
@@ -98,7 +104,7 @@
 		 * Return the current mode
 		 * @return string
 		 */
-		private function _get_mode()
+		public function _get_mode()
 		{
 			return (is_dir($this->_dev_folder_path())) ? "dev" : "prod";
 		}		
@@ -144,6 +150,32 @@
 			
 			// Glue directories back together
 			return str_replace('//', '/', "/".implode('/', $directories)."/dev/");
+		}
+
+
+
+		/**
+		 * Get the string path to a config profile folder
+		 * @param string $mode
+		 * @return string
+		 */
+		private function _config_folder_location($mode)
+		{
+			if(!in_array($mode, array('dev', 'prod')))
+			{
+				throw new Exception("Invalid mode type.");
+			}
+			
+			$location = str_replace('/system/cli/Mode', '', __DIR__) . "/framework/config/{$mode}/";
+			if(is_dir($location))
+			{
+				if(is_writable($location))
+				{
+					return $location;
+				}
+				throw new Exception("Config folder {$config_name} is not writable.");
+			}
+			throw new Exception("Config folder {$config_name} does not exist.");
 		}
 	}
 
