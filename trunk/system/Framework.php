@@ -51,7 +51,7 @@ class Framework
 		}catch(Exception $e){
 			$failed = TRUE;
 		}
-		if($failed || $this->config()->path->application_path == '')
+		if($failed || !isset($this->config()->path->application_path) || $this->config()->path->application_path == '')
 		{
 			// Paths not set up so just include the template
 			include_once('framework/template/Error/not_configured.php');
