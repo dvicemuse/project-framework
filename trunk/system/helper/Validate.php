@@ -54,6 +54,10 @@
 			}
 			// Set data to validate
 			$this->data = $data;
+			
+			// Clear errors
+			$this->error = array();
+			
 			// Rules are set
 			if(is_array($this->rules))
 			{
@@ -100,142 +104,33 @@
 				$this->data_copy[$field_name] = trim($this->data_copy[$field_name]);
 			}
 
+			// Not conditional
+			$this->conditional = FALSE;			
+			
 			// Loop through each rule
 			foreach($this->rules[$field_name] as $type => $error)
 			{
 				// Required
-				if($type == 'reqd' && empty($field))
+				if(strpos($type, '['))
 				{
-					$this->error[$field_name][] = $error;
-				}
-				// Unique db value
-				if(preg_match('/unique\[([_a-zA-Z]{1,}).([_a-zA-Z]{1,})\]/i', $type, $m))
-				{
-					$table = $m[1];
-					$column = $m[2];
-					
-					if($this->load_helper('Db')->get_row("SELECT `{$column}` FROM `{$table}` WHERE `{$column}` = '{$this->load_helper('Db')->escape($field)}' ") !== FALSE)
+					// Has parameter
+					$parts = preg_match('/([_a-z]{1,})\[(.*)\]/i', $type, $m);
+					if($parts)
 					{
-						$this->error[$field_name][] = $error;
-					}
-				}
-				// Db value exists
-				if(preg_match('/exists\[([_a-zA-Z]{1,}).([_a-zA-Z]{1,})\]/i', $type, $m))
-				{
-					$table = $m[1];
-					$column = $m[2];
-					
-					if($this->load_helper('Db')->get_row("SELECT `{$column}` FROM `{$table}` WHERE `{$column}` = '{$this->load_helper('Db')->escape($field)}' ") === FALSE)
-					{
-						$this->error[$field_name][] = $error;
-					}
-				}
-				// Max length
-				if(preg_match('/max\[(\d+)\]/i', $type, $m))
-				{
-
-				if(strlen($field) > $m[1])
-					{
-						$this->error[$field_name][] = $error;
-					}
-				}
-				// Min length
-				if(preg_match('/min\[(\d+)\]/i', $type, $m))
-				{
-					if(strlen($field) < $m[1])
-					{
-						$this->error[$field_name][] = $error;
-					}
-				}
-				// Exact length
-				if(preg_match('/exact\[(\d+)\]/i', $type, $m))
-				{
-					if(strlen($field) != $m[1])
-					{
-						$this->error[$field_name][] = $error;
-					}
-				}
-				// Confirm
-				if(preg_match('/match\[(.*?)\]/i', $type, $m))
-				{
-					if($field != $this->data[$m[1]])
-					{
-						$this->error[$field_name][] = $error;
-					}
-				}
-				// Alpha
-				if($type == 'alpha' && !ctype_alpha(str_replace(' ', '', $field)))
-				{
-					$this->error[$field_name][] = $error;
-				}
-				// Numeric
-				if($type == 'numeric' && !ctype_digit(str_replace('.', '', $field)))
-				{
-					$this->error[$field_name][] = $error;
-				}
-				// Positive number
-				if($type == 'positive' && doubleval($field) < 0)
-				{
-					$this->error[$field_name][] = $error;
-				}
-				// Money
-				if($type == 'money' && !ctype_digit(str_replace('$', '', str_replace(',', '', str_replace('.', '', $field)))))
-				{
-					$this->error[$field_name][] = $error;
-				}
-				// Numeric with thousands
-				if($type == 'numeric_thousands' && !ctype_digit(str_replace(',', '', $field)))
-				{
-					$this->error[$field_name][] = $error;
-				}
-				// Alphanumeric
-				if($type == 'alphanumeric' && !ctype_alnum(str_replace(' ', '', $field)))
-				{
-					$this->error[$field_name][] = $error;
-				}
-				// No spaces
-				if($type == 'no_space' && $field != str_replace(' ', '', $field))
-				{
-					$this->error[$field_name][] = $error;
-				}
-				// Email
-				if($type == 'email' && !eregi("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$", $field))
-				{
-					$this->error[$field_name][] = $error;
-				}
-				// Date (5/10/09)(05/10/2009)
-				if($type == 'date' && (!eregi('^([0-9]{1,4})(/|-)([0-9]{1,2})(/|-)([0-9]{1,4})$', $field) || strtotime($field) === FALSE))
-				{
-					$this->error[$field_name][] = $error;
-				}
-				// Time
-				if($type == 'time' && !eregi('^([0-1]{1})?([0-9]{1}):([0-5]{1})([0-9]{1})( )?([AaPp][Mm])$', $field))
-				{
-					$this->error[$field_name][] = $error;
-				}
-				// Conditional
-				if(substr($type, 0, 4) == 'cond' && empty($field))
-				{
-					if($type == 'cond')
-					{
-						$conditional = true;
+						$validation_method = "_rule_{$m[1]}";
+						$this->$validation_method($field_name, $this->data_copy[$field_name], $error, $m[2]);
 					}else{
-						$cond_statement = preg_match('/cond\[(.*)=(.*)\]/i', $type, $m);
-						if($cond_statement)
-						{
-							if($this->data[$m['1']] != $m['2'])
-							{
-								$conditional = true;
-							}else{
-								$this->error[$field_name][] = $error;
-							}
-						}
+						throw new Exception('Invalid rule match pattern.');
 					}
+				}else{
+					// Does not have parameter
+					$validation_method = "_rule_{$type}";
+					$this->$validation_method($field_name, $this->data_copy[$field_name], $error);
 				}
 			}
 
 			// Conditional rules
-			if(isset($conditional) && $conditional == true)
+			if($this->conditional === TRUE)
 			{
 				unset($this->error[$field_name]);
 			}
@@ -547,6 +442,7 @@
 			return $this;
 		}
 
+
 		
 		/**
 		 * Set the error array
@@ -582,6 +478,276 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		protected function _rule_reqd($field_name, $value, $error)
+		{
+			if(empty($value))
+			{
+				$this->error[$field_name][] = $error;
+			}
+			return $this;
+		}
+
+
+
+		protected function _rule_max($field_name, $value, $error, $param = NULL)
+		{
+			if($param !== NULL)
+			{
+				if(strlen($value) > $param)
+				{
+					$this->error[$field_name][] = $error;
+				}
+				return $this;
+			}
+			throw new Exception('Maximum length value not set.');
+		}
+
+
+
+		protected function _rule_min($field_name, $value, $error, $param = NULL)
+		{
+			if($param !== NULL)
+			{
+				if(strlen($value) < $param)
+				{
+					$this->error[$field_name][] = $error;
+				}
+				return $this;
+			}
+			throw new Exception('Minimum length value not set.');
+		}
+
+
+
+		protected function _rule_exact($field_name, $value, $error, $param = NULL)
+		{
+			if($param !== NULL)
+			{
+				if(strlen($value) != $param)
+				{
+					$this->error[$field_name][] = $error;
+				}
+				return $this;
+			}
+			throw new Exception('Exact length value not set.');
+		}
+
+
+
+		protected function _rule_match($field_name, $value, $error, $param = NULL)
+		{
+			if($param !== NULL)
+			{
+				// Initialize match value if it does not exist
+				$match_value = (isset($this->data[$param])) ? $this->data[$param] : '';
+				
+				if($value != $match_value)
+				{
+					$this->error[$field_name][] = $error;
+				}
+				return $this;
+			}
+			throw new Exception('Match field not set.');
+		}
+
+
+
+		protected function _rule_alpha($field_name, $value, $error)
+		{
+			if(!ctype_alpha(str_replace(' ', '', $value)))
+			{
+				$this->error[$field_name][] = $error;
+			}
+			return $this;
+		}
+
+
+
+		protected function _rule_numeric($field_name, $value, $error)
+		{
+			if(!ctype_digit(str_replace('.', '', $value)))
+			{
+				$this->error[$field_name][] = $error;
+			}
+			return $this;
+		}
+
+
+
+		protected function _rule_positive($field_name, $value, $error)
+		{
+			if(doubleval($value) < 0)
+			{
+				$this->error[$field_name][] = $error;
+			}
+			return $this;
+		}
+
+
+
+		protected function _rule_money($field_name, $value, $error)
+		{
+			if(!ctype_digit(str_replace('$', '', str_replace(',', '', str_replace('.', '', $value)))))
+			{
+				$this->error[$field_name][] = $error;
+			}
+			return $this;
+		}
+
+
+
+		protected function _rule_numeric_thousands($field_name, $value, $error)
+		{
+			if(!ctype_digit(str_replace(',', '', $value)))
+			{
+				$this->error[$field_name][] = $error;
+			}
+			return $this;
+		}
+
+
+
+		protected function _rule_alphanumeric($field_name, $value, $error)
+		{
+			if(!ctype_alnum(str_replace(' ', '', $value)))
+			{
+				$this->error[$field_name][] = $error;
+			}
+			return $this;
+		}
+
+
+
+		protected function _rule_no_space($field_name, $value, $error)
+		{
+			if($value != str_replace(' ', '', $value))
+			{
+				$this->error[$field_name][] = $error;
+			}
+			return $this;
+		}
+
+
+
+		protected function _rule_email($field_name, $value, $error)
+		{
+			if(!preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i", $value))
+			{
+				$this->error[$field_name][] = $error;
+			}
+			return $this;
+		}
+
+
+
+		protected function _rule_date($field_name, $value, $error)
+		{
+			if(!preg_match('/^([0-9]{1,4})([-\/]{1})([0-9]{1,2})([-\/]{1})([0-9]{1,4})$/', $value) || strtotime($value) === FALSE)
+			{
+				$this->error[$field_name][] = $error;
+			}
+			return $this;
+		}
+
+
+
+		protected function _rule_time($field_name, $value, $error)
+		{
+			list($hour) = explode(':', $value);
+			if(!preg_match('/^([0-1]{1})?([0-9]{1}):([0-5]{1})([0-9]{1})( )?([AaPp][Mm])$/', $value) || $hour > 12)
+			{
+				$this->error[$field_name][] = $error;
+			}
+			return $this;
+		}
+
+
+
+		protected function _rule_unique($field_name, $value, $error, $param = NULL)
+		{
+			if($param !== NULL)
+			{
+				if(preg_match('/([_a-zA-Z]{1,}).([_a-zA-Z]{1,})/i', $param, $m))
+				{
+					$table = $m[1];
+					$column = $m[2];
+					
+					if($this->load_helper('Db')->get_row("SELECT `{$column}` FROM `{$table}` WHERE `{$column}` = '{$this->load_helper('Db')->escape($value)}' ") !== FALSE)
+					{
+						$this->error[$field_name][] = $error;
+					}
+					return $this;
+				}
+			}
+			throw new Exception('Parameter table.column not specified.');
+		}
+
+
+
+		protected function _rule_exists($field_name, $value, $error, $param = NULL)
+		{
+			if($param !== NULL)
+			{
+				if(preg_match('/([_a-zA-Z]{1,}).([_a-zA-Z]{1,})/i', $param, $m))
+				{
+					$table = $m[1];
+					$column = $m[2];
+					
+					if($this->load_helper('Db')->get_row("SELECT `{$column}` FROM `{$table}` WHERE `{$column}` = '{$this->load_helper('Db')->escape($value)}' ") === FALSE)
+					{
+						$this->error[$field_name][] = $error;
+					}
+					return $this;
+				}
+			}
+			throw new Exception('Parameter table.column not specified.');
+		}
+
+
+
+		protected function _rule_cond($field_name, $value, $error, $param = NULL)
+		{
+			if(empty($value))
+			{
+				if($param === NULL)
+				{
+					$this->conditional = TRUE;
+				}else{
+					$cond_statement = preg_match('/(.*)=(.*)/i', $param, $m);
+					if($cond_statement)
+					{
+						if($this->data[$m['1']] != $m['2'])
+						{
+							$this->conditional = TRUE;
+						}else{
+							$this->error[$field_name][] = $error;
+						}
+					}
+				}
+			}
+		}
+
+
+
 		/**
 		 * Array of state names (abbreviation => full name)
 		 * @param bool $show_blank
@@ -590,60 +756,60 @@
 		public function states($show_blank = TRUE)
 		{
 			$states = array (
-			'AL' => 'ALABAMA',
-			'AK' => 'ALASKA',
-			'AZ' => 'ARIZONA',
-			'AR' => 'ARKANSAS',
-			'CA' => 'CALIFORNIA',
-			'CO' => 'COLORADO',
-			'CT' => 'CONNECTICUT',
-			'DE' => 'DELAWARE',
-			'FL' => 'FLORIDA',
-			'GA' => 'GEORGIA',
-			'GU' => 'GUAM',
-			'HI' => 'HAWAII',
-			'ID' => 'IDAHO',
-			'IL' => 'ILLINOIS',
-			'IN' => 'INDIANA',
-			'IA' => 'IOWA',
-			'KS' => 'KANSAS',
-			'KY' => 'KENTUCKY',
-			'LA' => 'LOUISIANA',
-			'ME' => 'MAINE',
-			'MD' => 'MARYLAND',
-			'MA' => 'MASSACHUSETTS',
-			'MI' => 'MICHIGAN',
-			'MN' => 'MINNESOTA',
-			'MS' => 'MISSISSIPPI',
-			'MO' => 'MISSOURI',
-			'MT' => 'MONTANA',
-			'NE' => 'NEBRASKA',
-			'NV' => 'NEVADA',
-			'NH' => 'NEW HAMPSHIRE',
-			'NJ' => 'NEW JERSEY',
-			'NM' => 'NEW MEXICO',
-			'NY' => 'NEW YORK',
-			'NC' => 'NORTH CAROLINA',
-			'ND' => 'NORTH DAKOTA',
-			'OH' => 'OHIO',
-			'OK' => 'OKLAHOMA',
-			'OR' => 'OREGON',
-			'PW' => 'PALAU',
-			'PA' => 'PENNSYLVANIA',
-			'PR' => 'PUERTO RICO',
-			'RI' => 'RHODE ISLAND',
-			'SC' => 'SOUTH CAROLINA',
-			'SD' => 'SOUTH DAKOTA',
-			'TN' => 'TENNESSEE',
-			'TX' => 'TEXAS',
-			'UT' => 'UTAH',
-			'VT' => 'VERMONT',
-			'VI' => 'VIRGIN ISLANDS',
-			'VA' => 'VIRGINIA',
-			'WA' => 'WASHINGTON',
-			'WV' => 'WEST VIRGINIA',
-			'WI' => 'WISCONSIN',
-			'WY' => 'WYOMING',
+				'AL' => 'ALABAMA',
+				'AK' => 'ALASKA',
+				'AZ' => 'ARIZONA',
+				'AR' => 'ARKANSAS',
+				'CA' => 'CALIFORNIA',
+				'CO' => 'COLORADO',
+				'CT' => 'CONNECTICUT',
+				'DE' => 'DELAWARE',
+				'FL' => 'FLORIDA',
+				'GA' => 'GEORGIA',
+				'GU' => 'GUAM',
+				'HI' => 'HAWAII',
+				'ID' => 'IDAHO',
+				'IL' => 'ILLINOIS',
+				'IN' => 'INDIANA',
+				'IA' => 'IOWA',
+				'KS' => 'KANSAS',
+				'KY' => 'KENTUCKY',
+				'LA' => 'LOUISIANA',
+				'ME' => 'MAINE',
+				'MD' => 'MARYLAND',
+				'MA' => 'MASSACHUSETTS',
+				'MI' => 'MICHIGAN',
+				'MN' => 'MINNESOTA',
+				'MS' => 'MISSISSIPPI',
+				'MO' => 'MISSOURI',
+				'MT' => 'MONTANA',
+				'NE' => 'NEBRASKA',
+				'NV' => 'NEVADA',
+				'NH' => 'NEW HAMPSHIRE',
+				'NJ' => 'NEW JERSEY',
+				'NM' => 'NEW MEXICO',
+				'NY' => 'NEW YORK',
+				'NC' => 'NORTH CAROLINA',
+				'ND' => 'NORTH DAKOTA',
+				'OH' => 'OHIO',
+				'OK' => 'OKLAHOMA',
+				'OR' => 'OREGON',
+				'PW' => 'PALAU',
+				'PA' => 'PENNSYLVANIA',
+				'PR' => 'PUERTO RICO',
+				'RI' => 'RHODE ISLAND',
+				'SC' => 'SOUTH CAROLINA',
+				'SD' => 'SOUTH DAKOTA',
+				'TN' => 'TENNESSEE',
+				'TX' => 'TEXAS',
+				'UT' => 'UTAH',
+				'VT' => 'VERMONT',
+				'VI' => 'VIRGIN ISLANDS',
+				'VA' => 'VIRGINIA',
+				'WA' => 'WASHINGTON',
+				'WV' => 'WEST VIRGINIA',
+				'WI' => 'WISCONSIN',
+				'WY' => 'WYOMING',
 			);
 			if($show_blank)
 			{
