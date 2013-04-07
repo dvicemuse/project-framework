@@ -37,13 +37,34 @@
 			// Set data property
 			$this->_data = new Config_Builder;
 			
+			// Mode
+			$mode = 'prod';
+			
+			// Dev check
+			$framework_directory = str_replace('/system/helper', '', __DIR__);
+			
+			// Get all of the directory parts
+			$directories = explode('/', $framework_directory);
+			
+			// Go one level below the framework
+			array_pop($directories);
+			
+			// Glue directories back together
+			$dev_folder_location = str_replace('//', '/', "/".implode('/', $directories)."/dev/");
+			
+			// Dev check
+			if(is_dir($dev_folder_location))
+			{
+				$mode = 'dev';
+			}
+
 			// Include configuration classes
-			$handle = opendir(substr(__DIR__, 0, -14)."/framework/config/");
+			$handle = opendir(substr(__DIR__, 0, -14)."/framework/config/{$mode}/");
 			while(false !== ($file = readdir($handle)))
 			{
 				if(trim($file, '.') != '' && substr($file, -4) == '.php')
 				{
-					include_once(substr(__DIR__, 0, -14)."/framework/config/".$file);
+					include_once(substr(__DIR__, 0, -14)."/framework/config/{$mode}/".$file);
 					$config_class_base_name = strtolower(substr($file, 0, -4));
 					$config_class_name = substr($file, 0, -4)."_Config";
 					
