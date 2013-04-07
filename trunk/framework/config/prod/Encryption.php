@@ -21,5 +21,5 @@ class Encryption_Config
 	 * 
 	 * @since  1.0.0
 	 */
-	public $encryption_key = '1dj7@^Oe9@9sk3o*i';
+	public $encryption_key = 'oH0h*xCj6elwc9&';
 }
