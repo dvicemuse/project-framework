@@ -21,7 +21,7 @@ class Db_Config
 	 * 
 	 * @since  1.0.0
 	 */
-	public $host		= '127.0.0.1';
+	public $host		= '';
 	
 	/**
 	 * @var string $username
@@ -29,7 +29,7 @@ class Db_Config
 	 * 
 	 * @since  1.0.0
 	 */
-	public $username	= 'root';
+	public $username	= '';
 	
 	/**
 	 * @var string $password
@@ -37,7 +37,7 @@ class Db_Config
 	 * 
 	 * @since  1.0.0
 	 */
-	public $password	= 'Rocketman87';
+	public $password	= '';
 	
 	/**
 	 * @var string $database
@@ -45,6 +45,6 @@ class Db_Config
 	 * 
 	 * @since  1.0.0
 	 */
-	public $database	= 'framework';
+	public $database	= '';
 	
 }
