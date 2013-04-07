@@ -20,7 +20,7 @@ class Memcache_Config
 	 *
 	 * @since  1.0.0
 	 */
-	public $host	= '';
+	public $host		= '';
 	
 	/**
 	 * @var string $port	
@@ -28,7 +28,14 @@ class Memcache_Config
 	 *
 	 * @since  1.0.0
 	 */
-	public $port	= '';
-
+	public $port		= '';
+	
+	/**
+	 * @var string $cache_time	
+	 * @brief The number of seconds to cache items
+	 *
+	 * @since  1.0.0
+	 */
+	public $cache_time	= '600';
 	
 }
