@@ -107,15 +107,25 @@
 		{
 			// No reply name
 			$reply_name = $this->_get_input("Mail no-reply name (Mail Robot):");
-			echo console_text("UPDATING NO-REPLY NAME", 'green');
-			$this->_set_config_variable('Mail', 'no_reply_name', $reply_name);
-			echo console_text("...SUCCESS", 'green');
+			if($reply_name != '')
+			{
+				echo console_text("UPDATING NO-REPLY NAME", 'green');
+				$this->_set_config_variable('Mail', 'no_reply_name', $reply_name);
+				echo console_text("...SUCCESS", 'green');
+			}else{
+				echo console_text("...SKIPPED", 'green');
+			}
 			
 			// No reply address
-			$reply_address = $this->_get_input("Mail no-reply address (no-reply@domain.com):");
-			echo console_text("UPDATING NO-REPLY ADDRESS", 'green');
-			$this->_set_config_variable('Mail', 'no_reply_address', $reply_address);
-			echo console_text("...SUCCESS", 'green');
+			$reply_address = $this->_get_input("Mail no-reply address (no-reply@localhost):");
+			if($reply_address != '')
+			{
+				echo console_text("UPDATING NO-REPLY ADDRESS", 'green');
+				$this->_set_config_variable('Mail', 'no_reply_address', $reply_address);
+				echo console_text("...SUCCESS", 'green');
+			}else{
+				echo console_text("...SKIPPED", 'green');
+			}
 						
 			return $this;
 		}
