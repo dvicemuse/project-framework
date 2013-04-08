@@ -5,9 +5,10 @@
 		public $conn;
 		public $q;
 		public $num_rows;
-		private $table_info = array();
-		private $error;
-		static private $_instance = null; // Singleton instance tracker
+		public $query_count = 0;
+		static protected $_instance = NULL; // Singleton instance tracker
+		protected $table_info = array();
+		protected $error;
 
 
 
@@ -35,8 +36,9 @@
 		}
 
 
+
 		/**
-		 * Connect
+		 * Connect MySQL
 		 */
 		private function _connect()
 		{
@@ -54,7 +56,6 @@
 
 
 
-
 		/**
 		 * Execute a query
 		 * @param string $query
@@ -67,7 +68,8 @@
 			{
 				$this->_connect();
 			}
-			
+
+			$this->query_count++;
 			$this->q = NULL;
 			$this->num_rows = NULL;
 			$this->q = mysql_query($query, $this->conn);
@@ -198,9 +200,10 @@
 				return $this->table_info[$table_name];
 			}else{
 				// Pull table info from the database
-				if($this->query("SHOW COLUMNS FROM `{$table_name}`") === TRUE && mysql_num_rows($this->q) > 0)
+				$info = $this->get_rows("SHOW COLUMNS FROM `{$table_name}`");
+				if($info !== FALSE)
 				{
-					while($r = mysql_fetch_assoc($this->q))
+					foreach($info as $r)
 					{
 						$this->table_info[$table_name][$r['Field']] = array(
 							'type' => $r['Type'],

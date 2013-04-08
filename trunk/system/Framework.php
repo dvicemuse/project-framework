@@ -180,7 +180,7 @@ class Framework
 		$location_override = str_replace('/system', '', __DIR__)."/framework/helper/{$module_name}.php";
 
 		// Check override
-		if(!in_array($module_name, array('Db', 'Framework_Config')) && file_exists($location_override))
+		if(!in_array($module_name, array('Framework_Config')) && file_exists($location_override))
 		{
 			// Include class it extends first
 			if(file_exists($location))
@@ -191,11 +191,17 @@ class Framework
 			// Include override
 			include_once($location_override);
 
-			// Suffix class name with override
-			$module_name_override = $module_name."_Override";
+			// Messy singleton hack
+			if($module_name == 'Db')
+			{
+				$this->$module_name = Db_Override::Instance();
+			}else{
+				// Suffix class name with override
+				$module_name_override = $module_name."_Override";
 
-			// Initialize class
-			$this->$module_name = new $module_name_override();
+				// Initialize class
+				$this->$module_name = new $module_name_override();
+			}
 
 			// Return override helper
 			return $this->$module_name;
