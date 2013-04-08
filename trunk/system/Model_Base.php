@@ -113,6 +113,20 @@
 
 
 		/**
+		 * @brief AND element to the where clause.
+		 * 
+		 * @param string $where
+		 * @return object - self/this
+		 */
+		public function custom_where($where)
+		{
+			$this->_where[] = " AND ({$where}) ";
+			return $this;
+		}
+
+
+
+		/**
 		 * @brief AND element to the where clause using LIKE.
 		 * 
 		 * @param string $column - column name to add to WHERE clause array
