@@ -77,8 +77,6 @@
 		 */
 		public function order($column, $value)
 		{
-			$this->_order[] = " RAND(), ";
-			return $this;
 			$value = strtoupper(trim($value));
 			if($this->load_helper('Db')->column_exists($this->model_name(), $column) === TRUE)
 			{
