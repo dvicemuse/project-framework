@@ -29,6 +29,7 @@
 			
 			// Go one level below the framework
 			array_pop($directories);
+			array_pop($directories);
 			
 			// Glue directories back together
 			$this->current = is_dir(str_replace('//', '/', "/".implode('/', $directories)."/dev/")) ? 'dev' : 'prod';
