@@ -33,7 +33,7 @@
 			{
 				return $this->_data;
 			}
-			
+
 			// Set data property
 			$this->_data = new Config_Builder;
 			

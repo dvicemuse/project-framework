@@ -51,6 +51,10 @@
 			// Encryption
 			echo console_text("Updating encryption config...", 'green');
 			$this->_encryption();
+			
+			// Memcache
+			echo console_text("Updating memcache config...", 'green');
+			$this->_memcache();
 
 			// Mail
 			echo console_text("Updating mail config...", 'green');
@@ -152,7 +156,49 @@
 			
 			return $this;
 		}
-		
+
+
+
+		/**
+		 * Update database configuration
+		 * @return CLI_Build
+		 */
+		private function _memcache()
+		{
+			// Check if user wants to updsate encryption key
+			if($this->_get_input_confirm('Update memcache configuration?'))
+			{
+				// Host
+				$host = "localhost";
+				$tries = 0;
+				while(strtolower($host) == 'localhost')
+				{
+					if($tries++ > 0)
+					{
+						echo console_text("Named address not supported", 'red');
+					}
+					$host = $this->_get_input("Memcache host (127.0.0.1):");
+				}
+				echo console_text("UPDATING HOST", 'green');
+				$this->_set_config_variable('Memcache', 'host', $host);
+				echo console_text("...SUCCESS", 'green');
+	
+				// Port
+				$port = $this->_get_input("Memcache port (11211):");
+				echo console_text("UPDATING PORT", 'green');
+				$this->_set_config_variable('Memcache', 'port', $port);
+				echo console_text("...SUCCESS", 'green');
+	
+				// Cache time
+				$cache_time = $this->_get_input("Cache time (seconds):");
+				echo console_text("UPDATING CACHE TIME", 'green');
+				$this->_set_config_variable('Memcache', 'cache_time', $cache_time);
+				echo console_text("...SUCCESS", 'green');
+			}else{
+				echo console_text("...SKIPPED", 'green');
+			}
+		}
+
 
 
 		/**

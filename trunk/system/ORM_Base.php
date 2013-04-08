@@ -126,7 +126,7 @@
 						{
 							$eval = '$object = new '.ucfirst($this->model_name()).';';
 							eval($eval);
-							$return->push($object->orm_load($row[$key]));
+							$return->push($object->orm_set($row));
 						}
 					}
 					return $return;
@@ -168,7 +168,7 @@
 			// One to many
 			if(isset($this->_to_many[$name]))
 			{
-				$sql = "SELECT `{$this->_to_many[$name]}_id` FROM `{$this->_to_many[$name]}` WHERE `{$this->model_name()}_id` = '{$this->_data["{$this->model_name()}_id"]}' ";
+				$sql = "SELECT * FROM `{$this->_to_many[$name]}` WHERE `{$this->model_name()}_id` = '{$this->_data["{$this->model_name()}_id"]}' ";
 				
 				if(!empty($arguments[0]))
 				{
@@ -186,7 +186,7 @@
 						$this->load_model($model_name);
 						$eval = '$object = new '.$model_name.';';
 						eval($eval);
-						$return->push($object->orm_load($r["{$this->_to_many[$name]}_id"]));
+						$return->push($object->orm_set($r));
 					}
 				}
 				return $return;
