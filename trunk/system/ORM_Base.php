@@ -121,7 +121,6 @@
 					$results = $this->get();
 					if($results->count() != 0)
 					{
-						$key = $this->load_helper('Db')->get_primary_key($this->model_name());
 						foreach($results->results() as $row)
 						{
 							$eval = '$object = new '.ucfirst($this->model_name()).';';
