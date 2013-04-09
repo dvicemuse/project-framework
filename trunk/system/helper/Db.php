@@ -492,6 +492,41 @@
 
 
 
+		/**
+		 * Begin transaction
+		 * @return Db
+		 */
+		public function begin()
+		{
+			$this->query('BEGIN');
+			return $this;
+		}
+
+
+
+		/**
+		 * Commit transaction
+		 * @return Db
+		 */
+		public function commit()
+		{
+			$this->query('COMMIT');
+			return $this;
+		}
+
+
+
+		/**
+		 * Roll back transaction
+		 * @return Db
+		 */
+		public function rollback()
+		{
+			$this->query('ROLLBACK');
+			return $this;
+		}
+
+
 		// Compatibility functions
 		public function get_column_names($table_name){ return $this->column_names($table_name); }
 		public function get_table_info($table_name){ return $this->table_info($table_name); }
