@@ -367,6 +367,13 @@ class Framework
 		if(file_exists($location))
 		{
 			include($location);
+		}else{
+			// Check template partial directory
+			$location = "{$this->config()->path->application_path}/framework/template/Partial/{$partial_name}.php";
+			if(file_exists($location))
+			{
+				include($location);
+			}
 		}
 	}
 
