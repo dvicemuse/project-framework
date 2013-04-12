@@ -97,41 +97,33 @@
 		 */
 		public function orm_load($id = NULL)
 		{
-			// Make sure the table exists
-			if($this->load_helper('Db')->table_info($this->model_name()) !== FALSE)
+			// Load record by ID from database
+			if($id !== NULL)
 			{
-				// Load record by ID from database
-				if($id !== NULL)
+				$load_data = $this->load_helper('Db')->get_row("SELECT * FROM `{$this->model_name()}` WHERE `{$this->model_name()}_id` = '{$this->Db->escape($id)}'   ");
+				if($load_data !== FALSE)
 				{
-					$load_data = $this->load_helper('Db')->get_row("SELECT * FROM `{$this->model_name()}` WHERE `{$this->Db->get_primary_key($this->model_name())}` = '{$this->Db->escape($id)}'   ");
-					if($load_data !== FALSE)
-					{
-						$this->_loaded = TRUE;
-						$this->_data = $load_data;
-						$this->_orm_from_database_transform();
-						return $this;
-					}
-					throw new Exception("Object with ID '{$id}' does not exist.");
+					$this->_loaded = TRUE;
+					$this->_data = $load_data;
+					$this->_orm_from_database_transform();
+					return $this;
 				}
-				
-				// Use the model base query builder settings
-				if($id === NULL)
+				throw new Exception("Object with ID '{$id}' does not exist.");
+			}
+			
+			// Use the model base query builder settings
+			$return = new ORM_Wrapper;
+			$results = $this->get();
+			if($results->count() != 0)
+			{
+				foreach($results->results() as $row)
 				{
-					$return = new ORM_Wrapper;
-					$results = $this->get();
-					if($results->count() != 0)
-					{
-						foreach($results->results() as $row)
-						{
-							$eval = '$object = new '.ucfirst($this->model_name()).';';
-							eval($eval);
-							$return->push($object->orm_set($row));
-						}
-					}
-					return $return;
+					$eval = '$object = new '.ucfirst($this->model_name()).';';
+					eval($eval);
+					$return->push($object->orm_set($row));
 				}
 			}
-			throw new Exception("Table '{$this->_table}' does not exist.");
+			return $return;
 		}
 
 
@@ -146,10 +138,10 @@
 		public function __call($name, $arguments)
 		{
 			// Data column exists
-			if(isset($this->_data["{$this->model_name()}_{$name}"]))
+			if(array_key_exists("{$this->model_name()}_{$name}", $this->_data))
 			{
 				return $this->_data["{$this->model_name()}_{$name}"];
-			}else if(isset($this->_data[$name])){
+			}else if(array_key_exists($name, $this->_data)){
 				return $this->_data[$name];
 			}
 
@@ -286,25 +278,17 @@
 		{
 			if($map_table === NULL)
 			{
-				// Check if table exists
-				if($this->load_helper('Db')->table_info($table) !== FALSE)
-				{
-					// Set relationship
-					$this->_to_many[$table] = $table;
+				// Set relationship
+				$this->_to_many[$table] = $table;
 	
-					// Done
-					return $this;
-				}
+				// Done
+				return $this;
 			}else{
-				// Check if table exists
-				if($this->load_helper('Db')->table_info($table) !== FALSE && $this->load_helper('Db')->table_info($map_table) !== FALSE)
-				{
-					// Set relationship
-					$this->_to_many_map[$table] = $map_table;
+				// Set relationship
+				$this->_to_many_map[$table] = $map_table;
 	
-					// Done
-					return $this;
-				}
+				// Done
+				return $this;
 			}
 
 			throw new Exception("Relationship table does not exist.");
@@ -324,25 +308,17 @@
 		{
 			if($map_table === NULL)
 			{
-				// Check if table exists
-				if($this->load_helper('Db')->table_info($table) !== FALSE)
-				{
-					// Set relationship
-					$this->_to_one[$table] = $table;
-	
-					// Done
-					return $this;
-				}
+				// Set relationship
+				$this->_to_one[$table] = $table;
+
+				// Done
+				return $this;
 			}else{
-				// Check if table exists
-				if($this->load_helper('Db')->table_info($table) !== FALSE && $this->load_helper('Db')->table_info($map_table) !== FALSE)
-				{
-					// Set relationship
-					$this->_to_one_map[$table] = $map_table;
+				// Set relationship
+				$this->_to_one_map[$table] = $map_table;
 	
-					// Done
-					return $this;
-				}
+				// Done
+				return $this;
 			}
 
 			throw new Exception("Table '{$table}' does not exist.");
