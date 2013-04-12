@@ -100,7 +100,7 @@
 			// Load record by ID from database
 			if($id !== NULL)
 			{
-				$load_data = $this->load_helper('Db')->get_row("SELECT * FROM `{$this->model_name()}` WHERE `{$this->model_name()}_id` = '{$this->Db->escape($id)}'   ");
+				$load_data = $this->load_helper('Db')->get_row("SELECT * FROM `{$this->model_name()}` WHERE `{$this->model_name()}_id` = '{$this->Db->escape($id)}' LIMIT 1");
 				if($load_data !== FALSE)
 				{
 					$this->_loaded = TRUE;

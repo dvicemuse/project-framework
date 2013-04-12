@@ -191,7 +191,7 @@
 			}
 
 			// Generate query
-			$sql =  "SELECT * FROM {$this->model_name()} WHERE 1=1 {$clause} {$order} {$this->_limit}";
+			$sql =  "SELECT * FROM `{$this->model_name()}` WHERE 1=1 {$clause} {$order} {$this->_limit}";
 
 			// Reset where
 			$this->_where = array();
@@ -217,8 +217,7 @@
 			// Primary key
 			if(ctype_digit($key_id))
 			{
-				$get = $this->get(intval($key_id));
-				if($get->count() > 0)
+				if($this->load_helper('Db')->get_row("SELECT * FROM `{$this->model_name()}` WHERE `{$this->model_name()}_id` = '{$key_id}' LIMIT 1") !== FALSE)
 				{
 					return TRUE;
 				}else{
@@ -260,9 +259,6 @@
 			$get = $this->get();
 			if($get->count() > 0)
 			{
-				// Primary key
-				$key = $this->load_helper('Db')->get_primary_key($this->model_name());
-				
 				// Add results to retun
 				foreach($get->results() as $r)
 				{
@@ -272,7 +268,7 @@
 						throw new Exception('Field display name not found in result.');
 					}
 					
-					$return[$r[$key]] = $r[$field_display_name];
+					$return[$r["{$this->model_name()}_id"]] = $r[$field_display_name];
 				}
 			}
 			
