@@ -282,6 +282,21 @@ class Framework
 			include("{$this->config()->path->application_path}/framework/template/User/login.php");
 			exit;
 		}
+		
+		// Set the user local time if logged in
+		if($this->Auth->is_logged_in() && isset($this->config()->locale->time_zones))
+		{
+			// Check if time zone is set and valid
+			if($this->Auth->time_zone() != '' && array_key_exists($this->Auth->time_zone(), $this->config()->locale->time_zones))
+			{
+				// Set PHP time zone
+				@date_default_timezone_set($this->Auth->time_zone());
+				
+				// Set MySQL time zone
+				$this->load_helper('Db')->query("SET time_zone = '{$this->Auth->time_zone()}'");
+			}
+		}
+		
 		// See if a page load function exists
 		if(method_exists($this, $this->request->method_name))
 		{
