@@ -428,7 +428,7 @@ RewriteRule ^(.*)$ index.php/$1 [L]';
 		{
 			if($prompt_string !== NULL)
 			{ 
-				echo console_text($prompt_string, 'red');
+				echo console_text($prompt_string, '');
 			}
 			
 			// Get line from user
