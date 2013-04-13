@@ -117,7 +117,7 @@
 				return "\033[41;30m{$string}\033[40;37m\r\n";
 			break;
 			default:
-				return $string;
+				return "{$string}\n";
 		}
 	}
 
