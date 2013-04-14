@@ -5,32 +5,17 @@
 		public $data;						// Data storage
 		public $rules;						// Rule storage
 		public $error;						// Error storage
-		public $print_errors = true;		// Toggle using $this->print_errors(bool);
-		public $print_field_title = true;	// Toggle using $this->print_fields(bool);
+		
+		// Field type
+		protected $_field_type = NULL;
+		
+		// Titles
+		protected $_hide_titles = FALSE;
+		protected $_hide_titles_once = NULL;
 
-
-
-		/**
-		 * Set validation rules
-		 * Will merge over previously set rules
-		 * @param array $rules
-		 * @return bool
-		 */
-		public function add_rules($rules)
-		{
-			if(is_array($rules))
-			{
-				if(is_array($this->rules))
-				{
-					$this->rules = array_merge($this->rules, $rules);
-				}else{
-					$this->rules = $rules;
-				}
-			}else{
-				return FALSE;
-			}
-			return TRUE;
-		}
+		// Errors
+		protected $_hide_errors = FALSE;
+		protected $_hide_errors_once = NULL;
 
 
 
@@ -40,32 +25,21 @@
 		 * @param array $rules
 		 * @return bool
 		 */
-		public function run($data, $rules = NULL)
+		public function run($data, $rules)
 		{
-			// Optional rules
-			if($rules !== NULL)
-			{
-				// Add rules
-				if($this->add_rules($rules) === FALSE)
-				{
-					// Could not add rules
-					return FALSE;
-				}
-			}
+			// Set rules
+			$this->rules = is_array($rules) ? $rules : array();
+
 			// Set data to validate
-			$this->data = $data;
-			
+			$this->data = is_array($data) ? $data : array();
+
 			// Clear errors
 			$this->error = array();
 			
-			// Rules are set
-			if(is_array($this->rules))
+			// Check fields
+			foreach($this->rules as $key => $rule)
 			{
-				// Check fields
-				foreach($this->rules as $k => $v)
-				{
-					$this->check_field($k);
-				}
+				$this->check_field($key);
 			}
 
 			// Check if any errors were set
@@ -75,57 +49,30 @@
 
 
 		/**
-		 * Run field validation
+		 * Run validation on a field
 		 * @param string $field_name
 		 * @return bool
 		 */
 		private function check_field($field_name)
 		{
-			$this->data_copy = $this->data;
+			// Set non conditional flag
+			$this->conditional = FALSE;	
 
-			if(!isset($this->data_copy[$field_name]))
-			{
-				$this->data_copy[$field_name] = '';
-			}
-			
-			$field = $this->data_copy[$field_name];
-			if(is_array($this->data_copy[$field_name]))
-			{
-				// If it is a checkbox array
-				foreach($this->data_copy[$field_name] as $k=>$v)
-				{
-					if(!empty($v))
-					{
-						$this->data_copy[$field_name] = trim($v);
-					}
-				}
-			}else{
-				// Regular string data
-				$this->data_copy[$field_name] = trim($this->data_copy[$field_name]);
-			}
-
-			// Not conditional
-			$this->conditional = FALSE;			
+			// Get field value
+			$field_value = $this->_get_field_value_strip_array($field_name);
 			
 			// Loop through each rule
 			foreach($this->rules[$field_name] as $type => $error)
 			{
-				// Required
-				if(strpos($type, '['))
+				// Look for rule[parameter]
+				if(preg_match('/([_a-z]{1,})\[(.*)\]/i', $type, $m))
 				{
-					// Has parameter
-					$parts = preg_match('/([_a-z]{1,})\[(.*)\]/i', $type, $m);
-					if($parts)
-					{
-						$validation_method = "_rule_{$m[1]}";
-						$this->$validation_method($field_name, $this->data_copy[$field_name], $error, $m[2]);
-					}else{
-						throw new Exception('Invalid rule match pattern.');
-					}
+					$validation_method = "_rule_{$m[1]}";
+					$this->$validation_method($field_name, $field_value, $error, $m[2]);
 				}else{
 					// Does not have parameter
 					$validation_method = "_rule_{$type}";
-					$this->$validation_method($field_name, $this->data_copy[$field_name], $error);
+					$this->$validation_method($field_name, $field_value, $error);
 				}
 			}
 
@@ -140,26 +87,26 @@
 
 
 		/**
-		 * Return form field header wrapper
+		 * Return header wrapper
 		 * @param string $field_name
 		 * @param string $field_label
 		 * @param string $field_type
 		 * @param string $hilight
 		 * @return string
 		 */
-		private function field_wrapper_top($field_name, $field_label, $field_type, &$hilight)
+		protected function _build_wrapper_top($field_name, $field_label, &$attribute_array)
 		{
-			// Unslash the field name
-			if(isset($this->data[$field_name]))
+			// Check for no wrap flag
+			if(isset($attribute_array['validate_no_wrap']))
 			{
-				$this->data[$field_name] = stripslashes($this->data[$field_name]);
+				return '';
 			}
-
+			
 			// Start field wrapper
 			$o = '<div class="field_wrapper">';
 
 			// Check if field title needs to be printed
-			if($this->print_field_title && strlen($field_label) > 0)
+			if($this->_hide_titles === FALSE && strlen($field_label) > 0)
 			{
 				// Output field name
 				$o .= "<p class=\"field_name\">{$field_label}</p>";
@@ -169,21 +116,31 @@
 			if(isset($this->error[$field_name]) && is_array($this->error[$field_name]))
 			{
 				// If we need to print the errors
-				if($this->print_errors)
+				if($this->_hide_errors === FALSE && current($this->error[$field_name]) !== '')
 				{
 					$o .= "<div class=\"validation_error\">";
-					foreach($this->error[$field_name] as $line)
-					{
-						$o .= "<p>{$line}</p>";
-						break;
-					}
+					$o .= "<p>".current($this->error[$field_name])."</p>";
 					$o .= "</div>";
 				}
-				// Set highlight
-				$hilight = ' class="validation_error_border" ';
+				
+				// Set error class
+				$attribute_array['class'][] = 'validation_error_border';
 			}
+			
+			// Turn errors back on if one time flag was set
+			if($this->_hide_errors_once === TRUE)
+			{
+				$this->show_errors();
+			}
+
+			// Turn titles back on if one time flag was set
+			if($this->_hide_titles_once === TRUE)
+			{
+				$this->show_titles();
+			}
+			
 			// Start input wrapper
-			$o .= '<div class="field_input">';
+			$o .= '<div class="field_input'.((isset($attribute_array['validate_padded_error']) && @in_array('validation_error_border', $attribute_array['class'])) ? ' validation_error_border_padded' : '').'">';
 
 			// Return buffer
 			return $o;
@@ -192,19 +149,22 @@
 
 
 		/**
-		 * Return form field header footer
+		 * Return footer wrapper
 		 * @param string $field_name
 		 * @param string $field_label
 		 * @param string $field_type
 		 * @return string
 		 */
-		private function field_wrapper_bottom($field_name, $field_label, $field_type)
+		protected function _build_wrapper_bottom($attribute_array)
 		{
-			// Start buffer
-			$o = '';
+			// Check for no wrap flag
+			if(isset($attribute_array['validate_no_wrap']))
+			{
+				return '';
+			}
 
 			// Close input wrapper
-			$o .= '</div>';
+			$o = '</div>';
 
 			// Close field wrapper
 			$o .= "</div>\n";
@@ -216,39 +176,68 @@
 
 
 		/**
-		 * Return a form text field
+		 * Return a checkbox field
 		 * @param string $field_name
 		 * @param string $field_label
-		 * @param string $field_type
-		 * @param string $extra
+		 * @param array $field_value
+		 * @param array $attribute_array
+		 * @param bool $single_value
 		 * @return string
 		 */
-		public function print_field($field_name, $field_label, $field_type, $extra = '')
+		public function print_checkbox($field_name, $field_label, $field_value, $attribute_array = array(), $single_value = FALSE)
 		{
-			// Start buffer
-			$o = '';
-
-			// Field highlight
-			$hilight = '';
-
+			// Trigger padded field validation errors
+			$attribute_array['validate_padded_error'] = 'true';
+			
+			// Normalize attribute array
+			$attribute_array = $this->_process_attribute($attribute_array);
+			
 			// Wrapper top
-			$o .= $this->field_wrapper_top($field_name, $field_label, $field_type, $hilight);
+			$o = $this->_build_wrapper_top($field_name, $field_label, $attribute_array);
 
-			// Field types
-			if($field_type == 'text')
+			// Wrap with ID
+			$o .= "<div id=\"{$field_name}\">";
+
+			// Loop through checkbox values
+			if(is_array($field_value))
 			{
-				// Text
-				$o .= "<input type=\"text\" name=\"{$field_name}\" id=\"{$field_name}\" value=\"{$this->data[$field_name]}\" {$extra} {$hilight} />";
-			}else if($field_type == 'password'){
-				// Password
-				$o .= "<input type=\"password\" name=\"{$field_name}\" id=\"{$field_name}\" value=\"{$this->data[$field_name]}\" {$extra} {$hilight} />";
-			}else if($field_type == 'textarea'){
-				// Textarea
-				$o .= "<textarea name=\"{$field_name}\" id=\"{$field_name}\" {$extra} {$hilight}>{$this->data[$field_name]}</textarea>";
+				foreach($field_value as $key => $value)
+				{
+					// Copy the attribute array
+					$attribute_array_copy = $attribute_array;
+					
+					// See if the input field should be checked
+					if(isset($this->data[$field_name]))
+					{
+						if(!empty($key) && is_string($this->data[$field_name]) && $key == $this->data[$field_name])
+						{
+							// Set checked attribute
+							$attribute_array_copy['checked'] = 'checked';
+						}else if(is_array($this->data[$field_name]) && in_array($key, $this->data[$field_name])){
+							// Set checked attribute
+							$attribute_array_copy['checked'] = 'checked';
+						}
+					}
+	
+					// Save the data array to a temp variable and then overwrite (multi checkbox handling)
+					$data_tmp = (isset($this->data[$field_name]) ? $this->data[$field_name] : '');
+					$this->data[$field_name] = $key;
+				
+					// Build field
+					$o .= '<p class="checkbox_wrapper">';
+					$o .= $this->_build_field('checkbox', $field_name . ($single_value ? '' : '[]'), $attribute_array_copy);
+					$o .= (!empty($value) ? " {$value}" : '') . '</p>';
+					
+					// Set data value back
+					$this->data[$field_name] = $data_tmp;
+				}
 			}
 
+			// Close ID wrapper
+			$o .= "</div>";
+
 			// Wrapper bottom
-			$o .= $this->field_wrapper_bottom($field_name, $field_label, $field_type);
+			$o .= $this->_build_wrapper_bottom($attribute_array);
 
 			// Return buffer
 			return $o;
@@ -257,188 +246,452 @@
 
 
 		/**
-		 * Return a form dropdown field
+		 * Return a radio field
+		 * @param string $field_name
+		 * @param string $field_label
+		 * @param string $field_value
+		 * @param array $attribute_array
+		 * @param bool $single_value
+		 * @return string
+		 */
+		public function print_radio($field_name, $field_label, $field_value, $attribute_array = array())
+		{
+			// Trigger padded field validation errors
+			$attribute_array['validate_padded_error'] = 'true';
+			
+			// Normalize attribute array
+			$attribute_array = $this->_process_attribute($attribute_array);
+			
+			// Wrapper top
+			$o = $this->_build_wrapper_top($field_name, $field_label, $attribute_array);
+			
+			// Wrap with ID
+			$o .= "<div id=\"{$field_name}\">";
+			
+			// Loop through checkbox values
+			if(is_array($field_value))
+			{
+				foreach($field_value as $key => $value)
+				{
+					// Copy the attribute array
+					$attribute_array_copy = $attribute_array;
+	
+					// See if the input field should be checked
+					if($key == $this->_get_field_value($field_name))
+					{
+						// Set checked attribute
+						$attribute_array_copy['checked'] = 'checked';
+					}
+	
+					// Save the data array to a temp variable and then overwrite (multi radio handling)
+					$data_tmp = $this->_get_field_value($field_name);
+					$this->data[$field_name] = $key;
+	
+					// Build field
+					$o .= '<p class="radio_wrapper">';
+					$o .= $this->_build_field('radio', $field_name, $attribute_array_copy);
+					$o .= (!empty($value) ? " {$value}" : '') . '</p>';
+					
+					// Set data value back
+					$this->data[$field_name] = $data_tmp;
+				}
+			}
+
+			// Close ID wrapper
+			$o .= "</div>";
+
+			// Wrapper bottom
+			$o .= $this->_build_wrapper_bottom($attribute_array);
+
+			// Return buffer
+			return $o;
+		}
+
+
+
+		/**
+		 * Return a hidden field
+		 * @param string $field_name
+		 * @param array $attribute_array
+		 * @return string
+		 */
+		public function print_hidden($field_name, $attribute_array = array())
+		{
+			// Set the no wrap flag
+			$attribute_array = $this->_process_attribute($attribute_array);
+			$attribute_array['validate_no_wrap'] = 'true';
+			
+			// Set type and pass to print_text()
+			return $this->_set_field_type('hidden')->print_text($field_name, '', $attribute_array);
+		}
+
+
+
+		/**
+		 * Return a password field
+		 * @param string $field_name
+		 * @param string $field_label
+		 * @param array $attribute_array
+		 * @return string
+		 */
+		public function print_password($field_name, $field_label, $attribute_array = array())
+		{
+			// Set type and pass to print_text()
+			return $this->_set_field_type('password')->print_text($field_name, $field_label, $attribute_array);
+		}
+
+
+
+		/**
+		 * Return a textarea field
+		 * @param string $field_name
+		 * @param string $field_label
+		 * @param array $attribute_array
+		 * @return string
+		 */
+		public function print_textarea($field_name, $field_label, $attribute_array = array())
+		{
+			// Set type and pass to print_text()
+			return $this->_set_field_type('textarea')->print_text($field_name, $field_label, $attribute_array);
+		}
+
+
+
+		/**
+		 * Return a text field
+		 * @param string $field_name
+		 * @param string $field_label
+		 * @param array $attribute_array
+		 * @return string
+		 */
+		public function print_text($field_name, $field_label, $attribute_array = array())
+		{
+			// Normalize attribute array
+			$attribute_array = $this->_process_attribute($attribute_array);
+			
+			// Wrapper top
+			$o = $this->_build_wrapper_top($field_name, $field_label, $attribute_array);
+
+			// Build field
+			$o .= $this->_build_field($this->_get_field_type('text'), $field_name, $attribute_array);
+
+			// Wrapper bottom
+			$o .= $this->_build_wrapper_bottom($attribute_array);
+
+			// Return buffer
+			return $o;
+		}
+
+
+
+		/**
+		 * Return a dropdown field
 		 * @param string $field_name
 		 * @param string $field_label
 		 * @param string $values
 		 * @param string $extra
 		 * @return string
 		 */
-		public function print_select($field_name, $field_label, $values, $extra = '')
+		public function print_select($field_name, $field_label, $field_value, $attribute_array = array())
 		{
-			// Multiple selected element fix
-			$field_name_copy = $field_name;
-			$field_name = str_replace('[]', '', $field_name);
-			$selected_values = $this->data[$field_name];
-			if(!is_array($selected_values))
-			{
-				unset($selected_values);
-				$selected_values[] = $this->data[$field_name];
-			}
-
-			// Start buffer
-			$o = '';
-
-			// Field highlight
-			$hilight = '';
+			// Normalize attribute array
+			$attribute_array = $this->_process_attribute($attribute_array);
 
 			// Wrapper top
-			$o .= $this->field_wrapper_top($field_name, $field_label, 'select', $hilight);
+			$o = $this->_build_wrapper_top($field_name, $field_label, $attribute_array);
 
 			// Start select
-			$o .= "<select name=\"{$field_name_copy}\" id=\"{$field_name}\" {$extra} {$hilight} />";
+			$o .= $this->_build_field('select', $field_name . (isset($attribute_array['multiple'][0]) ? '[]' : ''), $attribute_array);
 
-			if(is_array($values))
+			if(is_array($field_value))
 			{
-				// Loop through values
-				foreach($values as $k => $v)
+				// Convert values to array (multiple selection)
+				$tmp_data = $this->_get_field_value($field_name);
+				if(is_string($tmp_data))
 				{
-					$selected = '';
-					if(in_array(html_entity_decode($k), $selected_values))
-					{
-						$selected = ' selected ';
-					}
-					$o .= '<option value="' . $k . '" ' . $selected . '>';
-					$o .= $v;
+					$tmp_data = array($tmp_data);
+				}
+				
+				// Loop through values
+				foreach($field_value as $key => $value)
+				{
+					$o .= '<option value="' . $key . '" ' . (in_array($key, $tmp_data) ? 'selected' : '') . '>';
+					$o .= $value;
 					$o .= '</option>';
 				}
 			}
 			$o .= "</select>";
 
 			// Wrapper bottom
-			$o .= $this->field_wrapper_bottom($field_name, $field_label, 'select');
+			$o .= $this->_build_wrapper_bottom($attribute_array);
 
 			// Return buffer
 			return $o;
 		}
 
 
-
+		
 		/**
-		 * Return form checkbox fields
-		 * @param string $field_name
-		 * @param string $field_label
-		 * @param string $values
-		 * @param string $extra
-		 * @return string
+		 * Set the field type
+		 * @param string $field_type
+		 * @return Validate
 		 */
-		public function print_checkbox($field_name, $field_label, $values, $extra = '')
+		protected function _set_field_type($field_type)
 		{
-			// Start buffer
-			$o = '';
-
-			// Field highlight
-			$hilight = '';
-
-			// Wrapper top
-			$o .= $this->field_wrapper_top($field_name, $field_label, $field_type, $hilight);
-
-			// Start padded error border
-			$o .= "<div class=\"{$hilight}_padded\">";
-
-			if(is_array($values))
-			{
-				// Loop through values
-				foreach($values as $k => $v)
-				{
-					$selected = '';
-					if(is_array($this->data[$field_name]) && in_array($k, $this->data[$field_name]))
-					{
-						$selected = ' checked ';
-					}
-					$o .= '<p><input type="checkbox" name="'.$field_name.'[]" value="' . $k . '" ' . $selected . ' '.$extra.'/> ' . $v . '</p>';
-				}
-			}
-
-			// Close padded error border
-			$o .= '</div>';
-			
-			// Wrapper bottom
-			$o .= $this->field_wrapper_bottom($field_name, $field_label, $field_type);
-
-			// Return buffer
-			return $o;
-		}
-
-
-
-		/**
-		 * Return form radio fields
-		 * @param string $field_name
-		 * @param string $field_label
-		 * @param string $values
-		 * @param string $extra
-		 * @return string
-		 */
-		public function print_radio($field_name, $field_label, $values, $extra = '')
-		{
-			// Start buffer
-			$o = '';
-
-			// Field highlight
-			$hilight = '';
-
-			// Wrapper top
-			$o .= $this->field_wrapper_top($field_name, $field_label, $field_type, $hilight);
-
-			// Start padded error border
-			$o .= "<div class=\"{$hilight}_padded\">";
-
-			if(is_array($values))
-			{
-				foreach($values as $k => $v)
-				{
-					$selected = '';
-					if($k == $this->data[$field_name])
-					{
-						$selected = ' checked ';
-					}
-					$o .= '<p><input type="radio" name="'.$field_name.'" value="' . $k . '" ' . $selected . ' '.$extra.'/> ' . $v . '</p>';
-				}
-			}
-			// Close padded error border
-			$o .= '</div>';
-
-			// Wrapper bottom
-			$o .= $this->field_wrapper_bottom($field_name, $field_label, $field_type);
-
-			// Return buffer
-			return $o;
-		}
-
-
-
-		/**
-		 * Show/hide field error messages
-		 * @param <type> $bool
-		 * @return object self
-		 */
-		public function print_errors($bool)
-		{
-			// Boolean param
-			if(is_bool($bool))
-			{
-				$this->print_errors = $bool;
-			}
-			// Return self
+			$this->_field_type = $field_type;
 			return $this;
 		}
 
 
 
 		/**
-		 * Show/hide field titles
-		 * @param <type> $bool
-		 * @return object self
+		 * Get the field type, return default if no type is set
+		 * @param string $default_type
+		 * @return string
 		 */
-		public function print_titles($bool)
+		protected function _get_field_type($default_type)
 		{
-			// Boolean param
-			if(is_bool($bool))
+			// Check if override type is set
+			if($this->_field_type !== NULL)
 			{
-				$this->print_field_title = $bool;
+				// Use override
+				$default_type = $this->_field_type;
+				$this->_field_type = NULL;
 			}
-			// Return self
+			
+			// Return type
+			return $default_type;
+		}
+
+
+		
+		/**
+		 * Get a field value, initialize if not set
+		 * @param string $field_name
+		 * @return string|array
+		 */
+		protected function _get_field_value($field_name)
+		{
+			// Multiple value support
+			$field_name = str_replace('[]', '', $field_name);
+			
+			// Initialize value
+			if(!isset($this->data[$field_name]))
+			{
+				$this->data[$field_name] = '';
+			}
+			
+			// Return value
+			return $this->data[$field_name];
+		}
+
+
+
+		/**
+		 * Get a field value, initialize if not set
+		 * If value is an array return first non empty value
+		 * @param string $field_name
+		 * @return string|array
+		 */
+		protected function _get_field_value_strip_array($field_name)
+		{
+			$field_value = $this->_get_field_value($field_name);
+			if(is_array($field_value))
+			{
+				// Data is an array, use first non empty value
+				foreach($field_value as $key => $value)
+				{
+					if(!empty($value))
+					{
+						$field_value = trim($value);
+						break;
+					}
+				}
+			}
+
+			// Return value
+			return $field_value;
+		}
+
+
+		
+		/**
+		 * Generate fields
+		 * @param string $field_type
+		 * @param string $field_name
+		 * @param array $attribute_array
+		 * @return string
+		 */
+		protected function _build_field($field_type, $field_name, $attribute_array)
+		{
+			// Check parameters
+			if(!in_array($field_type, array('text', 'password', 'hidden', 'textarea', 'checkbox', 'radio', 'select'))){ throw new Exception('Invalid field type.'); }
+
+			// Select
+			if($field_type == 'select')
+			{
+				return "<select name=\"{$field_name}\" id=\"".str_replace('[]','', $field_name)."\" {$this->_build_attribute($attribute_array)}>";
+			}
+
+			// Textarea
+			if($field_type == 'textarea')
+			{
+				return "<textarea name=\"{$field_name}\" id=\"{$field_name}\" {$this->_build_attribute($attribute_array)}>{$this->_get_field_value($field_name)}</textarea>";
+			}
+			
+			// All other input
+			return "<input type=\"{$field_type}\" name=\"{$field_name}\" ". (!in_array($field_type, array('radio', 'checkbox')) ? "id=\"{$field_name}\"" : "") ." value=\"{$this->_get_field_value($field_name)}\" {$this->_build_attribute($attribute_array)} />";
+		}
+
+
+		
+		/**
+		 * Normalize attribute array
+		 * @param array $attribute_array
+		 * @return array
+		 */
+		protected function _process_attribute($attribute_array)
+		{
+			// Check parameter
+			if(!is_array($attribute_array)){ throw new Exception('Invalid attribute array.'); }
+			
+			// Initialize return
+			$return = array();
+			
+			// Loop through and generate normalized array
+			foreach($attribute_array as $key => $value)
+			{
+				if(is_array($value))
+				{
+					foreach($value as $value_2)
+					{
+						if(is_string($value_2))
+						{
+							$return[$key][] = $value_2;
+						}
+					}
+				}else if(is_string($value)){
+					$return[$key][] = $value;
+				}
+			}
+			
+			// Done
+			return $return;
+		}
+
+
+
+		/**
+		 * Build attribute string
+		 * @param $attribute_array
+		 * @return string
+		 */
+		protected function _build_attribute($attribute_array)
+		{
+			// Check parameter
+			if(!is_array($attribute_array)){ throw new Exception('Invalid attribute array.'); }
+			
+			// Remove attributes that should not be set
+			unset($attribute_array['id'], $attribute_array['type'], $attribute_array['name'], $attribute_array['value'], $attribute_array['validate_padded_error'], $attribute_array['validate_no_wrap']);
+			
+			// Initialize return
+			$return = '';
+			
+			// Loop through and combine
+			foreach($attribute_array as $key => $value)
+			{
+				// Reset buffer
+				$buffer = '';
+				
+				// Array found
+				if(is_array($value))
+				{
+					// Add eachitem to the attribute value
+					foreach($value as $key_2 => $value_2)
+					{
+						$buffer .= "{$value_2} ";
+					}
+				}
+
+				// Wrap buffer with attribute name
+				$return .= $key.'="'.trim($buffer).'"';
+			}
+			return $return;
+		}
+
+
+
+		/**
+		 * Do not show field errors
+		 * @param bool $hide_once
+		 * @return Validate
+		 */
+		public function hide_errors($hide_once = FALSE)
+		{
+			// Set titles to hidden
+			$this->_hide_errors = TRUE;
+			
+			// Only hide for the next field
+			if($hide_once === TRUE)
+			{
+				$this->_hide_errors_once = TRUE;
+			}
+			
+			// Return
+			return $this;
+		}
+
+
+
+		/**
+		 * Show field errors
+		 * @return Validate
+		 */
+		public function show_errors()
+		{
+			// Set titles to hidden
+			$this->_hide_errors = FALSE;
+			$this->_hide_errors_once = NULL;
+			
+			// Return
+			return $this;
+		}
+
+
+
+		/**
+		 * Do not show field titles
+		 * @param bool $hide_once
+		 * @return Validate
+		 */
+		public function hide_titles($hide_once = FALSE)
+		{
+			// Set titles to hidden
+			$this->_hide_titles = TRUE;
+			
+			// Only hide for the next field
+			if($hide_once === TRUE)
+			{
+				$this->_hide_titles_once = TRUE;
+			}
+			
+			// Return
+			return $this;
+		}
+
+
+
+		/**
+		 * Show field titles
+		 * @return Validate
+		 */
+		public function show_titles()
+		{
+			// Set titles to hidden
+			$this->_hide_titles = FALSE;
+			$this->_hide_titles_once = NULL;
+			
+			// Return
 			return $this;
 		}
 
@@ -476,6 +729,24 @@
 			throw new Exception('Array expected.');
 		}
 
+
+
+		/**
+		 * Array of state names (abbreviation => full name)
+		 * @param bool $show_blank
+		 * @return string
+		 */
+		public function states($show_blank = TRUE)
+		{
+			$states = $this->config()->locale->states;
+			if($show_blank)
+			{
+				$ret = array('' => ' ');
+				return array_merge($ret, $states);
+			}else{
+				return $states;
+			}
+		}
 
 
 
@@ -584,7 +855,7 @@
 
 		protected function _rule_numeric($field_name, $value, $error)
 		{
-			if(!ctype_digit(str_replace('.', '', $value)))
+			if(!ctype_digit(str_replace(array('-', '.'), '', $value)))
 			{
 				$this->error[$field_name][] = $error;
 			}
@@ -757,78 +1028,6 @@
 		}
 
 
-
-		/**
-		 * Array of state names (abbreviation => full name)
-		 * @param bool $show_blank
-		 * @return string
-		 */
-		public function states($show_blank = TRUE)
-		{
-			$states = array (
-				'AL' => 'ALABAMA',
-				'AK' => 'ALASKA',
-				'AZ' => 'ARIZONA',
-				'AR' => 'ARKANSAS',
-				'CA' => 'CALIFORNIA',
-				'CO' => 'COLORADO',
-				'CT' => 'CONNECTICUT',
-				'DE' => 'DELAWARE',
-				'FL' => 'FLORIDA',
-				'GA' => 'GEORGIA',
-				'GU' => 'GUAM',
-				'HI' => 'HAWAII',
-				'ID' => 'IDAHO',
-				'IL' => 'ILLINOIS',
-				'IN' => 'INDIANA',
-				'IA' => 'IOWA',
-				'KS' => 'KANSAS',
-				'KY' => 'KENTUCKY',
-				'LA' => 'LOUISIANA',
-				'ME' => 'MAINE',
-				'MD' => 'MARYLAND',
-				'MA' => 'MASSACHUSETTS',
-				'MI' => 'MICHIGAN',
-				'MN' => 'MINNESOTA',
-				'MS' => 'MISSISSIPPI',
-				'MO' => 'MISSOURI',
-				'MT' => 'MONTANA',
-				'NE' => 'NEBRASKA',
-				'NV' => 'NEVADA',
-				'NH' => 'NEW HAMPSHIRE',
-				'NJ' => 'NEW JERSEY',
-				'NM' => 'NEW MEXICO',
-				'NY' => 'NEW YORK',
-				'NC' => 'NORTH CAROLINA',
-				'ND' => 'NORTH DAKOTA',
-				'OH' => 'OHIO',
-				'OK' => 'OKLAHOMA',
-				'OR' => 'OREGON',
-				'PW' => 'PALAU',
-				'PA' => 'PENNSYLVANIA',
-				'PR' => 'PUERTO RICO',
-				'RI' => 'RHODE ISLAND',
-				'SC' => 'SOUTH CAROLINA',
-				'SD' => 'SOUTH DAKOTA',
-				'TN' => 'TENNESSEE',
-				'TX' => 'TEXAS',
-				'UT' => 'UTAH',
-				'VT' => 'VERMONT',
-				'VI' => 'VIRGIN ISLANDS',
-				'VA' => 'VIRGINIA',
-				'WA' => 'WASHINGTON',
-				'WV' => 'WEST VIRGINIA',
-				'WI' => 'WISCONSIN',
-				'WY' => 'WYOMING',
-			);
-			if($show_blank)
-			{
-				$ret = array('' => ' ');
-				return array_merge($ret, $states);
-			}else{
-				return $states;
-			}
-		}
 
 	}
 

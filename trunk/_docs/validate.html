@@ -504,7 +504,7 @@
 
 
 	<a name="rule_no_space"></a>
-	<h2>No Spaces</h2>
+	<h2>No Spaces In Value</h2>
 	<h3>no_space</h3>
 	<p>Checks that the value string does not contain spaces.</p>
 	<code>array('field_name' => array('<var>no_space</var>' => 'Value cannot contain space characters.'))</code>
@@ -513,11 +513,110 @@
 
 
 
+	<a name="rule_numeric"></a>
+	<h2>Numeric Value</h2>
+	<h3>numeric</h3>
+	<p>Checks that the value is numeric. Will allow decimal and negative values.</p>
+	<code>array('field_name' => array('<var>numeric</var>' => 'Value must be numeric.'))</code>
+
+
+
+
+	<a name="rule_positive"></a>
+	<h2>Positive Value</h2>
+	<h3>positive</h3>
+	<p>Checks that the value a positive value.</p>
+	<code>array('field_name' => array('<var>positive</var>' => 'Value must be positive.'))</code>
+
+	<p class="important"><strong>Note:</strong>&nbsp; <var>positive</var> is a simple sign check. For true numeric validation, <var>positive</var> must be used in conjunction with <var>numeric</var>.</p>
 
 
 
 
 
+	<a name="rule_money"></a>
+	<h2>Money Value</h2>
+	<h3>money</h3>
+	<p>Checks that a value is numeric after stripping specific money format characters ($,).</p>
+	<code>array('field_name' => array('<var>money</var>' => 'Value is not a money string.'))</code>
+
+
+
+
+
+
+	<a name="rule_numeric_thousands"></a>
+	<h2>Money Value</h2>
+	<h3>numeric_thousands</h3>
+	<p>Checks that a value is numeric after stripping grouped thousand characters (,).</p>
+	<code>array('field_name' => array('<var>numeric_thousands</var>' => 'Value is not a grouped thousand numeric string.'))</code>
+
+
+
+
+
+
+	<a name="rule_email"></a>
+	<h2>Email Address Value</h2>
+	<h3>email</h3>
+	<p>Checks that a value is a valid email address.</p>
+	<code>array('field_name' => array('<var>email</var>' => 'Invalid email address.'))</code>
+
+	<p class="important"><strong>Note:</strong>&nbsp; <var>email</var> only verifies the syntax of an email address.</p>
+
+
+
+
+
+
+
+	<a name="rule_date"></a>
+	<h2>Date Value</h2>
+	<h3>date</h3>
+	<p>Checks that a value is a valid date. Supports using - or / as delimeter. YYYY-MM-DD and MM-DD-YYYY formats are allowed. Relies on strtotime() for actual date verification.</p>
+	<code>array('field_name' => array('<var>date</var>' => 'Invalid date.'))</code>
+
+	<h3>Valid dates:</h3>
+	<p>Most permutations of the following are valid.</p>
+	<pre>2000-05-05
+5/5/2000</pre>
+
+
+
+
+
+	<a name="rule_time"></a>
+	<h2>Time Value</h2>
+	<h3>time</h3>
+	<p>Checks that a value is a valid 12 hour time. Supported format is: HH:MM AA.</p>
+	<code>array('field_name' => array('<var>time</var>' => 'Invalid time.'))</code>
+
+	<h3>Valid times:</h3>
+	<p>Most permutations of the following are valid.</p>
+	<pre>1:15 AM
+01:15AM
+12:59PM</pre>
+
+
+
+
+
+	<a name="rule_unique"></a>
+	<h2>Unique Database Value</h2>
+	<h3>unique[table.column]</h3>
+	<p>Checks that a value is unique in the database.</p>
+	<code>array('field_name' => array('<var>unique[table.column]</var>' => 'Value must be unique.'))</code>
+
+	<p class="important"><strong>Note:</strong>&nbsp; If the <var>table</var> primary key is present in the data array, the value in that field will be excluded from the unique check results. This makes updating an existing row possible.</p>
+
+
+
+
+	<a name="rule_exists"></a>
+	<h2>Database Value Exists</h2>
+	<h3>exists[table.column]</h3>
+	<p>Checks that a value exists in the database.</p>
+	<code>array('field_name' => array('<var>exists[table.column]</var>' => 'Value does not exist in column.'))</code>
 
 
 

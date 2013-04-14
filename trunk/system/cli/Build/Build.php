@@ -256,7 +256,7 @@
 				echo console_text("CREATING USER RECORD (test@test.com : password)", 'green');
 				$sql = "
 					INSERT INTO `user` (`user_id`, `user_email`, `user_password`, `user_first_name`, `user_last_name`, `user_update_hash`, `user_time_zone`, `user_last_login`, `user_create_time`) VALUES
-					(1, 'test@test.com', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 'Test', 'User', 'a09a563afe50e95dbc0dad61ca12630b', 'America/Los_Angeles', '2013-04-13 22:52:44', '0000-00-00 00:00:00');
+					(1, 'test@test.com', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 'Test', 'User', 'a09a563afe50e95dbc0dad61ca12630b', 'America/Los_Angeles', NULL, NOW());
 				";
 				$this->_fw->load_helper('Db')->query($sql);
 				echo console_text("...SUCCESS", 'green');
