@@ -474,7 +474,7 @@
 					$endStr=strpos($types,")");
 					$types=substr($types,$beginStr,$endStr-$beginStr);
 					$types=str_replace("'","",$types);
-					$types=split(',',$types);
+					$types=explode(',',$types);
 					sort($types);
 				}
 			}
