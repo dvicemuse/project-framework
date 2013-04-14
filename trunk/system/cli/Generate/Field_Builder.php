@@ -67,7 +67,7 @@
 		
 			// Done
 			$this->_rules = $this->_make_rule_array_string($rules);
-			$this->_field_print = '<?= $this->Validate->print_field(\''.$this->_name().'\', \''.$this->_friendly_name().'\', \'text\'); ?>'."\n";
+			$this->_field_print = '<?= $this->Validate->print_text(\''.$this->_name().'\', \''.$this->_friendly_name().'\'); ?>'."\n";
 		}		
 		
 				
@@ -99,7 +99,7 @@
 			
 			// Done
 			$this->_rules = $this->_make_rule_array_string($rules);
-			$this->_field_print = '<?= $this->Validate->print_field(\''.$this->_name().'\', \''.$this->_friendly_name().'\', \'text\'); ?>'."\n";
+			$this->_field_print = '<?= $this->Validate->print_text(\''.$this->_name().'\', \''.$this->_friendly_name().'\'); ?>'."\n";
 		}
 
 
@@ -117,7 +117,7 @@
 
 			// Done
 			$this->_rules = $this->_make_rule_array_string($rules);
-			$this->_field_print = '<?= $this->Validate->print_field(\''.$this->_name().'\', \''.$this->_friendly_name().'\', \'textarea\'); ?>'."\n";
+			$this->_field_print = '<?= $this->Validate->print_textarea(\''.$this->_name().'\', \''.$this->_friendly_name().'\'); ?>'."\n";
 		}
 
 
@@ -163,7 +163,7 @@
 			$extra = $parts[3];
 
 			// Default field output
-			$this->_field_print = '<?= $this->Validate->print_field(\''.$this->_name().'\', \''.$this->_friendly_name().'\', \'text\'); ?>'."\n";
+			$this->_field_print = '<?= $this->Validate->print_text(\''.$this->_name().'\', \''.$this->_friendly_name().'\'); ?>'."\n";
 
 			// Basic validation
 			$rules['reqd'] = 'Field is required.';
