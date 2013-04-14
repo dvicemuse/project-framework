@@ -174,6 +174,18 @@ class Validate_Helper_Test extends UnitTestCase
 		$data	= array('test_field' => '123.123');
 		$this->v->run($data, $rules);
 		$this->assertFalse(isset($this->v->error['test_field']));
+
+		// Numeric (negative)
+		$rules	= array('test_field' => array('numeric' => 'Error'));
+		$data	= array('test_field' => '-123');
+		$this->v->run($data, $rules);
+		$this->assertFalse(isset($this->v->error['test_field']));
+
+		// Numeric (negative decimal)
+		$rules	= array('test_field' => array('numeric' => 'Error'));
+		$data	= array('test_field' => '-123.894');
+		$this->v->run($data, $rules);
+		$this->assertFalse(isset($this->v->error['test_field']));
 	}
 
 
