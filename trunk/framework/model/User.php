@@ -9,7 +9,7 @@ class User extends Model_Base
 	{
 		parent::__construct();
 		$this->load_helper('Db');
-		$this->load_helper('Validate')->print_titles(FALSE)->print_errors(FALSE);
+		$this->load_helper('Validate')->hide_titles()->hide_errors();
 	}
 
 

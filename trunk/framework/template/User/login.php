@@ -43,7 +43,7 @@
 
 			<div class="field_row_wrapper">
 				<h2>Email Address:</h2>
-				<?= $this->User->Validate->print_field('user_email', 'Email', 'text', 'title="Enter your account email address." tabindex = "1" autocomplete="off" '); ?>
+				<?= $this->User->Validate->print_text('user_email', 'Email', array('title' => "Enter your account email address.", 'tabindex' => '1', "autocomplete" => "off")); ?>
 			</div>
 
 			<div class="clear"></div>
@@ -51,10 +51,10 @@
 			<div class="field_row_wrapper">
 				<h2>Password:</h2>
 				<a class="password_reset" href="<?= $this->page_link('user', 'reset_password') ?>" title="Reset your account password.">Forgot your password?</a>
-				<?= $this->User->Validate->print_field('user_password', 'Password', 'password', 'style="width: 150px;" title="Enter your account password." tabindex = "2" autocomplete="off" '); ?>
+				<?= $this->User->Validate->print_password('user_password', 'Password', array("style" => 'width: 150px;', 'title' => "Enter your account password.", 'tabindex' => '2', 'autocomplete' => "off")); ?>
 			</div>
 
-			<input type="submit" name="login_submit" value="Enter" class="submit_button" title="Submit you login information and go to the administration dashboard." tabindex = "3" />
+			<input type="submit" name="login_submit" value="Enter" class="submit_button" title="Submit you login information and go to the administration dashboard." tabindex="3" />
 			<div class="clear"></div>
 
 		</form>
