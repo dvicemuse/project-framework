@@ -6,7 +6,7 @@
 		{
 			// Load modules
 			$this->load_model('User');
-			$this->load_helper('Validate')->print_titles(FALSE)->print_errors(FALSE);
+			$this->load_helper('Validate')->hide_titles()->hide_errors();
 
 			// Form submitted
 			if(!empty($_POST))
@@ -38,7 +38,7 @@
 		{
 			// Load modules
 			$this->load_model('User');
-			$this->load_helper('Validate')->print_titles(FALSE)->print_errors(FALSE);
+			$this->load_helper('Validate')->hide_titles()->hide_errors();
 
 			// Validate hash
 			$user = $this->User->where('user_update_hash', $this->request->raw[2])->get()->result();
