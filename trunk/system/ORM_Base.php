@@ -100,13 +100,16 @@
 			// Load record by ID from database
 			if($id !== NULL)
 			{
-				$load_data = $this->load_helper('Db')->get_row("SELECT * FROM `{$this->model_name()}` WHERE `{$this->model_name()}_id` = '{$this->Db->escape($id)}' LIMIT 1");
-				if($load_data !== FALSE)
+				if($this->is_id($id))
 				{
-					$this->_loaded = TRUE;
-					$this->_data = $load_data;
-					$this->_orm_from_database_transform();
-					return $this;
+					$load_data = $this->load_helper('Db')->get_row("SELECT * FROM `{$this->model_name()}` WHERE `{$this->model_name()}_id` = '{$id}' LIMIT 1");
+					if($load_data !== FALSE)
+					{
+						$this->_loaded = TRUE;
+						$this->_data = $load_data;
+						$this->_orm_from_database_transform();
+						return $this;
+					}
 				}
 				throw new Exception("Object with ID '{$id}' does not exist.");
 			}
@@ -373,6 +376,31 @@
 			return $this;
 		}
 
+
+
+		/**
+		 * @brief Set orm data for an object and mark as loaded.
+		 * 
+		 * @param array $data_array
+		 * @return object - ORM_Base derived object
+		 * @throws Exception - if data is not an array 
+		 */
+		public function orm_set_load($data_array)
+		{
+			// Check that array was passed
+			if(!is_array($data_array)){ throw new Exception('Array expected.');}
+			
+			// Add data to model
+			foreach($data_array as $k => $v)
+			{
+				$this->_data[$k] = $v;
+				$this->_loaded = TRUE;
+			}
+			
+			// Return
+			return $this;
+		}
+	
 		
 		
 		/**
@@ -441,17 +469,7 @@
 			 
 			 return $this;
 		 }
-		 /*@todo remove dead code
-		 public function __construct {
-		 	$this->ORM_transform('table_date', '_set_date', '_get_date');
-		 }
-		 protected function _set_date($value) {
-		 	return date('Y-m-d', strtotime($value));
-		 }
-		 protected function _get_date($value) {
-		 	return date('m-d-Y', strtotime($value));
-		 }
-		 */		 
+
 		 
 		 
 		/**
