@@ -19,7 +19,7 @@
 		 * @var $_loaded
 		 * @brief boolean check to ensure object currently loaded via ORM_load call
 		 */
-		protected $_loaded		= FALSE;
+		protected $_loaded = FALSE;
 		
 		/**
 		 * @var $_data
@@ -31,32 +31,37 @@
 		 * @var $_to_many
 		 * @brief array defining one to many relationships
 		 */
-		protected $_to_many		= array();
+		protected $_to_many = array();
 		
 		/**
 		 * @var $_to_many_map
 		 * @brief array defining one to many relationships with mapping tables
 		 */
-		protected $_to_many_map	= array();
+		protected $_to_many_map = array();
 		
 		/**
 		 * @var $_to_one
 		 * @brief array defining one to one relationships
 		 */
-		protected $_to_one		= array();
+		protected $_to_one = array();
 		
 		/**
 		 * @var $_to_one_map
 		 * @brief array defining one to one relationships with mapping tables
 		 */
-		protected $_to_one_map	= array();
+		protected $_to_one_map = array();
 		
 		/**
 		 * @var $_transform
 		 * @brief array of transformation mappings for to/from tables
 		 */
-		protected $_transform	= array();
+		protected $_transform = array();
 
+		/**
+		 * @var $_hook
+		 * @brief array of event hooks
+		 */
+		protected $_hook = array();
 
 
 		/**
@@ -355,6 +360,40 @@
 
 
 		/**
+		 * @brief Add an ORM event hook listener
+		 * 
+		 * @param string $event_name
+		 * @param string $callback_method
+		 * @return object - ORM_Base derived object
+		 */		
+		public function orm_hook($event_name, $callback_method = NULL, $arguments = NULL)
+		{
+			if(!empty($event_name) && $callback_method != NULL)
+			{
+				// Setting callback
+				$this->_hook[$event_name][] = $callback_method;
+				return $this;
+			}else if(is_array($arguments)){
+				// Calling callbacks
+				// Loop through any hook methods
+				if(isset($this->_hook[$event_name]) && is_array($this->_hook[$event_name]))
+				{
+					foreach($this->_hook[$event_name] as $hook)
+					{
+						// Call hook method
+						call_user_func_array(array($this, $hook), $arguments);
+					}
+				}
+				// Return current object
+				return $this;
+			}
+			// Bad parameters
+			throw new Exception('Invalid parameters in hook call.');
+		}
+
+
+
+		/**
 		 * @brief Set orm data for an object.
 		 * 
 		 * @param array $data_array
@@ -411,6 +450,9 @@
 		 */
 		public function orm_save()
 		{
+			// Orm before save hook
+			$this->orm_hook('before_save', NULL, array());
+
 			// Validate
 			$validate = $this->load_helper('Validate');
 			if($validate->run($this->_data, $this->_validate()))
@@ -422,14 +464,32 @@
 					// Update
 					if($this->_data["{$this->model_name()}_id"] != '')
 					{
+						// Orm before update hook
+						$this->orm_hook('before_update', NULL, array());
+						
 						$this->load_helper('Db')->update($this->model_name(), $this->_data, " {$this->model_name()}_id = '{$this->id()}' ");
-						return $this->orm_load($this->id());
+						$this->orm_load($this->id());
+
+						// Orm after update hook
+						$this->orm_hook('after_update', NULL, array());
 					}
 				}else{
+					// Orm before insert hook
+					$this->orm_hook('before_insert', NULL, array());
+
 					// Insert
 					$id = $this->load_helper('Db')->insert($this->model_name(), $this->_data);
-					return $this->orm_load($id);
+					$this->orm_load($id);
+					
+					// Orm after insert hook
+					$this->orm_hook('after_insert', NULL, array());
 				}
+				
+				// Orm after save hook
+				$this->orm_hook('after_save', NULL, array());
+				
+				// Return
+				return $this;
 			}
 			throw new ORM_Exception('Object failed validation.', 0, $validate);
 		}
