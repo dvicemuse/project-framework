@@ -12,7 +12,7 @@
 		
 		private $_image_path;
 		private $_cache_path;
-		private $_web_path = 'resize';
+		private $_web_path = '';
 		private $_resize_type = 'adaptive';
 
 
@@ -108,7 +108,7 @@
 			$valid = FALSE;
 			while(!$valid)
 			{
-				$this->_web_path = $this->_get_input("Web access path (access_path/100/100/file.jpg):");
+				$this->_web_path = $this->_get_input("Web access path (access_path/width/height/file.jpg):");
 				if(preg_match('/^[-_a-zA-Z0-9]{1,}$/', $this->_web_path) && strtolower($this->_web_path) != 'resize')
 				{
 					$valid = TRUE;
@@ -188,6 +188,9 @@
 					echo console_text("...FAILED", 'red');
 				}
 			}
+
+			echo console_text("SETUP COMPLETE", 'green');
+			echo console_text("/{$this->_web_path}/width/height/file.jpg", 'green');
 		}
 
 
