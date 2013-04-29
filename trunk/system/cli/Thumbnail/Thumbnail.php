@@ -57,8 +57,8 @@
 
 
 		/**
-		 *
-		 *
+		 * Update .htaccess file with thumbnail rule
+		 * @return CLI_Thumbnail
 		 */
 		private function _update_htaccess()
 		{
@@ -82,7 +82,9 @@
 			}else{
 				echo console_text("...HTACCESS FILE NOT WRITABLE", 'red');
 			}
+			return $this;
 		}
+
 
 
 		/**
@@ -91,7 +93,7 @@
 		 */
 		private function _htaccess_rule()
 		{
-			return "RewriteRule ^{$this->_web_path}/([0-9]+)/([0-9]+)/(.*)$ resize.php?width=$1&height=$2&file=$3&type={$this->_resize_type}";
+			return "RewriteRule ^{$this->_web_path}/([0-9]+)/([0-9]+)/(.*)$ resize.php?width=$1&height=$2&file=$3&type={$this->_resize_type} [L]";
 		}
 
 
@@ -102,8 +104,20 @@
 		 */
 		private function _get_paths()
 		{
+			// Web access path
+			$valid = FALSE;
+			while(!$valid)
+			{
+				$this->_web_path = $this->_get_input("Web access path (access_path/100/100/file.jpg):");
+				if(preg_match('/^[-_a-zA-Z0-9]{1,}$/', $this->_web_path) && strtolower($this->_web_path) != 'resize')
+				{
+					$valid = TRUE;
+				}
+			}
+			
 			// Image storage path
 			$this->_image_path = $this->_get_input("Image storage path (/home/site/images/):");
+			$this->_image_path = rtrim($this->_image_path, '/ ')."/";
 			echo console_text("PATH CHECK", 'green');
 			if(is_dir($this->_image_path))
 			{
@@ -119,9 +133,11 @@
 					exit;
 				}
 			}
+			@chmod($this->_image_path, 0777);
 
 			// Image cache storage path
 			$this->_cache_path = $this->_get_input("Image cache path (/home/site/cache/):");
+			$this->_cache_path = rtrim($this->_cache_path, '/ ')."/";
 			echo console_text("PATH CHECK", 'green');
 			if(is_dir($this->_cache_path))
 			{
@@ -137,6 +153,7 @@
 					exit;
 				}
 			}
+			@chmod($this->_cache_path, 0777);
 			
 			// Done
 			return $this;
@@ -172,6 +189,7 @@
 				}
 			}
 		}
+
 
 
 		/**
