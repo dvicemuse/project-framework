@@ -27,7 +27,6 @@ class Locale_Config
 		'America/Phoenix'		=> 'Arizona',
 		'America/Boise'			=> 'Mountain Time',
 		'America/Chicago'		=> 'Central Time',
-		'America/Indianapolis'	=> 'Indiana (East)',
 		'America/New_York'		=> 'Eastern Time',
 	);
 }
