@@ -5,6 +5,7 @@
 		private $_base_request = '';
 		private $_controller = '';
 		private $_method = '';
+		private $_vars = NULL;
 		
 		
 		public function __construct()
@@ -95,7 +96,24 @@
 		 */
 		public function vars()
 		{
-			return array();
+			// Have vars already been processed
+			if(is_array($this->_vars))
+			{
+				return $this->_vars;
+			}
+			
+			// Look for vars in request
+			$this->_vars = array();
+			$parts = explode('/', trim($this->_base_request, '/'));
+			foreach($parts as $part)
+			{
+				if(preg_match('#([-_0-9A-Za-z]{1,})\:(.*)#', urldecode($part), $m))
+				{
+					$this->_vars[$m[1]] = $m[2];
+				}
+			}
+			
+			return $this->_vars;
 		}
 
 
