@@ -188,9 +188,24 @@
 					echo console_text("...FAILED", 'red');
 				}
 			}
+			
+			// Move test image to image dir
+			$test_image = __DIR__."/template/test.png";
+			$image_destination = $this->_image_path."test.png";
+
+			echo console_text("MOVING TEST IMAGE TO IMAGE DIRECTORY", 'green');
+			@copy($test_image, $image_destination);
+
+			if(file_exists($image_destination))
+			{
+				echo console_text("...SUCCESS", 'green');
+			}else{
+				echo console_text("...FAILED", 'red');
+			}
+
 
 			echo console_text("SETUP COMPLETE", 'green');
-			echo console_text("/{$this->_web_path}/width/height/file.jpg", 'green');
+			echo console_text("/{$this->_web_path}/300/300/test.png", 'green');
 		}
 
 
