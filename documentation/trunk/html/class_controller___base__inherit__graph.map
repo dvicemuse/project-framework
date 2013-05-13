@@ -1,0 +1,8 @@
+<map id="Controller_Base" name="Controller_Base">
+<area shape="rect" id="node5" href="$class___controller.html" title="_Controller" alt="" coords="5,155,88,181"/>
+<area shape="rect" id="node7" href="$class_dashboard___controller.html" title="Dashboard_Controller" alt="" coords="113,155,260,181"/>
+<area shape="rect" id="node9" href="$class_error___controller.html" title="Error_Controller" alt="" coords="284,155,396,181"/>
+<area shape="rect" id="node11" href="$class_home___controller.html" title="Home_Controller" alt="" coords="421,155,539,181"/>
+<area shape="rect" id="node13" href="$class_user___controller.html" title="User_Controller" alt="" coords="563,155,673,181"/>
+<area shape="rect" id="node2" href="$class_framework.html" title="Framework" alt="" coords="297,5,383,32"/>
+</map>
