@@ -128,7 +128,7 @@
 				{
 					$eval = '$object = new '.ucfirst($this->model_name()).';';
 					eval($eval);
-					$return->push($object->orm_set($row));
+					$return->push($object->orm_set_load($row)->_orm_from_database_transform());
 				}
 			}
 			return $return;
@@ -185,7 +185,7 @@
 						$this->load_model($model_name);
 						$eval = '$object = new '.$model_name.';';
 						eval($eval);
-						$return->push($object->orm_set($r));
+						$return->push($object->orm_set_load($r)->_orm_from_database_transform());
 					}
 				}
 				return $return;
