@@ -439,6 +439,18 @@
 			// Return
 			return $this;
 		}
+		
+		
+		
+		/**
+		 * @brief Return if model is loaded.
+		 *
+		 * @return bool
+		 */
+		public function is_loaded()
+		{
+			return $this->_loaded;
+		}
 	
 		
 		
