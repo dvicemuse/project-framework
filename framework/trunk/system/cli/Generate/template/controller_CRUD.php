@@ -6,7 +6,7 @@
 		{
 			parent::__construct();
 			
-			//$this->require_login(NULL, NULL);
+			$this->require_login();
 			//$this->disable_header(NULL);
 		}
 
@@ -37,7 +37,7 @@
 			if(isset($this->request->raw[2]))
 			{
 				// Check ID/permissions
-				$|NAME_LOWERCASE|->check_permission_load($this->request->raw[2]);
+				$|NAME_LOWERCASE|->check_permission_load($this->request->raw[2], $this->Auth);
 
 				// Set data to validate
 				$this->load_helper('Validate')->set_data($|NAME_LOWERCASE|->expose_data());

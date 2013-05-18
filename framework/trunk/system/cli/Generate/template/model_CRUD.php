@@ -25,13 +25,12 @@
 		/**
 		 * Check permission and load object
 		 * @param int $|NAME_LOWERCASE|_id
-		 * @param int $user_id
+		 * @param User $user
 		 * @return |NAME|
 		 */
-		public function check_permission_load($|NAME_LOWERCASE|_id, $user_id = NULL)
+		public function check_permission_load($|NAME_LOWERCASE|_id, User $user)
 		{
 			if($this->exists($|NAME_LOWERCASE|_id) === FALSE){ throw new Exception('Invalid |NAME_LOWERCASE| ID.'); }
-			if($user_id !== NULL && $this->load_model('User')->exists($user_id) === FALSE){ throw new Exception('Invalid user ID.'); }
 			
 			return $this->orm_load($|NAME_LOWERCASE|_id);
 		}
