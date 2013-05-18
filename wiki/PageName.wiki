@@ -2,5 +2,5 @@
 
 = Framework Build Instructions =
 
-  * Update configuration in framework/Framework.php
+  * Run `svn export https://project-framework.googlecode.com/svn/framework/trunk/ .` from the command line
   * Run `./cli.php build` from the command line
