@@ -32,7 +32,7 @@
 	
 						if($this->is_id($route['controller']))
 						{
-							$route['controller'] = ucfirst($m[$route['controller']]);
+							$route['controller'] = str_replace(' ', '_', ucwords(str_replace('_', ' ', $m[$route['controller']])));
 						}
 	
 						if($this->is_id($route['method']))
