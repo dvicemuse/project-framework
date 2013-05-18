@@ -441,6 +441,7 @@ function pr($data)
 }
 
 
+
 /**
  * @class Config_Builder
  * @brief Configuration Builder class. 
@@ -450,3 +451,10 @@ function pr($data)
  * @since    1.0.0
  */
 class Config_Builder{}
+
+
+
+function __autoload($class_name)
+{
+	include 'framework/model/'.$class_name . '.php';
+}
