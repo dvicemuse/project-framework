@@ -460,14 +460,18 @@
 		 * @return object - ORM loaded model
 		 * @throws Exception - object fails validation routine for save
 		 */
-		public function orm_save()
+		public function orm_save($additional_validation_array = array())
 		{
 			// Orm before save hook
 			$this->orm_hook('before_save', NULL, array());
 
 			// Validate
 			$validate = $this->load_helper('Validate');
-			if($validate->run($this->_data, $this->_validate()))
+			
+			// Validation rules
+			$rules = array_merge($this->_validate(), $additional_validation_array);
+			
+			if($validate->run($this->_data, $rules))
 			{
 				// Transform data
 				$this->_orm_to_database_transform();
