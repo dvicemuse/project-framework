@@ -9,8 +9,7 @@
 			$this->add_flash('Incorrect username or password.');
 		}
 		// Redirect to keep the back button working
-		header("Location: {$this->page_link($this->request->controller_name, $this->request->method_name)}");
-		exit;
+		$this->redirect($this->request->controller_name, $this->request->method_name);
 	}
 
 ?>
