@@ -40,6 +40,26 @@
 			unset($_SESSION['Login']);
 			return TRUE;
 		}
+		
+		
+		
+		/**
+		 * Check login credentials
+		 * @param string $user_email
+		 * @param string $user_password
+		 * @return bool|User
+		 */
+		static function check_login($user_email, $user_password)
+		{
+			$fw = new Framework;
+			$check = $fw->load_model('User', TRUE)->where('user_email', trim($user_email))->where('user_password', sha1(trim($user_password)))->orm_load();
+			if($check->count() > 0)
+			{
+				$_SESSION['Login'] = $check->first()->expose_data();
+				return $check->first();
+			}
+			return FALSE;
+		}
 	}
 
 ?>
