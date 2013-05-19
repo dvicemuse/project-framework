@@ -1,101 +1,81 @@
 <?php
 
-class User extends Model_Base
-{
-	/**
-	 * Construct function
-	 */
-	public function __construct()
+	class User extends Model_Base
 	{
-		parent::__construct();
-		$this->load_helper('Db');
-		$this->load_helper('Validate')->hide_titles()->hide_errors();
-	}
-
-
-
-	/**
-	 * Log in
-	 * @param array login data
-	 * @return bool
-	 */
-	public function log_user_in($data)
-	{
-		// Validation rules
-		$rules['user_email']		= array('reqd' => 'Please enter your email address.');
-		$rules['user_password']		= array('reqd' => 'Please enter your password.');
-		// Run validation
-		if($this->Validate->run($data, $rules))
+		public function __construct()
 		{
-			// Check username and passwords
-			$res = $this->where('user_email', $data['user_email'])->where('user_password', sha1($data['user_password']))->get();
-			if($res->count() == 1)
-			{
-				// Update last login
-				$r = $res->result();
-				$this->Db->query("UPDATE user SET user_last_login = NOW() WHERE user_id = '{$r['user_id']}' ");
-				// Save result to session
-				$_SESSION['Login']  = $res->result();
-				$_SESSION['Login']['user_last_login'] = date('Y-m-d H:i:s');
-				return TRUE;
-			}
+			parent::__construct();
+
+			//  Automatically hash the password
+			$this->orm_transform('user_password', '_user_password_to', '_user_password_from');
 		}
-		return FALSE;
-	}
 
 
-
-	/**
-	 * Send a password reset email to a user's email address
-	 * @param int $user_id
-	 * @return bool
-	 */
-	public function send_password_reset_email($user_id)
-	{
-		// Check user ID
-		if($this->exists($user_id) !== FALSE)
+		/**
+		 * Model validation
+		 * @return array
+		 */
+		protected function _validate()
 		{
-			// Load user information
-			$user = $this->get($user_id)->result();
+			return array(
+				'user_password' => array(
+					'reqd' => 'Field is required.',
+					'min[8]' => 'Minimum password length is 8 characters.',
+				),
+			);
+		}
 
-			// Create a hash
-			$hash = md5(time().'----'.$user['user_email']);
 
+		/**
+		 * Hash password to database
+		 * @param string
+		 * @return string
+		 */
+		protected function _user_password_to($value)
+		{
+			// Check if password has changed
+			if($value != $this->load_model('User', TRUE)->orm_load($this->id())->password())
+			{
+				$value = sha1($value);
+			}
+			return $value;
+		}
+		
+		
+		
+		/**
+		 * Return password from database
+		 * @param string $value
+		 * @return string
+		 */
+		protected function _user_password_from($value)
+		{
+			return $value;
+		}
+		
+		
+		
+		/**
+		 * Send a password update email
+		 * @return bool
+		 */
+		public function send_reset_email()
+		{
 			// Set reset hash for user
-			if($this->Db->update('user', array('user_update_hash' => $hash), " user_id = '{$user_id}' "))
-			{
-				// Send reset email
-				$message = "
-					To reset your password, please follow the instructions on the web page below.
-					<br /><a href=\"{$this->config()->path->full_web_path}user/update_password/{$hash}/\">{$this->config()->path->full_web_path}user/update_password/{$hash}/</a>
-				";
+			$this->orm_set(array('user_update_hash' => md5(time().$this->email())))->orm_save();
 
-				// Send email
-				return $this->load_helper('Email')->mail($user['user_email'], 'Password Reset Instructions', $message);
-			}
+			// Generate message
+			$message = "
+			To reset your password, please follow the instructions on the web page below.
+			<br /><a href=\"{$this->config()->path->full_web_path}user/update_password/{$this->update_hash()}/\">{$this->config()->path->full_web_path}user/update_password/{$this->update_hash()}/</a>
+			";
+
+			// Send email
+			return $this->load_helper('Email')->mail($this->email(), 'Password Reset Instructions', $message);
 		}
-		return FALSE;
+
+
+
 	}
-
-
-
-	/**
-	 * Update a user's password
-	 * @param int $user_id
-	 * @param string $new_password
-	 * @return bool
-	 */
-	public function update_password($user_id, $new_password)
-	{
-		// Check user ID
-		if($this->exists($user_id))
-		{
-			// Update the password
-			return $this->Db->update('user', array('user_update_hash' => '', 'user_password' => sha1(trim($new_password))), " user_id = '{$user_id}' ");
-		}
-		return FALSE;
-	}
-
-}
 
 ?>
