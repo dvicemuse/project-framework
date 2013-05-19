@@ -28,6 +28,7 @@
 				if($users->count() > 0)
 				{
 					$users->first()->send_reset_email();
+					$this->add_flash("Check your email for reset instructions.")->reload_page();
 				}
 			}
 		}
