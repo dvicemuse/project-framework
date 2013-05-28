@@ -355,7 +355,7 @@ class Framework
 	 */
 	function render_foot()
 	{
-		if(!isset($this->config()->disable_header) || (is_array($this->config()->disable_header) && !isset($this->request->method_name, $this->config()->disable_header)))
+		if(!isset($this->config()->disable_header) || (is_array($this->config()->disable_header) && !in_array($this->request->method_name, $this->config()->disable_header)))
 		{
 			if(file_exists("{$this->config()->path->application_path}/framework/template/{$this->request->controller_name}/foot.php"))
 			{
