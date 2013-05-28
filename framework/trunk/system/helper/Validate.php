@@ -738,7 +738,8 @@
 		 */
 		static function states($show_blank = TRUE)
 		{
-			$states = $this->config()->locale->states;
+			$fw = new Framework;
+			$states = $fw->config()->locale->states;
 			if($show_blank)
 			{
 				$ret = array('' => ' ');
