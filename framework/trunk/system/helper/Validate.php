@@ -736,7 +736,7 @@
 		 * @param bool $show_blank
 		 * @return string
 		 */
-		public function states($show_blank = TRUE)
+		static function states($show_blank = TRUE)
 		{
 			$states = $this->config()->locale->states;
 			if($show_blank)
@@ -748,6 +748,77 @@
 			}
 		}
 
+
+
+		/**
+		 * Array of months
+		 * @param bool $show_blank
+		 * @param string $format
+		 * @return array
+		 */
+		static function months($show_blank = TRUE, $format = 'M')
+		{
+			if($show_blank)
+			{
+				$return[''] = '';
+			}
+			for($x = 1; $x <= 12; $x++)
+			{
+				$return[$x] = date($format, mktime(1, 1, 1, $x, 1, 2000));
+			}
+			return $return;
+		}
+
+
+
+		/**
+		 * Number range array
+		 * @param int $start
+		 * @param int $end
+		 * @param bool $show_blank
+		 * @return array
+		 */
+		static function number_range($start, $end, $show_blank = TRUE)
+		{
+			$ret = array();
+			
+			if($show_blank)
+			{
+				$ret[''] = '&nbsp;';
+			}
+
+			if($start < $end)
+			{
+				for($x = $start; $x <= $end; $x++)
+				{
+					$ret[$x] = $x;
+				}
+			}else{
+				for($x = $start; $x >= $end; $x--)
+				{
+					$ret[$x] = $x;
+				}
+			}			
+			return $ret;
+		}
+
+
+
+		/**
+		 * Hours array
+		 * @return array
+		 */
+		static function hours()
+		{
+			$ret = array('' => '&nbsp;');
+			$start = mktime(0, 0, 0, 1, 1, 2000);
+			$end = mktime(24, 0, 0, 1, 1, 2000);
+			for($x = $start; $x <= $end; $x += (30*60))
+			{
+				$ret[date('H:i', $x)] = date('h:iA', $x);
+			}
+			return $ret;
+		}
 
 
 
