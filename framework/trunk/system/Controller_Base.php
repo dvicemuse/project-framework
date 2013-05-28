@@ -264,7 +264,7 @@ abstract class Controller_Base extends Framework
 			return $this;
 		}else if(is_string($mixed)){
 			// Initialize disable header in config
-			if(!isset($this->config()->disable_headers))
+			if(!isset($this->config()->disable_header))
 			{
 				$this->config()->disable_header = array();
 			}
