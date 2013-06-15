@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">I-Tul Framework
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">2.0.0</span>
    </div>
    <div id="projectbrief">PHP Application Framework</div>
   </td>
@@ -87,24 +87,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a>  </div>
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a>  </div>
   <div class="headertitle">
 <div class="title">Model_Base Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Base Model class.  
+ <a href="class_model___base.html#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for Model_Base:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_model___base__inherit__graph.png" border="0" usemap="#_model___base_inherit__map" alt="Inheritance graph"/></div>
 <map name="_model___base_inherit__map" id="_model___base_inherit__map">
-<area shape="rect" id="node7" href="class_n_a_m_e.html" title="NAME" alt="" coords="5,229,64,256"/><area shape="rect" id="node9" href="class_user.html" title="User" alt="" coords="89,229,137,256"/><area shape="rect" id="node2" href="class_o_r_m___base.html" title="ORM_Base" alt="" coords="29,80,117,107"/><area shape="rect" id="node4" href="class_framework.html" title="Framework" alt="" coords="30,5,116,32"/><area shape="rect" id="node11" href="class_auth.html" title="Auth" alt="" coords="89,304,137,331"/></map>
+<area shape="rect" id="node7" href="class_n_a_m_e.html" title="NAME" alt="" coords="22,229,81,256"/><area shape="rect" id="node10" href="class_user.html" title="User" alt="" coords="106,229,155,256"/><area shape="rect" id="node2" href="class_o_r_m___base.html" title="Base Object Relation Model class." alt="" coords="7,80,96,107"/><area shape="rect" id="node4" href="class_framework.html" title="Framework application class." alt="" coords="9,5,95,32"/><area shape="rect" id="node12" href="class_auth.html" title="Auth" alt="" coords="106,304,155,331"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
 Collaboration diagram for Model_Base:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_model___base__coll__graph.png" border="0" usemap="#_model___base_coll__map" alt="Collaboration graph"/></div>
 <map name="_model___base_coll__map" id="_model___base_coll__map">
-<area shape="rect" id="node2" href="class_o_r_m___base.html" title="ORM_Base" alt="" coords="7,80,96,107"/><area shape="rect" id="node4" href="class_framework.html" title="Framework" alt="" coords="9,5,95,32"/></map>
+<area shape="rect" id="node2" href="class_o_r_m___base.html" title="Base Object Relation Model class." alt="" coords="7,80,96,107"/><area shape="rect" id="node4" href="class_framework.html" title="Framework application class." alt="" coords="9,5,95,32"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -112,23 +116,30 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a095c5d389db211932136b53f25f39685"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model___base.html#a095c5d389db211932136b53f25f39685">__construct</a> ()</td></tr>
 <tr class="memdesc:a095c5d389db211932136b53f25f39685"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct function.  <a href="#a095c5d389db211932136b53f25f39685"></a><br/></td></tr>
 <tr class="separator:a095c5d389db211932136b53f25f39685"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b2bc834f20a075d947f1f6549bb9e43"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model___base.html#a2b2bc834f20a075d947f1f6549bb9e43">limit</a> ($columns, $offset=FALSE)</td></tr>
-<tr class="memdesc:a2b2bc834f20a075d947f1f6549bb9e43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the result order.  <a href="#a2b2bc834f20a075d947f1f6549bb9e43"></a><br/></td></tr>
-<tr class="separator:a2b2bc834f20a075d947f1f6549bb9e43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac234403a9dc2095cc161ecf94a987186"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model___base.html#ac234403a9dc2095cc161ecf94a987186">limit</a> ($rows, $offset=FALSE)</td></tr>
+<tr class="memdesc:ac234403a9dc2095cc161ecf94a987186"><td class="mdescLeft">&#160;</td><td class="mdescRight">Limit the number of items returned in the resultset.  <a href="#ac234403a9dc2095cc161ecf94a987186"></a><br/></td></tr>
+<tr class="separator:ac234403a9dc2095cc161ecf94a987186"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e604cada8a17b92494c432a9b2311b8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model___base.html#a4e604cada8a17b92494c432a9b2311b8">order</a> ($column, $value)</td></tr>
 <tr class="memdesc:a4e604cada8a17b92494c432a9b2311b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the result order.  <a href="#a4e604cada8a17b92494c432a9b2311b8"></a><br/></td></tr>
 <tr class="separator:a4e604cada8a17b92494c432a9b2311b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab6dc368b990fc6379d8268a65e556fbc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model___base.html#ab6dc368b990fc6379d8268a65e556fbc">where</a> ($column, $value)</td></tr>
-<tr class="memdesc:ab6dc368b990fc6379d8268a65e556fbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an AND to the where clause.  <a href="#ab6dc368b990fc6379d8268a65e556fbc"></a><br/></td></tr>
+<tr class="memdesc:ab6dc368b990fc6379d8268a65e556fbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">AND element to the where clause.  <a href="#ab6dc368b990fc6379d8268a65e556fbc"></a><br/></td></tr>
 <tr class="separator:ab6dc368b990fc6379d8268a65e556fbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dc9285a83d31a18ffbef0483da1b266"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model___base.html#a6dc9285a83d31a18ffbef0483da1b266">custom_where</a> ($<a class="el" href="class_model___base.html#ab6dc368b990fc6379d8268a65e556fbc">where</a>)</td></tr>
+<tr class="memdesc:a6dc9285a83d31a18ffbef0483da1b266"><td class="mdescLeft">&#160;</td><td class="mdescRight">AND element to the where clause.  <a href="#a6dc9285a83d31a18ffbef0483da1b266"></a><br/></td></tr>
+<tr class="separator:a6dc9285a83d31a18ffbef0483da1b266"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7bdf347d0034b8dfa578b4e8d2b19752"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model___base.html#a7bdf347d0034b8dfa578b4e8d2b19752">like</a> ($column, $value)</td></tr>
-<tr class="memdesc:a7bdf347d0034b8dfa578b4e8d2b19752"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an AND LIKE to the where clause.  <a href="#a7bdf347d0034b8dfa578b4e8d2b19752"></a><br/></td></tr>
+<tr class="memdesc:a7bdf347d0034b8dfa578b4e8d2b19752"><td class="mdescLeft">&#160;</td><td class="mdescRight">AND element to the where clause using LIKE.  <a href="#a7bdf347d0034b8dfa578b4e8d2b19752"></a><br/></td></tr>
 <tr class="separator:a7bdf347d0034b8dfa578b4e8d2b19752"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5cc81d4b1b14d8e04134ab70a5f0ac6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model___base.html#ab5cc81d4b1b14d8e04134ab70a5f0ac6">get</a> ($key_id=FALSE)</td></tr>
+<tr class="memdesc:ab5cc81d4b1b14d8e04134ab70a5f0ac6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get result set using where, order and limit clauses.  <a href="#ab5cc81d4b1b14d8e04134ab70a5f0ac6"></a><br/></td></tr>
 <tr class="separator:ab5cc81d4b1b14d8e04134ab70a5f0ac6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a12f0e8c033ae0c3dc76c9681e71b8740"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model___base.html#a12f0e8c033ae0c3dc76c9681e71b8740">exists</a> ($key_id)</td></tr>
 <tr class="memdesc:a12f0e8c033ae0c3dc76c9681e71b8740"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a primary key exists.  <a href="#a12f0e8c033ae0c3dc76c9681e71b8740"></a><br/></td></tr>
 <tr class="separator:a12f0e8c033ae0c3dc76c9681e71b8740"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c1dd4909cd337524651c37782d83d15"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model___base.html#a1c1dd4909cd337524651c37782d83d15">dropdown</a> ($field_display_name, $blank_first=TRUE)</td></tr>
+<tr class="memdesc:a1c1dd4909cd337524651c37782d83d15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an array of column values ([ID] =&gt; [COLUMN VALUE]).  <a href="#a1c1dd4909cd337524651c37782d83d15"></a><br/></td></tr>
+<tr class="separator:a1c1dd4909cd337524651c37782d83d15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_o_r_m___base"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_o_r_m___base')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_o_r_m___base.html">ORM_Base</a></td></tr>
 <tr class="memitem:a095c5d389db211932136b53f25f39685 inherit pub_methods_class_o_r_m___base"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_o_r_m___base.html#a095c5d389db211932136b53f25f39685">__construct</a> ()</td></tr>
 <tr class="memdesc:a095c5d389db211932136b53f25f39685 inherit pub_methods_class_o_r_m___base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct function.  <a href="#a095c5d389db211932136b53f25f39685"></a><br/></td></tr>
@@ -140,6 +151,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a4e0812722bc356aa07ad85d7c9fc4f0b inherit pub_methods_class_o_r_m___base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load an object.  <a href="#a4e0812722bc356aa07ad85d7c9fc4f0b"></a><br/></td></tr>
 <tr class="separator:a4e0812722bc356aa07ad85d7c9fc4f0b inherit pub_methods_class_o_r_m___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3815af62ed9d37b2dcaa175379bbfeca inherit pub_methods_class_o_r_m___base"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_o_r_m___base.html#a3815af62ed9d37b2dcaa175379bbfeca">__call</a> ($name, $arguments)</td></tr>
+<tr class="memdesc:a3815af62ed9d37b2dcaa175379bbfeca inherit pub_methods_class_o_r_m___base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Magic method override.  <a href="#a3815af62ed9d37b2dcaa175379bbfeca"></a><br/></td></tr>
 <tr class="separator:a3815af62ed9d37b2dcaa175379bbfeca inherit pub_methods_class_o_r_m___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7e115e373bfcbd1b586400dcafa719f inherit pub_methods_class_o_r_m___base"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_o_r_m___base.html#ac7e115e373bfcbd1b586400dcafa719f">has_many</a> ($table, $map_table=NULL)</td></tr>
 <tr class="memdesc:ac7e115e373bfcbd1b586400dcafa719f inherit pub_methods_class_o_r_m___base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set one to many relationship.  <a href="#ac7e115e373bfcbd1b586400dcafa719f"></a><br/></td></tr>
@@ -150,6 +162,30 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a12f0e8c033ae0c3dc76c9681e71b8740 inherit pub_methods_class_o_r_m___base"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_o_r_m___base.html#a12f0e8c033ae0c3dc76c9681e71b8740">exists</a> ($key_id)</td></tr>
 <tr class="memdesc:a12f0e8c033ae0c3dc76c9681e71b8740 inherit pub_methods_class_o_r_m___base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a primary key exists.  <a href="#a12f0e8c033ae0c3dc76c9681e71b8740"></a><br/></td></tr>
 <tr class="separator:a12f0e8c033ae0c3dc76c9681e71b8740 inherit pub_methods_class_o_r_m___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae81207cd9a5c763cbccaaaec961b0cdd inherit pub_methods_class_o_r_m___base"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_o_r_m___base.html#ae81207cd9a5c763cbccaaaec961b0cdd">orm_hook</a> ($event_name, $callback_method=NULL, $arguments=NULL)</td></tr>
+<tr class="memdesc:ae81207cd9a5c763cbccaaaec961b0cdd inherit pub_methods_class_o_r_m___base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an ORM event hook listener.  <a href="#ae81207cd9a5c763cbccaaaec961b0cdd"></a><br/></td></tr>
+<tr class="separator:ae81207cd9a5c763cbccaaaec961b0cdd inherit pub_methods_class_o_r_m___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f61b960a6c8c7ab49667b2d0144e8d0 inherit pub_methods_class_o_r_m___base"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_o_r_m___base.html#a2f61b960a6c8c7ab49667b2d0144e8d0">orm_set</a> ($data_array)</td></tr>
+<tr class="memdesc:a2f61b960a6c8c7ab49667b2d0144e8d0 inherit pub_methods_class_o_r_m___base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set orm data for an object.  <a href="#a2f61b960a6c8c7ab49667b2d0144e8d0"></a><br/></td></tr>
+<tr class="separator:a2f61b960a6c8c7ab49667b2d0144e8d0 inherit pub_methods_class_o_r_m___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa17ff2694a4ddd4ddf31276464ee91da inherit pub_methods_class_o_r_m___base"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_o_r_m___base.html#aa17ff2694a4ddd4ddf31276464ee91da">orm_set_load</a> ($data_array)</td></tr>
+<tr class="memdesc:aa17ff2694a4ddd4ddf31276464ee91da inherit pub_methods_class_o_r_m___base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set orm data for an object and mark as loaded.  <a href="#aa17ff2694a4ddd4ddf31276464ee91da"></a><br/></td></tr>
+<tr class="separator:aa17ff2694a4ddd4ddf31276464ee91da inherit pub_methods_class_o_r_m___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44af0355a38a127c6386559e1d7b610c inherit pub_methods_class_o_r_m___base"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_o_r_m___base.html#a44af0355a38a127c6386559e1d7b610c">is_loaded</a> ()</td></tr>
+<tr class="memdesc:a44af0355a38a127c6386559e1d7b610c inherit pub_methods_class_o_r_m___base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return if model is loaded.  <a href="#a44af0355a38a127c6386559e1d7b610c"></a><br/></td></tr>
+<tr class="separator:a44af0355a38a127c6386559e1d7b610c inherit pub_methods_class_o_r_m___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada52c0fd69fd10555f907de6405b3d28 inherit pub_methods_class_o_r_m___base"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_o_r_m___base.html#ada52c0fd69fd10555f907de6405b3d28">orm_save</a> ($additional_validation_array=array())</td></tr>
+<tr class="memdesc:ada52c0fd69fd10555f907de6405b3d28 inherit pub_methods_class_o_r_m___base"><td class="mdescLeft">&#160;</td><td class="mdescRight"><ul>
+<li>Save an object in the database. </li>
+</ul>
+ <a href="#ada52c0fd69fd10555f907de6405b3d28"></a><br/></td></tr>
+<tr class="separator:ada52c0fd69fd10555f907de6405b3d28 inherit pub_methods_class_o_r_m___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0133e72b22bacbdc6da234f0f9896d86 inherit pub_methods_class_o_r_m___base"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_o_r_m___base.html#a0133e72b22bacbdc6da234f0f9896d86">orm_delete</a> ()</td></tr>
+<tr class="memdesc:a0133e72b22bacbdc6da234f0f9896d86 inherit pub_methods_class_o_r_m___base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete an object.  <a href="#a0133e72b22bacbdc6da234f0f9896d86"></a><br/></td></tr>
+<tr class="separator:a0133e72b22bacbdc6da234f0f9896d86 inherit pub_methods_class_o_r_m___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98688f17ebf49c299ee6ab9be311aa3c inherit pub_methods_class_o_r_m___base"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_o_r_m___base.html#a98688f17ebf49c299ee6ab9be311aa3c">orm_transform</a> ($column, $to_database, $from_database)</td></tr>
+<tr class="memdesc:a98688f17ebf49c299ee6ab9be311aa3c inherit pub_methods_class_o_r_m___base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transparent ORM column transformation.  <a href="#a98688f17ebf49c299ee6ab9be311aa3c"></a><br/></td></tr>
+<tr class="separator:a98688f17ebf49c299ee6ab9be311aa3c inherit pub_methods_class_o_r_m___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9eb2a771f52755926b3144fd1d1b795 inherit pub_methods_class_o_r_m___base"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_o_r_m___base.html#af9eb2a771f52755926b3144fd1d1b795">expose_data</a> ()</td></tr>
 <tr class="memdesc:af9eb2a771f52755926b3144fd1d1b795 inherit pub_methods_class_o_r_m___base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Debug data function.  <a href="#af9eb2a771f52755926b3144fd1d1b795"></a><br/></td></tr>
 <tr class="separator:af9eb2a771f52755926b3144fd1d1b795 inherit pub_methods_class_o_r_m___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -160,8 +196,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab7083f7ff045dc98f3217982f921f079 inherit pub_methods_class_framework"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_framework.html#ab7083f7ff045dc98f3217982f921f079">route</a> ()</td></tr>
 <tr class="memdesc:ab7083f7ff045dc98f3217982f921f079 inherit pub_methods_class_framework"><td class="mdescLeft">&#160;</td><td class="mdescRight">Route the application.  <a href="#ab7083f7ff045dc98f3217982f921f079"></a><br/></td></tr>
 <tr class="separator:ab7083f7ff045dc98f3217982f921f079 inherit pub_methods_class_framework"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73f652442f5d75a5518a3816d9b427d0 inherit pub_methods_class_framework"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_framework.html#a73f652442f5d75a5518a3816d9b427d0">load_model</a> ($module_name)</td></tr>
-<tr class="separator:a73f652442f5d75a5518a3816d9b427d0 inherit pub_methods_class_framework"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca8c3f1676936c3fb3731f1086481732 inherit pub_methods_class_framework"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_framework.html#aca8c3f1676936c3fb3731f1086481732">load_model</a> ($module_name, $force_new=FALSE)</td></tr>
+<tr class="separator:aca8c3f1676936c3fb3731f1086481732 inherit pub_methods_class_framework"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06506ecb9c01b7ee053a629211e361a3 inherit pub_methods_class_framework"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_framework.html#a06506ecb9c01b7ee053a629211e361a3">load_helper</a> ($module_name)</td></tr>
 <tr class="separator:a06506ecb9c01b7ee053a629211e361a3 inherit pub_methods_class_framework"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af91f319fc22cf013d85bff3b228a7aaa inherit pub_methods_class_framework"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_framework.html#af91f319fc22cf013d85bff3b228a7aaa">load_controller</a> ($module_name)</td></tr>
@@ -185,23 +221,54 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:af9dde6ec7ff312616537ac3f40ee2558 inherit pub_methods_class_framework"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a value is an integer id.  <a href="#af9dde6ec7ff312616537ac3f40ee2558"></a><br/></td></tr>
 <tr class="separator:af9dde6ec7ff312616537ac3f40ee2558 inherit pub_methods_class_framework"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:abbb54377a65b43d4322ce6e3c4b73143"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model___base.html#abbb54377a65b43d4322ce6e3c4b73143">$_where</a></td></tr>
+<tr class="memdesc:abbb54377a65b43d4322ce6e3c4b73143"><td class="mdescLeft">&#160;</td><td class="mdescRight">array of WHERE clause elements for resultset  <a href="#abbb54377a65b43d4322ce6e3c4b73143"></a><br/></td></tr>
+<tr class="separator:abbb54377a65b43d4322ce6e3c4b73143"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54a2050e77e4580d4f6b17e9da6760cb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model___base.html#a54a2050e77e4580d4f6b17e9da6760cb">$_order</a></td></tr>
+<tr class="memdesc:a54a2050e77e4580d4f6b17e9da6760cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">array of ORDER BY clause elements to sort resultset  <a href="#a54a2050e77e4580d4f6b17e9da6760cb"></a><br/></td></tr>
+<tr class="separator:a54a2050e77e4580d4f6b17e9da6760cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92ee111c96951dba1b1b6e12ab87d616"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model___base.html#a92ee111c96951dba1b1b6e12ab87d616">$_limit</a></td></tr>
+<tr class="memdesc:a92ee111c96951dba1b1b6e12ab87d616"><td class="mdescLeft">&#160;</td><td class="mdescRight">string of LIMIT clause for resultset  <a href="#a92ee111c96951dba1b1b6e12ab87d616"></a><br/></td></tr>
+<tr class="separator:a92ee111c96951dba1b1b6e12ab87d616"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_class_o_r_m___base"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_o_r_m___base')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_o_r_m___base.html">ORM_Base</a></td></tr>
+<tr class="memitem:a62e5e65f9b0732d62a684572f5dcfbe6 inherit pro_attribs_class_o_r_m___base"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_o_r_m___base.html#a62e5e65f9b0732d62a684572f5dcfbe6">$_loaded</a> = FALSE</td></tr>
+<tr class="memdesc:a62e5e65f9b0732d62a684572f5dcfbe6 inherit pro_attribs_class_o_r_m___base"><td class="mdescLeft">&#160;</td><td class="mdescRight">boolean check to ensure object currently loaded via ORM_load call  <a href="#a62e5e65f9b0732d62a684572f5dcfbe6"></a><br/></td></tr>
+<tr class="separator:a62e5e65f9b0732d62a684572f5dcfbe6 inherit pro_attribs_class_o_r_m___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a3006290f2de94fff2dd63ca739d15a inherit pro_attribs_class_o_r_m___base"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_o_r_m___base.html#a5a3006290f2de94fff2dd63ca739d15a">$_data</a></td></tr>
+<tr class="memdesc:a5a3006290f2de94fff2dd63ca739d15a inherit pro_attribs_class_o_r_m___base"><td class="mdescLeft">&#160;</td><td class="mdescRight">array of data for object/model  <a href="#a5a3006290f2de94fff2dd63ca739d15a"></a><br/></td></tr>
 <tr class="separator:a5a3006290f2de94fff2dd63ca739d15a inherit pro_attribs_class_o_r_m___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3cf5d64ab9a22158947f4ddac09767cf inherit pro_attribs_class_o_r_m___base"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_o_r_m___base.html#a3cf5d64ab9a22158947f4ddac09767cf">$_to_many</a> = array()</td></tr>
+<tr class="memdesc:a3cf5d64ab9a22158947f4ddac09767cf inherit pro_attribs_class_o_r_m___base"><td class="mdescLeft">&#160;</td><td class="mdescRight">array defining one to many relationships  <a href="#a3cf5d64ab9a22158947f4ddac09767cf"></a><br/></td></tr>
 <tr class="separator:a3cf5d64ab9a22158947f4ddac09767cf inherit pro_attribs_class_o_r_m___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb05e71f066668932d7dc465c3c0fa29 inherit pro_attribs_class_o_r_m___base"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_o_r_m___base.html#afb05e71f066668932d7dc465c3c0fa29">$_to_many_map</a> = array()</td></tr>
+<tr class="memdesc:afb05e71f066668932d7dc465c3c0fa29 inherit pro_attribs_class_o_r_m___base"><td class="mdescLeft">&#160;</td><td class="mdescRight">array defining one to many relationships with mapping tables  <a href="#afb05e71f066668932d7dc465c3c0fa29"></a><br/></td></tr>
 <tr class="separator:afb05e71f066668932d7dc465c3c0fa29 inherit pro_attribs_class_o_r_m___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c87bd4c8d8d233b856dd2556238514a inherit pro_attribs_class_o_r_m___base"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_o_r_m___base.html#a7c87bd4c8d8d233b856dd2556238514a">$_to_one</a> = array()</td></tr>
+<tr class="memdesc:a7c87bd4c8d8d233b856dd2556238514a inherit pro_attribs_class_o_r_m___base"><td class="mdescLeft">&#160;</td><td class="mdescRight">array defining one to one relationships  <a href="#a7c87bd4c8d8d233b856dd2556238514a"></a><br/></td></tr>
 <tr class="separator:a7c87bd4c8d8d233b856dd2556238514a inherit pro_attribs_class_o_r_m___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49f64bbefed1f8068d4fe8111fc36b34 inherit pro_attribs_class_o_r_m___base"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_o_r_m___base.html#a49f64bbefed1f8068d4fe8111fc36b34">$_to_one_map</a> = array()</td></tr>
+<tr class="memdesc:a49f64bbefed1f8068d4fe8111fc36b34 inherit pro_attribs_class_o_r_m___base"><td class="mdescLeft">&#160;</td><td class="mdescRight">array defining one to one relationships with mapping tables  <a href="#a49f64bbefed1f8068d4fe8111fc36b34"></a><br/></td></tr>
 <tr class="separator:a49f64bbefed1f8068d4fe8111fc36b34 inherit pro_attribs_class_o_r_m___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a044d165b13ce9e402442f238be23c3c8 inherit pro_attribs_class_o_r_m___base"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_o_r_m___base.html#a044d165b13ce9e402442f238be23c3c8">$_transform</a> = array()</td></tr>
+<tr class="memdesc:a044d165b13ce9e402442f238be23c3c8 inherit pro_attribs_class_o_r_m___base"><td class="mdescLeft">&#160;</td><td class="mdescRight">array of transformation mappings for to/from tables  <a href="#a044d165b13ce9e402442f238be23c3c8"></a><br/></td></tr>
+<tr class="separator:a044d165b13ce9e402442f238be23c3c8 inherit pro_attribs_class_o_r_m___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a639ca41ddb45ec6607642d91b7aa0f07 inherit pro_attribs_class_o_r_m___base"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_o_r_m___base.html#a639ca41ddb45ec6607642d91b7aa0f07">$_hook</a> = array()</td></tr>
+<tr class="memdesc:a639ca41ddb45ec6607642d91b7aa0f07 inherit pro_attribs_class_o_r_m___base"><td class="mdescLeft">&#160;</td><td class="mdescRight">array of event hooks  <a href="#a639ca41ddb45ec6607642d91b7aa0f07"></a><br/></td></tr>
+<tr class="separator:a639ca41ddb45ec6607642d91b7aa0f07 inherit pro_attribs_class_o_r_m___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_methods_class_o_r_m___base"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_o_r_m___base')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_o_r_m___base.html">ORM_Base</a></td></tr>
+<tr class="memitem:ab8730a691e3b8d94caccbbdf33f7b7d6 inherit pro_methods_class_o_r_m___base"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_o_r_m___base.html#ab8730a691e3b8d94caccbbdf33f7b7d6">_validate</a> ()</td></tr>
+<tr class="memdesc:ab8730a691e3b8d94caccbbdf33f7b7d6 inherit pro_methods_class_o_r_m___base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default validation function.  <a href="#ab8730a691e3b8d94caccbbdf33f7b7d6"></a><br/></td></tr>
+<tr class="separator:ab8730a691e3b8d94caccbbdf33f7b7d6 inherit pro_methods_class_o_r_m___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="_model___base_8php_source.html#l00003">3</a> of file <a class="el" href="_model___base_8php_source.html">Model_Base.php</a>.</p>
+<div class="textblock"><p>Abstract base class for CMS model classes </p>
+
+<p>Definition at line <a class="el" href="_model___base_8php_source.html#l00016">16</a> of file <a class="el" href="_model___base_8php_source.html">Model_Base.php</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a095c5d389db211932136b53f25f39685"></a>
 <div class="memitem">
@@ -216,11 +283,79 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_model___base_8php_source.html#l00014">14</a> of file <a class="el" href="_model___base_8php_source.html">Model_Base.php</a>.</p>
+<p>Definition at line <a class="el" href="_model___base_8php_source.html#l00038">38</a> of file <a class="el" href="_model___base_8php_source.html">Model_Base.php</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a6dc9285a83d31a18ffbef0483da1b266"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">custom_where </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$where</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$where</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>object - self/this </dd></dl>
+
+<p>Definition at line <a class="el" href="_model___base_8php_source.html#l00121">121</a> of file <a class="el" href="_model___base_8php_source.html">Model_Base.php</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1c1dd4909cd337524651c37782d83d15"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">dropdown </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$field_display_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$blank_first</em> = <code>TRUE</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Uses the primary key for the table as ID</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$field_display_name</td><td>- COLUMN VALUE to display in dropdown, should match table column name </td></tr>
+    <tr><td class="paramtype">bool</td><td class="paramname">$blank_first</td><td>- display a blank line as the first value, default is true </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>array - result set usable in Validate-&gt;print_select statements </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Exception</td><td>- blank param is not a boolean or display field is not a column in the table </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_model___base_8php_source.html#l00241">241</a> of file <a class="el" href="_model___base_8php_source.html">Model_Base.php</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a12f0e8c033ae0c3dc76c9681e71b8740"></a>
 <div class="memitem">
 <div class="memproto">
@@ -236,15 +371,23 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramtype">int</td><td class="paramname">$key_id</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$key_id</td><td>- specific primary key id to check </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>bool </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>bool - true if primary key is found, false otherwise </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Exception</td><td>- if key is not numeric </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_model___base_8php_source.html#l00163">163</a> of file <a class="el" href="_model___base_8php_source.html">Model_Base.php</a>.</p>
+<p>Definition at line <a class="el" href="_model___base_8php_source.html#l00215">215</a> of file <a class="el" href="_model___base_8php_source.html">Model_Base.php</a>.</p>
 
-<p>Referenced by <a class="el" href="model_2_user_8php_source.html#l00053">User\send_password_reset_email()</a>, and <a class="el" href="model_2_user_8php_source.html#l00088">User\update_password()</a>.</p>
+<p>References <a class="el" href="_framework_8php_source.html#l00170">Framework\load_helper()</a>.</p>
+
+<p>Referenced by <a class="el" href="model___c_r_u_d_8php_source.html#l00031">NAME\check_permission_load()</a>.</p>
 
 </div>
 </div>
@@ -261,17 +404,19 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Resets where, order and limit clauses.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramtype">int</td><td class="paramname">$key_id</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$key_id</td><td>- specific primary key id to retrieve, default retrieves all </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>object </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>object - DB_Wrapper of result set returned or empty </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd>DB_Wrapper </dd></dl>
 
-<p>Definition at line <a class="el" href="_model___base_8php_source.html#l00107">107</a> of file <a class="el" href="_model___base_8php_source.html">Model_Base.php</a>.</p>
+<p>Definition at line <a class="el" href="_model___base_8php_source.html#l00157">157</a> of file <a class="el" href="_model___base_8php_source.html">Model_Base.php</a>.</p>
 
-<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00095">Db\get_rows()</a>, <a class="el" href="_framework_8php_source.html#l00134">Framework\load_helper()</a>, and <a class="el" href="_db___wrapper_8php_source.html#l00012">Db_Wrapper\set()</a>.</p>
+<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00113">Db\get_rows()</a>, <a class="el" href="_framework_8php_source.html#l00415">Framework\is_id()</a>, <a class="el" href="_framework_8php_source.html#l00170">Framework\load_helper()</a>, and <a class="el" href="_db___wrapper_8php_source.html#l00030">Db_Wrapper\set()</a>.</p>
 
 </div>
 </div>
@@ -300,20 +445,26 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramtype">string</td><td class="paramname">$column</td><td></td></tr>
-    <tr><td class="paramtype">string</td><td class="paramname">$value</td><td></td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$column</td><td>- column name to add to WHERE clause array </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$value</td><td>- pattern column must be like, add widlcards % _ to value to expand match </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>self </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>object - self/this </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Exception</td><td>- if column does not exist in the database table for the model </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_model___base_8php_source.html#l00090">90</a> of file <a class="el" href="_model___base_8php_source.html">Model_Base.php</a>.</p>
+<p>Definition at line <a class="el" href="_model___base_8php_source.html#l00137">137</a> of file <a class="el" href="_model___base_8php_source.html">Model_Base.php</a>.</p>
 
-<p>References <a class="el" href="_framework_8php_source.html#l00134">Framework\load_helper()</a>, and <a class="el" href="_o_r_m___base_8php_source.html#l00027">ORM_Base\model_name()</a>.</p>
+<p>References <a class="el" href="_framework_8php_source.html#l00170">Framework\load_helper()</a>, and <a class="el" href="_o_r_m___base_8php_source.html#l00082">ORM_Base\model_name()</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a2b2bc834f20a075d947f1f6549bb9e43"></a>
+<a class="anchor" id="ac234403a9dc2095cc161ecf94a987186"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -321,7 +472,7 @@ Additional Inherited Members</h2></td></tr>
           <td class="memname">limit </td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>$columns</em>, </td>
+          <td class="paramname"><em>$rows</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -338,16 +489,22 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramtype">int</td><td class="paramname">$column</td><td></td></tr>
-    <tr><td class="paramtype">int</td><td class="paramname">$offset</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$rows</td><td>- number of rows to return </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$offset</td><td>- page offset, defaults to 0 (first page) </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>self </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>object - self/this </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Exception</td><td>- if rows not greater than 0 or offset isn't an integer </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_model___base_8php_source.html#l00027">27</a> of file <a class="el" href="_model___base_8php_source.html">Model_Base.php</a>.</p>
+<p>Definition at line <a class="el" href="_model___base_8php_source.html#l00053">53</a> of file <a class="el" href="_model___base_8php_source.html">Model_Base.php</a>.</p>
 
-<p>References <a class="el" href="_framework_8php_source.html#l00314">Framework\is_id()</a>.</p>
+<p>References <a class="el" href="_framework_8php_source.html#l00415">Framework\is_id()</a>.</p>
 
 </div>
 </div>
@@ -376,16 +533,22 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">$column</td><td></td></tr>
-    <tr><td class="paramname">$order</td><td></td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$column</td><td>- column name to sort results by </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$order</td><td>- ordinality of sort, DESC for descending ASC for ascending </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>self </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>object - self/this </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Exception</td><td>- if column does not exist or ordinality is not DESC or SC </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_model___base_8php_source.html#l00049">49</a> of file <a class="el" href="_model___base_8php_source.html">Model_Base.php</a>.</p>
+<p>Definition at line <a class="el" href="_model___base_8php_source.html#l00078">78</a> of file <a class="el" href="_model___base_8php_source.html">Model_Base.php</a>.</p>
 
-<p>References <a class="el" href="_framework_8php_source.html#l00134">Framework\load_helper()</a>, and <a class="el" href="_o_r_m___base_8php_source.html#l00027">ORM_Base\model_name()</a>.</p>
+<p>References <a class="el" href="_framework_8php_source.html#l00170">Framework\load_helper()</a>, and <a class="el" href="_o_r_m___base_8php_source.html#l00082">ORM_Base\model_name()</a>.</p>
 
 </div>
 </div>
@@ -414,28 +577,99 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramtype">string</td><td class="paramname">$column</td><td></td></tr>
-    <tr><td class="paramtype">string</td><td class="paramname">$value</td><td></td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$column</td><td>- column name to add to WHERE clause array </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$value</td><td>- value column must be equal to </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>self </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>object - self/this </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Exception</td><td>- if column does not exist in the database table for the model </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_model___base_8php_source.html#l00072">72</a> of file <a class="el" href="_model___base_8php_source.html">Model_Base.php</a>.</p>
+<p>Definition at line <a class="el" href="_model___base_8php_source.html#l00103">103</a> of file <a class="el" href="_model___base_8php_source.html">Model_Base.php</a>.</p>
 
-<p>References <a class="el" href="_framework_8php_source.html#l00134">Framework\load_helper()</a>, and <a class="el" href="_o_r_m___base_8php_source.html#l00027">ORM_Base\model_name()</a>.</p>
+<p>References <a class="el" href="_framework_8php_source.html#l00170">Framework\load_helper()</a>, and <a class="el" href="_o_r_m___base_8php_source.html#l00082">ORM_Base\model_name()</a>.</p>
 
-<p>Referenced by <a class="el" href="model_2_user_8php_source.html#l00022">User\log_user_in()</a>, <a class="el" href="controller_2_user_8php_source.html#l00005">User_Controller\reset_password()</a>, and <a class="el" href="controller_2_user_8php_source.html#l00037">User_Controller\update_password()</a>.</p>
+</div>
+</div>
+<h2 class="groupheader">Field Documentation</h2>
+<a class="anchor" id="a92ee111c96951dba1b1b6e12ab87d616"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">$_limit</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_model___base_8php_source.html#l00032">32</a> of file <a class="el" href="_model___base_8php_source.html">Model_Base.php</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a54a2050e77e4580d4f6b17e9da6760cb"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">$_order</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_model___base_8php_source.html#l00027">27</a> of file <a class="el" href="_model___base_8php_source.html">Model_Base.php</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abbb54377a65b43d4322ce6e3c4b73143"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">$_where</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_model___base_8php_source.html#l00022">22</a> of file <a class="el" href="_model___base_8php_source.html">Model_Base.php</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>system/<a class="el" href="_model___base_8php_source.html">Model_Base.php</a></li>
+<li>C:/Projects/itul/devel/framework/system/<a class="el" href="_model___base_8php_source.html">Model_Base.php</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Oct 27 2012 17:31:14 for I-Tul Framework by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 15 2013 15:32:23 for I-Tul Framework by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.2
 </small></address>

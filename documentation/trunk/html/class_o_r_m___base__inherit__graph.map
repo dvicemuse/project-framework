@@ -1,7 +1,7 @@
 <map id="ORM_Base" name="ORM_Base">
-<area shape="rect" id="node5" href="$class_model___base.html" title="Model_Base" alt="" coords="26,155,120,181"/>
-<area shape="rect" id="node2" href="$class_framework.html" title="Framework" alt="" coords="30,5,116,32"/>
-<area shape="rect" id="node7" href="$class_n_a_m_e.html" title="NAME" alt="" coords="5,229,64,256"/>
-<area shape="rect" id="node9" href="$class_user.html" title="User" alt="" coords="89,229,137,256"/>
-<area shape="rect" id="node11" href="$class_auth.html" title="Auth" alt="" coords="89,304,137,331"/>
+<area shape="rect" id="node5" href="$class_model___base.html" title="Base Model class." alt="" coords="5,155,99,181"/>
+<area shape="rect" id="node2" href="$class_framework.html" title="Framework application class." alt="" coords="9,5,95,32"/>
+<area shape="rect" id="node7" href="$class_n_a_m_e.html" title="NAME" alt="" coords="22,229,81,256"/>
+<area shape="rect" id="node10" href="$class_user.html" title="User" alt="" coords="106,229,155,256"/>
+<area shape="rect" id="node12" href="$class_auth.html" title="Auth" alt="" coords="106,304,155,331"/>
 </map>

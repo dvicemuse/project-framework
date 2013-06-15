@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">I-Tul Framework
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">2.0.0</span>
    </div>
    <div id="projectbrief">PHP Application Framework</div>
   </td>
@@ -89,7 +89,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="#pub-attribs">Data Fields</a>  </div>
+<a href="#pub-attribs">Data Fields</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="#pro-static-attribs">Static Protected Attributes</a>  </div>
   <div class="headertitle">
 <div class="title">Db Class Reference</div>  </div>
 </div><!--header-->
@@ -99,14 +101,14 @@ Inheritance diagram for Db:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_db__inherit__graph.png" border="0" usemap="#_db_inherit__map" alt="Inheritance graph"/></div>
 <map name="_db_inherit__map" id="_db_inherit__map">
-<area shape="rect" id="node2" href="class_framework.html" title="Framework" alt="" coords="5,5,91,32"/></map>
+<area shape="rect" id="node5" href="class_db___override.html" title="Hello memcache." alt="" coords="5,155,99,181"/><area shape="rect" id="node2" href="class_framework.html" title="Framework application class." alt="" coords="9,5,95,32"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
 Collaboration diagram for Db:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_db__coll__graph.png" border="0" usemap="#_db_coll__map" alt="Collaboration graph"/></div>
 <map name="_db_coll__map" id="_db_coll__map">
-<area shape="rect" id="node2" href="class_framework.html" title="Framework" alt="" coords="5,5,91,32"/></map>
+<area shape="rect" id="node2" href="class_framework.html" title="Framework application class." alt="" coords="5,5,91,32"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -128,9 +130,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5ec88dc88dca353e1549095f4875e372"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_db.html#a5ec88dc88dca353e1549095f4875e372">column_exists</a> ($table_name, $column_name)</td></tr>
 <tr class="memdesc:a5ec88dc88dca353e1549095f4875e372"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a column exists in a table.  <a href="#a5ec88dc88dca353e1549095f4875e372"></a><br/></td></tr>
 <tr class="separator:a5ec88dc88dca353e1549095f4875e372"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e5863b3e81e71cee65cb266f19d7f77"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_db.html#a9e5863b3e81e71cee65cb266f19d7f77">table_info</a> ($table_name)</td></tr>
-<tr class="memdesc:a9e5863b3e81e71cee65cb266f19d7f77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an array of table info.  <a href="#a9e5863b3e81e71cee65cb266f19d7f77"></a><br/></td></tr>
-<tr class="separator:a9e5863b3e81e71cee65cb266f19d7f77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acdaaaebce59917a66d01ca1e37a776f0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_db.html#acdaaaebce59917a66d01ca1e37a776f0">table_info</a> ($table_name, $force_table_info_update=FALSE)</td></tr>
+<tr class="memdesc:acdaaaebce59917a66d01ca1e37a776f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an array of table info.  <a href="#acdaaaebce59917a66d01ca1e37a776f0"></a><br/></td></tr>
+<tr class="separator:acdaaaebce59917a66d01ca1e37a776f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e7f96f4f731542b08a2081bad44e94b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_db.html#a0e7f96f4f731542b08a2081bad44e94b">get_primary_key</a> ($table_name)</td></tr>
 <tr class="memdesc:a0e7f96f4f731542b08a2081bad44e94b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the primary key column name for a table.  <a href="#a0e7f96f4f731542b08a2081bad44e94b"></a><br/></td></tr>
 <tr class="separator:a0e7f96f4f731542b08a2081bad44e94b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -152,6 +154,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae2695fe0d40ce9b7392a501a1c54bbd6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_db.html#ae2695fe0d40ce9b7392a501a1c54bbd6">get_enum</a> ($table, $field, $ucfirst_values=TRUE)</td></tr>
 <tr class="memdesc:ae2695fe0d40ce9b7392a501a1c54bbd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get valid enum values for a column.  <a href="#ae2695fe0d40ce9b7392a501a1c54bbd6"></a><br/></td></tr>
 <tr class="separator:ae2695fe0d40ce9b7392a501a1c54bbd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a9793666e688407121d76d3a7e4db5d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_db.html#a3a9793666e688407121d76d3a7e4db5d">begin</a> ()</td></tr>
+<tr class="memdesc:a3a9793666e688407121d76d3a7e4db5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Begin transaction.  <a href="#a3a9793666e688407121d76d3a7e4db5d"></a><br/></td></tr>
+<tr class="separator:a3a9793666e688407121d76d3a7e4db5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5674c27d4a92f6228565010eacbb9cb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_db.html#af5674c27d4a92f6228565010eacbb9cb">commit</a> ()</td></tr>
+<tr class="memdesc:af5674c27d4a92f6228565010eacbb9cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Commit transaction.  <a href="#af5674c27d4a92f6228565010eacbb9cb"></a><br/></td></tr>
+<tr class="separator:af5674c27d4a92f6228565010eacbb9cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa549adf79e3f8c09fe8f903dd5fbfa7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_db.html#afa549adf79e3f8c09fe8f903dd5fbfa7">rollback</a> ()</td></tr>
+<tr class="memdesc:afa549adf79e3f8c09fe8f903dd5fbfa7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Roll back transaction.  <a href="#afa549adf79e3f8c09fe8f903dd5fbfa7"></a><br/></td></tr>
+<tr class="separator:afa549adf79e3f8c09fe8f903dd5fbfa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa19a8c93bf7592589f74bde50e76c4b0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_db.html#aa19a8c93bf7592589f74bde50e76c4b0">get_column_names</a> ($table_name)</td></tr>
 <tr class="separator:aa19a8c93bf7592589f74bde50e76c4b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a202654fde8e59bcbef5c945b2f784ae5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_db.html#a202654fde8e59bcbef5c945b2f784ae5">get_table_info</a> ($table_name)</td></tr>
@@ -163,8 +174,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab7083f7ff045dc98f3217982f921f079 inherit pub_methods_class_framework"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_framework.html#ab7083f7ff045dc98f3217982f921f079">route</a> ()</td></tr>
 <tr class="memdesc:ab7083f7ff045dc98f3217982f921f079 inherit pub_methods_class_framework"><td class="mdescLeft">&#160;</td><td class="mdescRight">Route the application.  <a href="#ab7083f7ff045dc98f3217982f921f079"></a><br/></td></tr>
 <tr class="separator:ab7083f7ff045dc98f3217982f921f079 inherit pub_methods_class_framework"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73f652442f5d75a5518a3816d9b427d0 inherit pub_methods_class_framework"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_framework.html#a73f652442f5d75a5518a3816d9b427d0">load_model</a> ($module_name)</td></tr>
-<tr class="separator:a73f652442f5d75a5518a3816d9b427d0 inherit pub_methods_class_framework"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca8c3f1676936c3fb3731f1086481732 inherit pub_methods_class_framework"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_framework.html#aca8c3f1676936c3fb3731f1086481732">load_model</a> ($module_name, $force_new=FALSE)</td></tr>
+<tr class="separator:aca8c3f1676936c3fb3731f1086481732 inherit pub_methods_class_framework"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06506ecb9c01b7ee053a629211e361a3 inherit pub_methods_class_framework"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_framework.html#a06506ecb9c01b7ee053a629211e361a3">load_helper</a> ($module_name)</td></tr>
 <tr class="separator:a06506ecb9c01b7ee053a629211e361a3 inherit pub_methods_class_framework"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af91f319fc22cf013d85bff3b228a7aaa inherit pub_methods_class_framework"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_framework.html#af91f319fc22cf013d85bff3b228a7aaa">load_controller</a> ($module_name)</td></tr>
@@ -202,6 +213,20 @@ Data Fields</h2></td></tr>
 <tr class="separator:abb0f8f809252372e25f48d52b63ef29d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac926549b713e71c5f5fd63999cebfb8c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_db.html#ac926549b713e71c5f5fd63999cebfb8c">$num_rows</a></td></tr>
 <tr class="separator:ac926549b713e71c5f5fd63999cebfb8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7f7fc5b08bc2c3626ea7065d50c8847"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_db.html#aa7f7fc5b08bc2c3626ea7065d50c8847">$query_count</a> = 0</td></tr>
+<tr class="separator:aa7f7fc5b08bc2c3626ea7065d50c8847"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:af16fdab556d136eaf7e089fced21210e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_db.html#af16fdab556d136eaf7e089fced21210e">$table_info</a> = array()</td></tr>
+<tr class="separator:af16fdab556d136eaf7e089fced21210e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeba2ab722cedda53dbb7ec1a59f45550"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_db.html#aeba2ab722cedda53dbb7ec1a59f45550">$error</a></td></tr>
+<tr class="separator:aeba2ab722cedda53dbb7ec1a59f45550"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-attribs"></a>
+Static Protected Attributes</h2></td></tr>
+<tr class="memitem:ac350be23da328a6f5429313efc9b96e4"><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_db.html#ac350be23da328a6f5429313efc9b96e4">$_instance</a> = NULL</td></tr>
+<tr class="separator:ac350be23da328a6f5429313efc9b96e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
@@ -220,13 +245,31 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00032">32</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
-
-<p>References <a class="el" href="_framework_8php_source.html#l00299">Framework\config()</a>.</p>
+<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00033">33</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a3a9793666e688407121d76d3a7e4db5d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">begin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_db.html">Db</a> </dd></dl>
+
+<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00499">499</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
+
+<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00064">query()</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a5ec88dc88dca353e1549095f4875e372"></a>
 <div class="memitem">
 <div class="memproto">
@@ -259,9 +302,9 @@ Data Fields</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>bool </dd></dl>
 
-<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00145">145</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
+<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00163">163</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
 
-<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00122">column_names()</a>.</p>
+<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00140">column_names()</a>.</p>
 
 <p>Referenced by <a class="el" href="_scaffold_8php_source.html#l00052">Scaffold\set_join_table()</a>.</p>
 
@@ -288,11 +331,31 @@ Data Fields</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>mixed </dd></dl>
 
-<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00122">122</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
+<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00140">140</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
 
-<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00170">table_info()</a>.</p>
+<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00188">table_info()</a>.</p>
 
-<p>Referenced by <a class="el" href="system_2helper_2_db_8php_source.html#l00145">column_exists()</a>, and <a class="el" href="system_2helper_2_db_8php_source.html#l00433">get_column_names()</a>.</p>
+<p>Referenced by <a class="el" href="system_2helper_2_db_8php_source.html#l00163">column_exists()</a>, and <a class="el" href="system_2helper_2_db_8php_source.html#l00531">get_column_names()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af5674c27d4a92f6228565010eacbb9cb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">commit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_db.html">Db</a> </dd></dl>
+
+<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00511">511</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
+
+<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00064">query()</a>.</p>
 
 </div>
 </div>
@@ -317,9 +380,9 @@ Data Fields</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>mixed </dd></dl>
 
-<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00327">327</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
+<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00389">389</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
 
-<p>Referenced by <a class="el" href="system_2helper_2_db_8php_source.html#l00232">insert()</a>, and <a class="el" href="system_2helper_2_db_8php_source.html#l00281">update()</a>.</p>
+<p>Referenced by <a class="el" href="system_2helper_2_db_8php_source.html#l00257">insert()</a>, and <a class="el" href="system_2helper_2_db_8php_source.html#l00322">update()</a>.</p>
 
 </div>
 </div>
@@ -337,9 +400,9 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00433">433</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
+<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00531">531</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
 
-<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00122">column_names()</a>.</p>
+<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00140">column_names()</a>.</p>
 
 </div>
 </div>
@@ -383,9 +446,9 @@ Data Fields</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>&lt;type&gt; </dd></dl>
 
-<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00398">398</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
+<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00464">464</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
 
-<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00053">query()</a>.</p>
+<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00064">query()</a>.</p>
 
 </div>
 </div>
@@ -410,11 +473,11 @@ Data Fields</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>mixed </dd></dl>
 
-<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00201">201</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
+<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00227">227</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
 
-<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00434">get_table_info()</a>, and <a class="el" href="system_2helper_2_db_8php_source.html#l00170">table_info()</a>.</p>
+<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00532">get_table_info()</a>, and <a class="el" href="system_2helper_2_db_8php_source.html#l00188">table_info()</a>.</p>
 
-<p>Referenced by <a class="el" href="_scaffold_8php_source.html#l00159">Scaffold\search()</a>.</p>
+<p>Referenced by <a class="el" href="_scaffold_8php_source.html#l00154">Scaffold\search()</a>.</p>
 
 </div>
 </div>
@@ -440,11 +503,11 @@ Data Fields</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>array|bool </dd></dl>
 
-<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00072">72</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
+<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00090">90</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
 
-<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00053">query()</a>, and <a class="el" href="system_2helper_2_db_8php_source.html#l00348">stripslashes_deep()</a>.</p>
+<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00064">query()</a>, and <a class="el" href="system_2helper_2_db_8php_source.html#l00410">stripslashes_deep()</a>.</p>
 
-<p>Referenced by <a class="el" href="_scaffold_8php_source.html#l00159">Scaffold\search()</a>.</p>
+<p>Referenced by <a class="el" href="_scaffold_8php_source.html#l00154">Scaffold\search()</a>.</p>
 
 </div>
 </div>
@@ -470,11 +533,11 @@ Data Fields</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>array|bool </dd></dl>
 
-<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00095">95</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
+<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00113">113</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
 
-<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00053">query()</a>, and <a class="el" href="system_2helper_2_db_8php_source.html#l00348">stripslashes_deep()</a>.</p>
+<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00064">query()</a>, and <a class="el" href="system_2helper_2_db_8php_source.html#l00410">stripslashes_deep()</a>.</p>
 
-<p>Referenced by <a class="el" href="_model___base_8php_source.html#l00107">Model_Base\get()</a>, and <a class="el" href="_scaffold_8php_source.html#l00159">Scaffold\search()</a>.</p>
+<p>Referenced by <a class="el" href="_model___base_8php_source.html#l00157">Model_Base\get()</a>, <a class="el" href="_scaffold_8php_source.html#l00154">Scaffold\search()</a>, and <a class="el" href="system_2helper_2_db_8php_source.html#l00188">table_info()</a>.</p>
 
 </div>
 </div>
@@ -492,11 +555,11 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00434">434</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
+<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00532">532</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
 
-<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00170">table_info()</a>.</p>
+<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00188">table_info()</a>.</p>
 
-<p>Referenced by <a class="el" href="system_2helper_2_db_8php_source.html#l00201">get_primary_key()</a>, and <a class="el" href="_scaffold_8php_source.html#l00136">Scaffold\set_table_name()</a>.</p>
+<p>Referenced by <a class="el" href="system_2helper_2_db_8php_source.html#l00227">get_primary_key()</a>, and <a class="el" href="_scaffold_8php_source.html#l00132">Scaffold\set_table_name()</a>.</p>
 
 </div>
 </div>
@@ -514,9 +577,9 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>bool </dd></dl>
 
-<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00369">369</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
+<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00435">435</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
 
-<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00053">query()</a>.</p>
+<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00064">query()</a>.</p>
 
 </div>
 </div>
@@ -543,7 +606,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Returns the integer insert ID, or FALSE on failure </p>
+<p>Returns the integer </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramtype">string</td><td class="paramname">$table</td><td></td></tr>
@@ -553,9 +616,9 @@ Data Fields</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>mixed. </dd></dl>
 
-<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00232">232</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
+<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00257">257</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
 
-<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00327">escape()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00053">query()</a>, and <a class="el" href="system_2helper_2_db_8php_source.html#l00348">stripslashes_deep()</a>.</p>
+<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00010">$table_info</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00389">escape()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00064">query()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00410">stripslashes_deep()</a>, and <a class="el" href="system_2helper_2_db_8php_source.html#l00188">table_info()</a>.</p>
 
 </div>
 </div>
@@ -581,9 +644,9 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>object </dd></dl>
 
-<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00018">18</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
+<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00019">19</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
 
-<p>Referenced by <a class="el" href="_framework_8php_source.html#l00134">Framework\load_helper()</a>.</p>
+<p>Referenced by <a class="el" href="_framework_8php_source.html#l00170">Framework\load_helper()</a>.</p>
 
 </div>
 </div>
@@ -608,9 +671,29 @@ Data Fields</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>bool </dd></dl>
 
-<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00053">53</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
+<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00064">64</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
 
-<p>Referenced by <a class="el" href="system_2helper_2_db_8php_source.html#l00398">get_enum()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00072">get_row()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00095">get_rows()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00369">get_table_names()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00232">insert()</a>, <a class="el" href="model_2_user_8php_source.html#l00022">User\log_user_in()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00170">table_info()</a>, and <a class="el" href="system_2helper_2_db_8php_source.html#l00281">update()</a>.</p>
+<p>Referenced by <a class="el" href="system_2helper_2_db_8php_source.html#l00499">begin()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00511">commit()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00464">get_enum()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00090">get_row()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00113">get_rows()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00435">get_table_names()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00257">insert()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00523">rollback()</a>, and <a class="el" href="system_2helper_2_db_8php_source.html#l00322">update()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afa549adf79e3f8c09fe8f903dd5fbfa7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rollback </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_db.html">Db</a> </dd></dl>
+
+<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00523">523</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
+
+<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00064">query()</a>.</p>
 
 </div>
 </div>
@@ -635,13 +718,13 @@ Data Fields</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>mixed </dd></dl>
 
-<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00348">348</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
+<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00410">410</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
 
-<p>Referenced by <a class="el" href="system_2helper_2_db_8php_source.html#l00072">get_row()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00095">get_rows()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00232">insert()</a>, and <a class="el" href="system_2helper_2_db_8php_source.html#l00281">update()</a>.</p>
+<p>Referenced by <a class="el" href="system_2helper_2_db_8php_source.html#l00090">get_row()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00113">get_rows()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00257">insert()</a>, and <a class="el" href="system_2helper_2_db_8php_source.html#l00322">update()</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a9e5863b3e81e71cee65cb266f19d7f77"></a>
+<a class="anchor" id="acdaaaebce59917a66d01ca1e37a776f0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -649,8 +732,18 @@ Data Fields</h2></td></tr>
           <td class="memname">table_info </td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>$table_name</em></td><td>)</td>
+          <td class="paramname"><em>$table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$force_table_info_update</em> = <code>FALSE</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -662,11 +755,11 @@ Data Fields</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>array </dd></dl>
 
-<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00170">170</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
+<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00188">188</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
 
-<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00053">query()</a>.</p>
+<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00113">get_rows()</a>.</p>
 
-<p>Referenced by <a class="el" href="system_2helper_2_db_8php_source.html#l00122">column_names()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00201">get_primary_key()</a>, and <a class="el" href="system_2helper_2_db_8php_source.html#l00434">get_table_info()</a>.</p>
+<p>Referenced by <a class="el" href="system_2helper_2_db_8php_source.html#l00140">column_names()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00227">get_primary_key()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00532">get_table_info()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00257">insert()</a>, and <a class="el" href="system_2helper_2_db_8php_source.html#l00322">update()</a>.</p>
 
 </div>
 </div>
@@ -709,15 +802,35 @@ Data Fields</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>bool </dd></dl>
 
-<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00281">281</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
+<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00322">322</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
 
-<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00327">escape()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00053">query()</a>, and <a class="el" href="system_2helper_2_db_8php_source.html#l00348">stripslashes_deep()</a>.</p>
-
-<p>Referenced by <a class="el" href="model_2_user_8php_source.html#l00053">User\send_password_reset_email()</a>, and <a class="el" href="model_2_user_8php_source.html#l00088">User\update_password()</a>.</p>
+<p>References <a class="el" href="system_2helper_2_db_8php_source.html#l00010">$table_info</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00389">escape()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00064">query()</a>, <a class="el" href="system_2helper_2_db_8php_source.html#l00410">stripslashes_deep()</a>, and <a class="el" href="system_2helper_2_db_8php_source.html#l00188">table_info()</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Field Documentation</h2>
+<a class="anchor" id="ac350be23da328a6f5429313efc9b96e4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">$_instance = NULL</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00009">9</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="aa8a5a87b9c1a6a0819b88447cbe41877"></a>
 <div class="memitem">
 <div class="memproto">
@@ -729,6 +842,28 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00005">5</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aeba2ab722cedda53dbb7ec1a59f45550"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">$error</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00011">11</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
 
 </div>
 </div>
@@ -760,13 +895,51 @@ Data Fields</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="aa7f7fc5b08bc2c3626ea7065d50c8847"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">$query_count = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00008">8</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af16fdab556d136eaf7e089fced21210e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">$<a class="el" href="class_db.html#acdaaaebce59917a66d01ca1e37a776f0">table_info</a> = array()</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="system_2helper_2_db_8php_source.html#l00010">10</a> of file <a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a>.</p>
+
+<p>Referenced by <a class="el" href="system_2helper_2_db_8php_source.html#l00257">insert()</a>, and <a class="el" href="system_2helper_2_db_8php_source.html#l00322">update()</a>.</p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>system/helper/<a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a></li>
+<li>C:/Projects/itul/devel/framework/system/helper/<a class="el" href="system_2helper_2_db_8php_source.html">Db.php</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Oct 27 2012 17:31:14 for I-Tul Framework by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 15 2013 15:32:22 for I-Tul Framework by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.2
 </small></address>

@@ -1,4 +1,4 @@
 <map id="Dashboard_Controller" name="Dashboard_Controller">
-<area shape="rect" id="node2" href="$class_controller___base.html" title="Controller_Base" alt="" coords="21,80,136,107"/>
-<area shape="rect" id="node4" href="$class_framework.html" title="Framework" alt="" coords="35,5,121,32"/>
+<area shape="rect" id="node2" href="$class_controller___base.html" title="Controller Base class." alt="" coords="21,80,136,107"/>
+<area shape="rect" id="node4" href="$class_framework.html" title="Framework application class." alt="" coords="35,5,121,32"/>
 </map>

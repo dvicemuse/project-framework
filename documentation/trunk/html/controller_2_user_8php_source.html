@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>I-Tul Framework: framework/controller/User.php Source File</title>
+<title>I-Tul Framework: C:/Projects/itul/devel/framework/framework/controller/User.php Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">I-Tul Framework
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">2.0.0</span>
    </div>
    <div id="projectbrief">PHP Application Framework</div>
   </td>
@@ -84,7 +84,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_644e041c3a6521da7b27eba0e4eb2b95.html">framework</a></li><li class="navelem"><a class="el" href="dir_a85ae0b91f018794d48aa4df1ddce2b1.html">controller</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_644e041c3a6521da7b27eba0e4eb2b95.html">framework</a></li><li class="navelem"><a class="el" href="dir_40cfab7d412eb5ed6bc8137c7784fd49.html">framework</a></li><li class="navelem"><a class="el" href="dir_e540a49e117717ad09aa1f94d753d8f4.html">controller</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -94,103 +94,77 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <a href="controller_2_user_8php.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;&lt;?php</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno"><a class="code" href="class_user___controller.html">    3</a></span>&#160;        <span class="keyword">class </span><a class="code" href="class_user___controller.html">User_Controller</a> <span class="keyword">extends</span> <a class="code" href="class_controller___base.html">Controller_Base</a></div>
+<div class="line"><a name="l00003"></a><span class="lineno"><a class="code" href="class_user___controller.html">    3</a></span>&#160;        <span class="keyword">class </span><a class="code" href="class_user___controller.html">User_Controller</a> <span class="keyword">extends</span> <a class="code" href="class_controller___base.html" title="Controller Base class.">Controller_Base</a></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;        {</div>
-<div class="line"><a name="l00005"></a><span class="lineno"><a class="code" href="class_user___controller.html#a8d8f818bb1efd897cc40223032822052">    5</a></span>&#160;                <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="class_user___controller.html#a8d8f818bb1efd897cc40223032822052">reset_password</a>()</div>
+<div class="line"><a name="l00005"></a><span class="lineno"><a class="code" href="class_user___controller.html#a095c5d389db211932136b53f25f39685">    5</a></span>&#160;                <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="class_user___controller.html#a095c5d389db211932136b53f25f39685">__construct</a>()</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;                {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;                        <span class="comment">// Load modules</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;                        $this-&gt;<a class="code" href="class_framework.html#a73f652442f5d75a5518a3816d9b427d0">load_model</a>(<span class="stringliteral">&#39;User&#39;</span>);</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;                        $this-&gt;<a class="code" href="class_framework.html#a06506ecb9c01b7ee053a629211e361a3">load_helper</a>(<span class="stringliteral">&#39;Validate&#39;</span>)-&gt;print_titles(FALSE)-&gt;print_errors(FALSE);</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;                        <span class="comment">// Form submitted</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                        <span class="keywordflow">if</span>(!empty($_POST))</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;                        {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;                                <span class="comment">// Check email address</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                                $get = $this-&gt;<a class="code" href="class_user.html">User</a>-&gt;<a class="code" href="class_model___base.html#ab6dc368b990fc6379d8268a65e556fbc" title="Add an AND to the where clause.">where</a>(<span class="stringliteral">&#39;user_email&#39;</span>, trim($_POST[<span class="stringliteral">&#39;email&#39;</span>]))-&gt;get()-&gt;result();</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;                                <span class="keywordflow">if</span>($get !== FALSE)</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                                {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                                        <span class="comment">// Send user account reset email</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                                        <span class="keywordflow">if</span>($this-&gt;<a class="code" href="class_user.html">User</a>-&gt;<a class="code" href="class_user.html#a4c3bd136002036359b8b7cf3c99fe55e" title="Send a password reset email to a user&#39;s email address.">send_password_reset_email</a>($get[<span class="stringliteral">&#39;user_id&#39;</span>]))</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                                        {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                                                $this-&gt;<a class="code" href="class_controller___base.html#a267e5dadd8ec38d55bffd8392f278aab" title="Add a message.">add_flash</a>(<span class="stringliteral">&#39;Please check your email for password reset instructions.&#39;</span>);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                                                header(<span class="stringliteral">&quot;Location: {$this-&gt;page_link($this-&gt;config()-&gt;path-&gt;log_in_controller)}&quot;</span>);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                                                <a class="code" href="cli_8php.html#afce7902d0e37441fa060458510e4a3a2">exit</a>;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                                        }<span class="keywordflow">else</span>{</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                                                $this-&gt;<a class="code" href="class_controller___base.html#a267e5dadd8ec38d55bffd8392f278aab" title="Add a message.">add_flash</a>(<span class="stringliteral">&#39;There was a problem sending your password reset instructions.&#39;</span>);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                                                $this-&gt;<a class="code" href="class_controller___base.html#a94b786395d782655adfaf865cb1c76e0" title="Reload the current page.">reload_page</a>();</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                                        }</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                                }<span class="keywordflow">else</span>{</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                                        $this-&gt;<a class="code" href="class_controller___base.html#a267e5dadd8ec38d55bffd8392f278aab" title="Add a message.">add_flash</a>(<span class="stringliteral">&#39;There is no account with that email address.&#39;</span>);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                                        $this-&gt;<a class="code" href="class_controller___base.html#a94b786395d782655adfaf865cb1c76e0" title="Reload the current page.">reload_page</a>();</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                                }</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                        }</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                }</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="code" href="class_user___controller.html#a555c3638dcf737c1e96cfa06f9e49598">   37</a></span>&#160;                <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="class_user___controller.html#a555c3638dcf737c1e96cfa06f9e49598">update_password</a>()</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                        <span class="comment">// Load modules</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                        $this-&gt;<a class="code" href="class_framework.html#a73f652442f5d75a5518a3816d9b427d0">load_model</a>(<span class="stringliteral">&#39;User&#39;</span>);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                        $this-&gt;<a class="code" href="class_framework.html#a06506ecb9c01b7ee053a629211e361a3">load_helper</a>(<span class="stringliteral">&#39;Validate&#39;</span>)-&gt;print_titles(FALSE)-&gt;print_errors(FALSE);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                        <span class="comment">// Validate hash</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                        $user = $this-&gt;<a class="code" href="class_user.html">User</a>-&gt;<a class="code" href="class_model___base.html#ab6dc368b990fc6379d8268a65e556fbc" title="Add an AND to the where clause.">where</a>(<span class="stringliteral">&#39;user_update_hash&#39;</span>, $this-&gt;request-&gt;raw[2])-&gt;get()-&gt;result();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                        <span class="keywordflow">if</span>($user === FALSE)</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                        {</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                                <span class="comment">// Hash does not exist</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                                header(<span class="stringliteral">&quot;Location: {$this-&gt;page_link($this-&gt;config()-&gt;path-&gt;log_in_controller)}&quot;</span>);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                                <a class="code" href="cli_8php.html#afce7902d0e37441fa060458510e4a3a2">exit</a>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                        }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                        <span class="comment">// Form submitted</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                        <span class="keywordflow">if</span>(!empty($_POST))</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                        {</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                                <span class="comment">// Validation rules</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                                $rules[<span class="stringliteral">&#39;new_password&#39;</span>]                  = array(<span class="stringliteral">&#39;reqd&#39;</span> =&gt; <span class="stringliteral">&#39;Please enter a new password.&#39;</span>, <span class="stringliteral">&#39;min[8]&#39;</span> =&gt; <span class="stringliteral">&#39;Password must be at least 8 characters in length.&#39;</span>);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                                $rules[<span class="stringliteral">&#39;new_password_confirm&#39;</span>]  = array(<span class="stringliteral">&#39;reqd&#39;</span> =&gt; <span class="stringliteral">&#39;Please confirm your new password.&#39;</span>, <span class="stringliteral">&#39;match[new_password]&#39;</span> =&gt; <span class="stringliteral">&#39;Passwords do not match.&#39;</span>);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                                <span class="comment">// Run validation</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                                <span class="keywordflow">if</span>($this-&gt;<a class="code" href="class_validate.html">Validate</a>-&gt;<a class="code" href="class_validate.html#a311aa662848eb1436fafbb9a5fce5201" title="Run validation.">run</a>($_POST, $rules))</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                                {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                                        <span class="comment">// Update password</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                                        <span class="keywordflow">if</span>($this-&gt;<a class="code" href="class_user.html">User</a>-&gt;<a class="code" href="class_user.html#a078421505516fe2f1fb0d1f195487f3e" title="Update a user&#39;s password.">update_password</a>($user[<span class="stringliteral">&#39;user_id&#39;</span>], $_POST[<span class="stringliteral">&#39;new_password&#39;</span>]))</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                                        {</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                                                <span class="comment">// Redirect to the default log in url</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                                                header(<span class="stringliteral">&quot;Location: {$this-&gt;page_link($this-&gt;config()-&gt;path-&gt;log_in_controller)}&quot;</span>);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                                                <a class="code" href="cli_8php.html#afce7902d0e37441fa060458510e4a3a2">exit</a>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                                        }</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                                }<span class="keywordflow">else</span>{</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                                        <span class="comment">// Pass error strings to display</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                                        <span class="keywordflow">if</span>(is_array($this-&gt;<a class="code" href="class_validate.html">Validate</a>-&gt;error))</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                                        {</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                                                <span class="comment">// Get first error for each field</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                                                <span class="keywordflow">foreach</span>($this-&gt;<a class="code" href="class_validate.html">Validate</a>-&gt;error as $e)</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                                                {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                                                        $this-&gt;<a class="code" href="class_controller___base.html#a267e5dadd8ec38d55bffd8392f278aab" title="Add a message.">add_flash</a>($e[0]);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                                                }</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                                        }</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                                }</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                        }</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                        <span class="comment">// Make user information available to template</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                        $this-&gt;data = $user;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                }</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno"><a class="code" href="class_user___controller.html#a082405d89acd6835c3a7c7a08a7adbab">   88</a></span>&#160;                <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="class_user___controller.html#a082405d89acd6835c3a7c7a08a7adbab">logout</a>()</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                {</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                        $this-&gt;<a class="code" href="class_auth.html">Auth</a>-&gt;<a class="code" href="class_auth.html#a082405d89acd6835c3a7c7a08a7adbab" title="Clear login information from session.">logout</a>();</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                        header(<span class="stringliteral">&quot;Location: {$this-&gt;page_link($this-&gt;config()-&gt;path-&gt;log_in_controller)}&quot;</span>);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                }</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        }</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;?&gt;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;                        parent::__construct();</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;                        </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;                        <span class="comment">//$this-&gt;require_login(NULL, NULL);</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;                        <span class="comment">//$this-&gt;disable_header(NULL);</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;                }</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                </div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;                </div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;                </div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="code" href="class_user___controller.html#a082405d89acd6835c3a7c7a08a7adbab">   15</a></span>&#160;                <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="class_user___controller.html#a082405d89acd6835c3a7c7a08a7adbab">logout</a>()</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;                {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                        $this-&gt;<a class="code" href="class_auth.html">Auth</a>-&gt;<a class="code" href="class_auth.html#a082405d89acd6835c3a7c7a08a7adbab" title="Clear login information from session.">logout</a>();</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                        $this-&gt;<a class="code" href="class_controller___base.html#a107f28bef2df696bcbda990bc888a535" title="Redirect to a page.">redirect</a>(<span class="stringliteral">&#39;&#39;</span>);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                }</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                </div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="code" href="class_user___controller.html#a8d8f818bb1efd897cc40223032822052">   23</a></span>&#160;                <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="class_user___controller.html#a8d8f818bb1efd897cc40223032822052">reset_password</a>()</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                        <span class="keywordflow">if</span>(isset($_POST[<span class="stringliteral">&#39;action&#39;</span>]) &amp;&amp; $_POST[<span class="stringliteral">&#39;action&#39;</span>] == <span class="stringliteral">&#39;reset&#39;</span>)</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                        {</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                                $users = $this-&gt;<a class="code" href="class_framework.html#aca8c3f1676936c3fb3731f1086481732">load_model</a>(<span class="stringliteral">&#39;User&#39;</span>)-&gt;where(<span class="stringliteral">&#39;user_email&#39;</span>, $_POST[<span class="stringliteral">&#39;user_email&#39;</span>])-&gt;orm_load();</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                                <span class="keywordflow">if</span>($users-&gt;count() &gt; 0)</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                                {</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                                        $users-&gt;first()-&gt;send_reset_email();</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                                        $this-&gt;<a class="code" href="class_controller___base.html#a267e5dadd8ec38d55bffd8392f278aab" title="Add an information message to Session flash variable.">add_flash</a>(<span class="stringliteral">&quot;Check your email for reset instructions.&quot;</span>)-&gt;reload_page();</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                                }</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                        }</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                }</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                </div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="code" href="class_user___controller.html#a555c3638dcf737c1e96cfa06f9e49598">   38</a></span>&#160;                <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="class_user___controller.html#a555c3638dcf737c1e96cfa06f9e49598">update_password</a>()</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                        <span class="comment">// Check update hash</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                        $users = $this-&gt;<a class="code" href="class_framework.html#aca8c3f1676936c3fb3731f1086481732">load_model</a>(<span class="stringliteral">&#39;User&#39;</span>)-&gt;where(<span class="stringliteral">&#39;user_update_hash&#39;</span>, $this-&gt;request-&gt;raw[2])-&gt;orm_load();</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                        <span class="keywordflow">if</span>($users-&gt;count() &gt; 0)</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                        {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                                <span class="comment">// Valid</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                                $this-&gt;user = $users-&gt;first();</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                                </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                                <span class="keywordflow">if</span>(isset($_POST[<span class="stringliteral">&#39;user_password&#39;</span>]))</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                                {</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                                        <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                                        {</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                                                <span class="comment">// Set post data to object and save</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                                                $this-&gt;user-&gt;orm_set(array(<span class="stringliteral">&#39;user_password&#39;</span> =&gt; $_POST[<span class="stringliteral">&#39;user_password&#39;</span>], <span class="stringliteral">&#39;user_password_confirm&#39;</span> =&gt; $_POST[<span class="stringliteral">&#39;user_password_confirm&#39;</span>]))-&gt;orm_save(array(<span class="stringliteral">&#39;user_password_confirm&#39;</span> =&gt; array(<span class="stringliteral">&#39;reqd&#39;</span> =&gt; <span class="stringliteral">&#39;&#39;</span>, <span class="stringliteral">&#39;match[user_password]&#39;</span> =&gt; <span class="stringliteral">&#39;&#39;</span>)));</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                                                $this-&gt;user-&gt;orm_set(array(<span class="stringliteral">&#39;user_update_hash&#39;</span> =&gt; NULL))-&gt;orm_save();</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                                                $this-&gt;<a class="code" href="class_controller___base.html#a267e5dadd8ec38d55bffd8392f278aab" title="Add an information message to Session flash variable.">add_flash</a>(<span class="stringliteral">&#39;Password updated.&#39;</span>)-&gt;redirect(<span class="stringliteral">&#39;&#39;</span>);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                                        }<span class="keywordflow">catch</span>(<a class="code" href="class_o_r_m___exception.html" title="ORM Exception object.">ORM_Exception</a> $e){</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                                                $this-&gt;<a class="code" href="class_validate.html">Validate</a> = $e-&gt;<a class="code" href="class_o_r_m___exception.html#a81e7f09566d767cbfc85397110849b8b" title="Gets the validation object for this exception.">getValidate</a>();</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                                        }</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                                }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                        }<span class="keywordflow">else</span>{</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                                <span class="comment">// Invalid</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                                <span class="keywordflow">throw</span> <span class="keyword">new</span> Exception(<span class="stringliteral">&#39;Invalid reset hash.&#39;</span>);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                        }</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                }</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        }</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;?&gt;</div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Oct 27 2012 17:31:14 for I-Tul Framework by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 15 2013 15:32:21 for I-Tul Framework by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.2
 </small></address>

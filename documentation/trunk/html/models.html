@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">I-Tul Framework
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">2.0.0</span>
    </div>
    <div id="projectbrief">PHP Application Framework</div>
   </td>
@@ -79,13 +79,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">Using Models in the ITul <a class="el" href="class_framework.html">Framework</a> </div>  </div>
+<div class="title">Using Models in the ITul <a class="el" href="class_framework.html" title="Framework application class.">Framework</a> </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><h2>Model Basics</h2>
 <p>Models are PHP classes that are designed to work with information in your database. A model might have functions to insert, update, and retrieve data. A simple model might look like: </p>
 <pre>
-class Post extends <a class="el" href="class_framework.html">Framework</a> {</pre><pre>        public function get($post_id)
+class Post extends <a class="el" href="class_framework.html" title="Framework application class.">Framework</a> {</pre><pre>        public function get($post_id)
         {
                 return $this-&gt;load_helper('<a class="el" href="class_db.html">Db</a>')-&gt;get_row("SELECT * FROM post WHERE post_id = '{$post_id}' ");
         }</pre><pre>        public function insert($data)
@@ -116,10 +116,10 @@ Matches the name of a database table (if there is no associated database table, 
 $this-&gt;<em>Blog</em>-&gt;function(); </code></p>
 <p>The load_model() function returns the loaded model, enabling method chaining. The above example could be rewritten as:</p>
 <p><code>$this-&gt;load_model('Blog')-&gt;<em>function()</em>;</code></p>
-<h2>Extending Model With <a class="el" href="class_model___base.html">Model_Base</a> Class</h2>
-<p>Extending the <a class="el" href="class_model___base.html">Model_Base</a> class allows access to additional methods related to retrieving records from the database. The get method for the above example could be rewritten as:</p>
+<h2>Extending Model With <a class="el" href="class_model___base.html" title="Base Model class.">Model_Base</a> Class</h2>
+<p>Extending the <a class="el" href="class_model___base.html" title="Base Model class.">Model_Base</a> class allows access to additional methods related to retrieving records from the database. The get method for the above example could be rewritten as:</p>
 <pre>
-class Post extends <a class="el" href="class_model___base.html">Model_Base</a> {</pre><pre>        public function get($post_id)
+class Post extends <a class="el" href="class_model___base.html" title="Base Model class.">Model_Base</a> {</pre><pre>        public function get($post_id)
         {
                 return $this-&gt;get($post_id)-&gt;result();
         }</pre><pre>}
@@ -127,7 +127,7 @@ class Post extends <a class="el" href="class_model___base.html">Model_Base</a> {
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Oct 27 2012 17:31:14 for I-Tul Framework by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 15 2013 15:32:22 for I-Tul Framework by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.2
 </small></address>

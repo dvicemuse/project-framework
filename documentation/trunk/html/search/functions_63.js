@@ -1,12 +1,26 @@
 var searchData=
 [
+  ['calcheight',['calcHeight',['../class_gd_thumb.html#ab7040d22e2738c7bbd68d75d3df0f89d',1,'GdThumb']]],
+  ['calcimagesize',['calcImageSize',['../class_gd_thumb.html#ae0b73e52c257647e493453468289ecf7',1,'GdThumb']]],
+  ['calcimagesizepercent',['calcImageSizePercent',['../class_gd_thumb.html#aeef8a0c50cdc4af460f0b0b82cf8b3eb',1,'GdThumb']]],
+  ['calcimagesizestrict',['calcImageSizeStrict',['../class_gd_thumb.html#a0e3aa79f55e96a5bf78f247536c519fe',1,'GdThumb']]],
+  ['calcpercent',['calcPercent',['../class_gd_thumb.html#a2f247ed5ec453a88fbdb4c8b5185e1f7',1,'GdThumb']]],
+  ['calcwidth',['calcWidth',['../class_gd_thumb.html#a738fa7caacc4c6dc1259f558dc5bc981',1,'GdThumb']]],
+  ['check_5flogin',['check_login',['../class_auth.html#a995e58d1b12c9e76e5975616d3162e77',1,'Auth']]],
+  ['check_5fpermission_5fload',['check_permission_load',['../class_n_a_m_e.html#aa30cce928087cd28ba79bd0f557565c1',1,'NAME']]],
   ['column_5fdisplay',['column_display',['../class_scaffold.html#ac2a938109fe5eb9a3cf4daf53e340e5f',1,'Scaffold']]],
   ['column_5fexists',['column_exists',['../class_db.html#a5ec88dc88dca353e1549095f4875e372',1,'Db']]],
   ['column_5flink_5fclass',['column_link_class',['../class_scaffold.html#ada5d9eb3bae1b27060dce3aeb519fe97',1,'Scaffold']]],
   ['column_5fnames',['column_names',['../class_db.html#a3c40e871842284ff5426a59aab52e5a5',1,'Db']]],
+  ['commit',['commit',['../class_db.html#af5674c27d4a92f6228565010eacbb9cb',1,'Db']]],
   ['config',['config',['../class_framework.html#a8a549a19ec81f3aafb2b231aaa12e138',1,'Framework\config()'],['../class_scaffold.html#a8a549a19ec81f3aafb2b231aaa12e138',1,'Scaffold\config()']]],
   ['console_5ftext',['console_text',['../cli_8php.html#ab0644556807166c6db7b57751f5d572a',1,'cli.php']]],
   ['controller',['controller',['../class_framework___route.html#aa10e8f0720b7ab5ac4aa8351b36af76a',1,'Framework_Route']]],
-  ['count',['count',['../class_db___wrapper.html#ac751e87b3d4c4bf2feb03bee8b092755',1,'Db_Wrapper']]],
-  ['css_5furl',['css_url',['../class_controller___base.html#a3a378d36307b32a72d73f967fdb6281c',1,'Controller_Base']]]
+  ['count',['count',['../class_db___wrapper.html#ac751e87b3d4c4bf2feb03bee8b092755',1,'Db_Wrapper\count()'],['../class_o_r_m___wrapper.html#ac751e87b3d4c4bf2feb03bee8b092755',1,'ORM_Wrapper\count()']]],
+  ['create',['create',['../class_thumbnail.html#abf1f0d79f3859ca89b9f57f0685f5f84',1,'Thumbnail']]],
+  ['crop',['crop',['../class_gd_thumb.html#a65b0876489207098e54147c8892e45b6',1,'GdThumb']]],
+  ['cropfromcenter',['cropFromCenter',['../class_gd_thumb.html#a162cdde0256fe3470d8e2c32ff1f80d5',1,'GdThumb']]],
+  ['css_5furl',['css_url',['../class_controller___base.html#a3a378d36307b32a72d73f967fdb6281c',1,'Controller_Base']]],
+  ['current',['current',['../class_o_r_m___wrapper.html#af343507d1926e6ecf964625d41db528c',1,'ORM_Wrapper']]],
+  ['custom_5fwhere',['custom_where',['../class_model___base.html#a6dc9285a83d31a18ffbef0483da1b266',1,'Model_Base']]]
 ];
