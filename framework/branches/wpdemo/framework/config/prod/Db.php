@@ -47,4 +47,12 @@ class Db_Config
 	 */
 	public $database	= '';
 	
+	/**
+	 * @var string $prefix
+	 * @brief The database prefix for the framework tables.
+	 *
+	 * @since  2.0.0
+	 */
+	public $prefix		= '';	
+	
 }
