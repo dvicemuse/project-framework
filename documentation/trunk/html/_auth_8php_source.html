@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>I-Tul Framework: framework/model/Auth.php Source File</title>
+<title>I-Tul Framework: C:/Projects/itul/devel/framework/framework/model/Auth.php Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">I-Tul Framework
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">2.0.0</span>
    </div>
    <div id="projectbrief">PHP Application Framework</div>
   </td>
@@ -84,7 +84,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_644e041c3a6521da7b27eba0e4eb2b95.html">framework</a></li><li class="navelem"><a class="el" href="dir_140ad9c3d069fe56824a57d26d644f62.html">model</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_644e041c3a6521da7b27eba0e4eb2b95.html">framework</a></li><li class="navelem"><a class="el" href="dir_40cfab7d412eb5ed6bc8137c7784fd49.html">framework</a></li><li class="navelem"><a class="el" href="dir_3fa437e40e804cb452e1460bdaf70275.html">model</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -107,38 +107,60 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;                        <span class="keywordflow">if</span>(isset($_SESSION[<span class="stringliteral">&#39;Login&#39;</span>][<span class="stringliteral">&#39;user_id&#39;</span>]))</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;                        {</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                                $this-&gt;<a class="code" href="class_o_r_m___base.html#a4e0812722bc356aa07ad85d7c9fc4f0b" title="Load an object.">orm_load</a>($_SESSION[<span class="stringliteral">&#39;Login&#39;</span>][<span class="stringliteral">&#39;user_id&#39;</span>]);</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;                        }</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                }</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">                /**</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">                 * Check if a user is logged in</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">                 * @return bool</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">                 */</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="code" href="class_auth.html#aa93dbfa8b89bf7b35836ac167bdd6398">   25</a></span>&#160;                <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="class_auth.html#aa93dbfa8b89bf7b35836ac167bdd6398" title="Check if a user is logged in.">is_logged_in</a>()</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                {</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                        <span class="keywordflow">return</span> !empty($_SESSION[<span class="stringliteral">&#39;Login&#39;</span>]);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                }</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                <span class="comment"></span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment">                /**</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment">                 * Clear login information from session</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">                 * @return bool</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">                 */</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="code" href="class_auth.html#a082405d89acd6835c3a7c7a08a7adbab">   36</a></span>&#160;                <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="class_auth.html#a082405d89acd6835c3a7c7a08a7adbab" title="Clear login information from session.">logout</a>()</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                {</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                        unset($_SESSION[<span class="stringliteral">&#39;Login&#39;</span>]);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                        <span class="keywordflow">return</span> TRUE;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                }</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        }</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;?&gt;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;                        }<span class="keywordflow">else</span>{</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                                $this-&gt;_data[<span class="stringliteral">&#39;user_id&#39;</span>] = NULL;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                        }</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                }</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">                /**</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">                 * Check if a user is logged in</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">                 * @return bool</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">                 */</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="code" href="class_auth.html#aa93dbfa8b89bf7b35836ac167bdd6398">   27</a></span>&#160;                <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="class_auth.html#aa93dbfa8b89bf7b35836ac167bdd6398" title="Check if a user is logged in.">is_logged_in</a>()</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                {</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                        <span class="keywordflow">return</span> !empty($_SESSION[<span class="stringliteral">&#39;Login&#39;</span>]);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                }</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                <span class="comment"></span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">                /**</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">                 * Clear login information from session</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">                 * @return bool</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment">                 */</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="code" href="class_auth.html#a082405d89acd6835c3a7c7a08a7adbab">   38</a></span>&#160;                <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="class_auth.html#a082405d89acd6835c3a7c7a08a7adbab" title="Clear login information from session.">logout</a>()</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                        unset($_SESSION[<span class="stringliteral">&#39;Login&#39;</span>]);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                        <span class="keywordflow">return</span> TRUE;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                }</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                <span class="comment"></span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">                /**</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">                 * Check login credentials</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">                 * @param string $user_email</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">                 * @param string $user_password</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">                 * @return bool|User</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment">                 */</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="code" href="class_auth.html#a995e58d1b12c9e76e5975616d3162e77">   52</a></span>&#160;                <span class="keyword">static</span> <span class="keyword">function</span> <a class="code" href="class_auth.html#a995e58d1b12c9e76e5975616d3162e77" title="Check login credentials.">check_login</a>($user_email, $user_password)</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                        $fw = <span class="keyword">new</span> <a class="code" href="class_framework.html" title="Framework application class.">Framework</a>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                        $check = $fw-&gt;<a class="code" href="class_framework.html#aca8c3f1676936c3fb3731f1086481732">load_model</a>(<span class="stringliteral">&#39;User&#39;</span>, TRUE)-&gt;where(<span class="stringliteral">&#39;user_email&#39;</span>, trim($user_email))-&gt;where(<span class="stringliteral">&#39;user_password&#39;</span>, sha1(trim($user_password)))-&gt;orm_load();</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                        <span class="keywordflow">if</span>($check-&gt;count() &gt; 0)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                        {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                                $_SESSION[<span class="stringliteral">&#39;Login&#39;</span>] = $check-&gt;first()-&gt;expose_data();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                                <span class="keywordflow">return</span> $check-&gt;first();</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                        }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                        <span class="keywordflow">return</span> FALSE;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                }</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        }</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;?&gt;</div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Oct 27 2012 17:31:14 for I-Tul Framework by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 15 2013 15:32:21 for I-Tul Framework by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.2
 </small></address>

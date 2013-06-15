@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">I-Tul Framework
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">2.0.0</span>
    </div>
    <div id="projectbrief">PHP Application Framework</div>
   </td>
@@ -92,22 +92,29 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">Db_Wrapper Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Wrapper Database class.  
+ <a href="class_db___wrapper.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a4be4a3077cb5a3163e7983d51f762089"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_db___wrapper.html#a4be4a3077cb5a3163e7983d51f762089">set</a> ($array)</td></tr>
-<tr class="memdesc:a4be4a3077cb5a3163e7983d51f762089"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set class data.  <a href="#a4be4a3077cb5a3163e7983d51f762089"></a><br/></td></tr>
+<tr class="memdesc:a4be4a3077cb5a3163e7983d51f762089"><td class="mdescLeft">&#160;</td><td class="mdescRight">Populate the data array.  <a href="#a4be4a3077cb5a3163e7983d51f762089"></a><br/></td></tr>
 <tr class="separator:a4be4a3077cb5a3163e7983d51f762089"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae09b6b0429e047ad85537683eaec3913"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_db___wrapper.html#ae09b6b0429e047ad85537683eaec3913">result</a> ()</td></tr>
+<tr class="memdesc:ae09b6b0429e047ad85537683eaec3913"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get first result from data array.  <a href="#ae09b6b0429e047ad85537683eaec3913"></a><br/></td></tr>
 <tr class="separator:ae09b6b0429e047ad85537683eaec3913"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81532ad36ede4bfc6cd5e69a321f3df4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_db___wrapper.html#a81532ad36ede4bfc6cd5e69a321f3df4">results</a> ()</td></tr>
+<tr class="memdesc:a81532ad36ede4bfc6cd5e69a321f3df4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all results from data array.  <a href="#a81532ad36ede4bfc6cd5e69a321f3df4"></a><br/></td></tr>
 <tr class="separator:a81532ad36ede4bfc6cd5e69a321f3df4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac751e87b3d4c4bf2feb03bee8b092755"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_db___wrapper.html#ac751e87b3d4c4bf2feb03bee8b092755">count</a> ()</td></tr>
+<tr class="memdesc:ac751e87b3d4c4bf2feb03bee8b092755"><td class="mdescLeft">&#160;</td><td class="mdescRight">Counts the number of items in data array.  <a href="#ac751e87b3d4c4bf2feb03bee8b092755"></a><br/></td></tr>
 <tr class="separator:ac751e87b3d4c4bf2feb03bee8b092755"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="_db___wrapper_8php_source.html#l00003">3</a> of file <a class="el" href="_db___wrapper_8php_source.html">Db_Wrapper.php</a>.</p>
+<div class="textblock"><p>Wrapper class for raw database resultsets </p>
+
+<p>Definition at line <a class="el" href="_db___wrapper_8php_source.html#l00016">16</a> of file <a class="el" href="_db___wrapper_8php_source.html">Db_Wrapper.php</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="ac751e87b3d4c4bf2feb03bee8b092755"></a>
 <div class="memitem">
@@ -121,10 +128,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>integer - number of items in array or 0 if empty </dd></dl>
 
-<p>Definition at line <a class="el" href="_db___wrapper_8php_source.html#l00043">43</a> of file <a class="el" href="_db___wrapper_8php_source.html">Db_Wrapper.php</a>.</p>
+<p>Definition at line <a class="el" href="_db___wrapper_8php_source.html#l00078">78</a> of file <a class="el" href="_db___wrapper_8php_source.html">Db_Wrapper.php</a>.</p>
 
-<p>Referenced by <a class="el" href="_db___wrapper_8php_source.html#l00032">results()</a>.</p>
+<p>Referenced by <a class="el" href="_db___wrapper_8php_source.html#l00061">results()</a>.</p>
 
 </div>
 </div>
@@ -140,8 +148,9 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>mixed - result from first element or boolean false if no data </dd></dl>
 
-<p>Definition at line <a class="el" href="_db___wrapper_8php_source.html#l00021">21</a> of file <a class="el" href="_db___wrapper_8php_source.html">Db_Wrapper.php</a>.</p>
+<p>Definition at line <a class="el" href="_db___wrapper_8php_source.html#l00044">44</a> of file <a class="el" href="_db___wrapper_8php_source.html">Db_Wrapper.php</a>.</p>
 
 </div>
 </div>
@@ -157,10 +166,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>mixed - array or results or boolean false if no data </dd></dl>
 
-<p>Definition at line <a class="el" href="_db___wrapper_8php_source.html#l00032">32</a> of file <a class="el" href="_db___wrapper_8php_source.html">Db_Wrapper.php</a>.</p>
+<p>Definition at line <a class="el" href="_db___wrapper_8php_source.html#l00061">61</a> of file <a class="el" href="_db___wrapper_8php_source.html">Db_Wrapper.php</a>.</p>
 
-<p>References <a class="el" href="_db___wrapper_8php_source.html#l00043">count()</a>.</p>
+<p>References <a class="el" href="_db___wrapper_8php_source.html#l00078">count()</a>.</p>
 
 </div>
 </div>
@@ -179,25 +189,25 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramtype">array</td><td class="paramname">$array</td><td></td></tr>
+    <tr><td class="paramtype">array</td><td class="paramname">$array</td><td>- raw result set from query </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>object $this </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>object <a class="el" href="class_db___wrapper.html" title="Wrapper Database class.">Db_Wrapper</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_db___wrapper_8php_source.html#l00012">12</a> of file <a class="el" href="_db___wrapper_8php_source.html">Db_Wrapper.php</a>.</p>
+<p>Definition at line <a class="el" href="_db___wrapper_8php_source.html#l00030">30</a> of file <a class="el" href="_db___wrapper_8php_source.html">Db_Wrapper.php</a>.</p>
 
-<p>Referenced by <a class="el" href="_model___base_8php_source.html#l00107">Model_Base\get()</a>.</p>
+<p>Referenced by <a class="el" href="_model___base_8php_source.html#l00157">Model_Base\get()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>system/<a class="el" href="_db___wrapper_8php_source.html">Db_Wrapper.php</a></li>
+<li>C:/Projects/itul/devel/framework/system/<a class="el" href="_db___wrapper_8php_source.html">Db_Wrapper.php</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Oct 27 2012 17:31:14 for I-Tul Framework by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 15 2013 15:32:22 for I-Tul Framework by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.2
 </small></address>

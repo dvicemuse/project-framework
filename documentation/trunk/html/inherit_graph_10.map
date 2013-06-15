@@ -1,3 +1,24 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_paginate.html" title="Paginate" alt="" coords="6,5,79,32"/>
+<area shape="rect" id="node1" href="$class_framework.html" title="Framework application class." alt="" coords="6,397,93,424"/>
+<area shape="rect" id="node3" href="$class_controller___base.html" title="Controller Base class." alt="" coords="148,132,263,159"/>
+<area shape="rect" id="node15" href="$class_dashboard.html" title="Dashboard" alt="" coords="163,195,247,221"/>
+<area shape="rect" id="node17" href="$class_db.html" title="Db" alt="" coords="186,245,225,272"/>
+<area shape="rect" id="node21" href="$class_email.html" title="Email" alt="" coords="178,296,233,323"/>
+<area shape="rect" id="node23" href="$class_encryption.html" title="Encryption" alt="" coords="163,347,247,373"/>
+<area shape="rect" id="node25" href="$class_error.html" title="Error" alt="" coords="180,397,231,424"/>
+<area shape="rect" id="node27" href="$class_framework___route.html" title="Framework_Route" alt="" coords="142,448,269,475"/>
+<area shape="rect" id="node29" href="$class_home.html" title="Home" alt="" coords="177,499,233,525"/>
+<area shape="rect" id="node31" href="$class_o_r_m___base.html" title="Base Object Relation Model class." alt="" coords="161,549,250,576"/>
+<area shape="rect" id="node41" href="$class_scaffold.html" title="Scaffold" alt="" coords="170,600,241,627"/>
+<area shape="rect" id="node43" href="$class_validate.html" title="Validate" alt="" coords="171,651,240,677"/>
+<area shape="rect" id="node5" href="$class___controller.html" title="_Controller" alt="" coords="349,5,433,32"/>
+<area shape="rect" id="node7" href="$class_dashboard___controller.html" title="Dashboard_Controller" alt="" coords="317,56,464,83"/>
+<area shape="rect" id="node9" href="$class_error___controller.html" title="Error_Controller" alt="" coords="335,107,447,133"/>
+<area shape="rect" id="node11" href="$class_home___controller.html" title="Home_Controller" alt="" coords="331,157,450,184"/>
+<area shape="rect" id="node13" href="$class_user___controller.html" title="User_Controller" alt="" coords="335,208,446,235"/>
+<area shape="rect" id="node19" href="$class_db___override.html" title="Hello memcache." alt="" coords="343,259,438,285"/>
+<area shape="rect" id="node33" href="$class_model___base.html" title="Base Model class." alt="" coords="343,549,438,576"/>
+<area shape="rect" id="node35" href="$class_n_a_m_e.html" title="NAME" alt="" coords="513,524,573,551"/>
+<area shape="rect" id="node37" href="$class_user.html" title="User" alt="" coords="518,575,567,601"/>
+<area shape="rect" id="node39" href="$class_auth.html" title="Auth" alt="" coords="622,575,671,601"/>
 </map>

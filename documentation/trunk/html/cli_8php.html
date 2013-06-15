@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>I-Tul Framework: cli.php File Reference</title>
+<title>I-Tul Framework: C:/Projects/itul/devel/framework/cli.php File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">I-Tul Framework
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">2.0.0</span>
    </div>
    <div id="projectbrief">PHP Application Framework</div>
   </td>
@@ -82,6 +82,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_644e041c3a6521da7b27eba0e4eb2b95.html">framework</a></li>  </ul>
+</div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
@@ -103,8 +107,8 @@ Functions</h2></td></tr>
 Variables</h2></td></tr>
 <tr class="memitem:a3f029d1b3dd3060abe2cdb9e78169f3b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cli_8php.html#a3f029d1b3dd3060abe2cdb9e78169f3b">$using_cli</a> = (@$_SERVER['argc'] &gt;= 1)</td></tr>
 <tr class="separator:a3f029d1b3dd3060abe2cdb9e78169f3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa35e3218270ae40cd844be513935412"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cli_8php.html#afa35e3218270ae40cd844be513935412">if</a> ($using_cli===FALSE)</td></tr>
-<tr class="separator:afa35e3218270ae40cd844be513935412"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa38fb82c8e2c8d560041c05cb0f68bf1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cli_8php.html#aa38fb82c8e2c8d560041c05cb0f68bf1">if</a> ($using_cli===FALSE) = $image_location . str_replace(&quot;/&quot;, '', $_GET['file'])</td></tr>
+<tr class="separator:aa38fb82c8e2c8d560041c05cb0f68bf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a646d96d587dfdb5884fcbdde702c4e77"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cli_8php.html#a646d96d587dfdb5884fcbdde702c4e77">$frm</a> = new <a class="el" href="class_framework.html">Framework</a></td></tr>
 <tr class="separator:a646d96d587dfdb5884fcbdde702c4e77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ab51386acb82cd0a0066eac2567b2bd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cli_8php.html#a4ab51386acb82cd0a0066eac2567b2bd">$plugins</a> = array()</td></tr>
@@ -113,8 +117,8 @@ Variables</h2></td></tr>
 <tr class="separator:a0a4baf0b22973c07685c3981f0d17fc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad86c3fbc5672e1deeafc5229012b0b5d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cli_8php.html#ad86c3fbc5672e1deeafc5229012b0b5d">$handle</a> = opendir($path)</td></tr>
 <tr class="separator:ad86c3fbc5672e1deeafc5229012b0b5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0f260802456c3463417885cdc671da6"><td class="memItemLeft" align="right" valign="top">while(false!==($file=readdir($handle)))&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cli_8php.html#aa0f260802456c3463417885cdc671da6">if</a> (isset($plugins[ucfirst($_SERVER['argv'][1])]))</td></tr>
-<tr class="separator:aa0f260802456c3463417885cdc671da6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab354ffe6e57461b177b1de449a03fac2"><td class="memItemLeft" align="right" valign="top">while(false!==($file=readdir($handle)))&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cli_8php.html#ab354ffe6e57461b177b1de449a03fac2">if</a> (isset($_SERVER['argv'][1])&amp;&amp;isset($plugins[ucfirst($_SERVER['argv'][1])]))</td></tr>
+<tr class="separator:ab354ffe6e57461b177b1de449a03fac2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afce7902d0e37441fa060458510e4a3a2"><td class="memItemLeft" align="right" valign="top">foreach($plugins as $param=&gt;<br class="typebreak"/>
  $plugin)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cli_8php.html#afce7902d0e37441fa060458510e4a3a2">exit</a></td></tr>
 <tr class="separator:afce7902d0e37441fa060458510e4a3a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -146,9 +150,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cli_8php_source.html#l00104">104</a> of file <a class="el" href="cli_8php_source.html">cli.php</a>.</p>
+<p>Definition at line <a class="el" href="cli_8php_source.html#l00105">105</a> of file <a class="el" href="cli_8php_source.html">cli.php</a>.</p>
 
-<p>Referenced by <a class="el" href="_generate_8php_source.html#l00046">CLI_Generate\start()</a>.</p>
+<p>Referenced by <a class="el" href="_build_8php_source.html#l00037">CLI_Build\start()</a>, and <a class="el" href="_generate_8php_source.html#l00047">CLI_Generate\start()</a>.</p>
 
 </div>
 </div>
@@ -163,9 +167,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cli_8php_source.html#l00015">15</a> of file <a class="el" href="cli_8php_source.html">cli.php</a>.</p>
+<p>Definition at line <a class="el" href="cli_8php_source.html#l00016">16</a> of file <a class="el" href="cli_8php_source.html">cli.php</a>.</p>
 
-<p>Referenced by <a class="el" href="_framework_8php_source.html#l00047">Framework\route()</a>.</p>
+<p>Referenced by <a class="el" href="_framework_8php_source.html#l00273">Framework\render()</a>, and <a class="el" href="_framework_8php_source.html#l00044">Framework\route()</a>.</p>
 
 </div>
 </div>
@@ -179,9 +183,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cli_8php_source.html#l00022">22</a> of file <a class="el" href="cli_8php_source.html">cli.php</a>.</p>
+<p>Definition at line <a class="el" href="cli_8php_source.html#l00023">23</a> of file <a class="el" href="cli_8php_source.html">cli.php</a>.</p>
 
-<p>Referenced by <a class="el" href="_framework___config_8php_source.html#l00027">Framework_Config\load()</a>.</p>
+<p>Referenced by <a class="el" href="_framework___config_8php_source.html#l00029">Framework_Config\load()</a>, and <a class="el" href="helper_2_thumbnail_8php_source.html#l00499">PhpThumb\loadPlugins()</a>.</p>
 
 </div>
 </div>
@@ -195,9 +199,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cli_8php_source.html#l00021">21</a> of file <a class="el" href="cli_8php_source.html">cli.php</a>.</p>
+<p>Definition at line <a class="el" href="cli_8php_source.html#l00022">22</a> of file <a class="el" href="cli_8php_source.html">cli.php</a>.</p>
 
-<p>Referenced by <a class="el" href="_controller___base_8php_source.html#l00130">Controller_Base\css_url()</a>, <a class="el" href="_controller___base_8php_source.html#l00092">Controller_Base\image_url()</a>, and <a class="el" href="_controller___base_8php_source.html#l00111">Controller_Base\javascript_url()</a>.</p>
+<p>Referenced by <a class="el" href="_controller___base_8php_source.html#l00160">Controller_Base\css_url()</a>, <a class="el" href="_controller___base_8php_source.html#l00118">Controller_Base\image_url()</a>, and <a class="el" href="_controller___base_8php_source.html#l00139">Controller_Base\javascript_url()</a>.</p>
 
 </div>
 </div>
@@ -211,7 +215,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cli_8php_source.html#l00018">18</a> of file <a class="el" href="cli_8php_source.html">cli.php</a>.</p>
+<p>Definition at line <a class="el" href="cli_8php_source.html#l00019">19</a> of file <a class="el" href="cli_8php_source.html">cli.php</a>.</p>
 
 </div>
 </div>
@@ -225,7 +229,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cli_8php_source.html#l00007">7</a> of file <a class="el" href="cli_8php_source.html">cli.php</a>.</p>
+<p>Definition at line <a class="el" href="cli_8php_source.html#l00008">8</a> of file <a class="el" href="cli_8php_source.html">cli.php</a>.</p>
 
 </div>
 </div>
@@ -239,37 +243,37 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cli_8php_source.html#l00056">56</a> of file <a class="el" href="cli_8php_source.html">cli.php</a>.</p>
+<p>Definition at line <a class="el" href="cli_8php_source.html#l00057">57</a> of file <a class="el" href="cli_8php_source.html">cli.php</a>.</p>
 
-<p>Referenced by <a class="el" href="_controller___base_8php_source.html#l00147">Controller_Base\reload_page()</a>, <a class="el" href="_framework_8php_source.html#l00206">Framework\render()</a>, <a class="el" href="controller_2_user_8php_source.html#l00005">User_Controller\reset_password()</a>, <a class="el" href="_framework_8php_source.html#l00047">Framework\route()</a>, and <a class="el" href="controller_2_user_8php_source.html#l00037">User_Controller\update_password()</a>.</p>
+<p>Referenced by <a class="el" href="controller___c_r_u_d_8php_source.html#l00064">_Controller\delete()</a>, <a class="el" href="_controller___base_8php_source.html#l00211">Controller_Base\redirect()</a>, <a class="el" href="_controller___base_8php_source.html#l00177">Controller_Base\reload_page()</a>, <a class="el" href="_framework_8php_source.html#l00273">Framework\render()</a>, and <a class="el" href="_framework_8php_source.html#l00044">Framework\route()</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="afa35e3218270ae40cd844be513935412"></a>
+<a class="anchor" id="aa38fb82c8e2c8d560041c05cb0f68bf1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">if($using_cli===FALSE)</td>
+          <td class="memname">if = $image_location . str_replace(&quot;/&quot;, '', $_GET['file'])</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cli_8php_source.html#l00008">8</a> of file <a class="el" href="cli_8php_source.html">cli.php</a>.</p>
+<p>Definition at line <a class="el" href="cli_8php_source.html#l00009">9</a> of file <a class="el" href="cli_8php_source.html">cli.php</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aa0f260802456c3463417885cdc671da6"></a>
+<a class="anchor" id="ab354ffe6e57461b177b1de449a03fac2"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">while (false!==($file=readdir($handle))) if(isset($plugins[ucfirst($_SERVER['argv'][1])]))</td>
+          <td class="memname">while (false!==($file=readdir($handle))) if(isset($_SERVER['argv'][1])&amp;&amp;isset($plugins[ucfirst($_SERVER['argv'][1])]))</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cli_8php_source.html#l00036">36</a> of file <a class="el" href="cli_8php_source.html">cli.php</a>.</p>
+<p>Definition at line <a class="el" href="cli_8php_source.html#l00037">37</a> of file <a class="el" href="cli_8php_source.html">cli.php</a>.</p>
 
 </div>
 </div>
@@ -283,14 +287,14 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="cli_8php_source.html#l00066">66</a> of file <a class="el" href="cli_8php_source.html">cli.php</a>.</p>
+<p>Definition at line <a class="el" href="cli_8php_source.html#l00067">67</a> of file <a class="el" href="cli_8php_source.html">cli.php</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Oct 27 2012 17:31:14 for I-Tul Framework by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 15 2013 15:32:22 for I-Tul Framework by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.2
 </small></address>
