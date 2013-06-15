@@ -107,7 +107,7 @@
 			{
 				if($this->is_id($id))
 				{
-					$load_data = $this->load_helper('Db')->get_row("SELECT * FROM `{$this->model_name()}` WHERE `{$this->model_name()}_id` = '{$id}' LIMIT 1");
+					$load_data = $this->load_helper('Db')->get_row("SELECT * FROM `{$this->config()->db->prefix}{$this->model_name()}` WHERE `{$this->model_name()}_id` = '{$id}' LIMIT 1");
 					if($load_data !== FALSE)
 					{
 						$this->_loaded = TRUE;
@@ -167,7 +167,7 @@
 			// One to many
 			if(isset($this->_to_many[$name]))
 			{
-				$sql = "SELECT * FROM `{$this->_to_many[$name]}` WHERE `{$this->model_name()}_id` = '{$this->_data["{$this->model_name()}_id"]}' ";
+				$sql = "SELECT * FROM `{$this->config()->db->prefix}{$this->_to_many[$name]}` WHERE `{$this->model_name()}_id` = '{$this->_data["{$this->model_name()}_id"]}' ";
 				
 				if(!empty($arguments[0]))
 				{
@@ -212,10 +212,10 @@
 					SELECT
 						`{$join_table}`.*
 					FROM
-						`{$this->_to_one_map[$name]}`
-						JOIN `{$join_table}` ON `{$join_table}`.`{$join_table}_id` = `{$this->_to_one_map[$name]}`.`{$join_table}_id`
+						`{$this->config()->db->prefix}{$this->_to_one_map[$name]}`
+						JOIN `{$this->config()->db->prefix}{$join_table}` ON `{$this->config()->db->prefix}{$join_table}`.`{$join_table}_id` = `{$this->config()->db->prefix}{$this->_to_one_map[$name]}`.`{$join_table}_id`
 					WHERE
-						`{$this->_to_one_map[$name]}`.`{$this->model_name()}_id` = '{$this->_data["{$this->model_name()}_id"]}'
+						`{$this->config()->db->prefix}{$this->_to_one_map[$name]}`.`{$this->model_name()}_id` = '{$this->_data["{$this->model_name()}_id"]}'
 				";
 				
 				$get_record = $this->load_helper('Db')->get_row($sql);
@@ -243,10 +243,10 @@
 					SELECT
 						`{$join_table}`.*
 					FROM
-						`{$this->_to_many_map[$name]}`
-						JOIN `{$join_table}` ON `{$join_table}`.`{$join_table}_id` = `{$this->_to_many_map[$name]}`.`{$join_table}_id`
+						`{$this->config()->db->prefix}{$this->_to_many_map[$name]}`
+						JOIN `{$this->config()->db->prefix}{$join_table}` ON `{$this->config()->db->prefix}{$join_table}`.`{$join_table}_id` = `{$this->config()->db->prefix}{$this->_to_many_map[$name]}`.`{$join_table}_id`
 					WHERE
-						`{$this->_to_many_map[$name]}`.`{$this->model_name()}_id` = '{$this->_data["{$this->model_name()}_id"]}'
+						`{$this->config()->db->prefix}{$this->_to_many_map[$name]}`.`{$this->model_name()}_id` = '{$this->_data["{$this->model_name()}_id"]}'
 				";
 				
 				if(!empty($arguments[0]))
@@ -483,7 +483,7 @@
 						// Orm before update hook
 						$this->orm_hook('before_update', NULL, array());
 						
-						$this->load_helper('Db')->update($this->model_name(), $this->_data, " {$this->model_name()}_id = '{$this->id()}' ");
+						$this->load_helper('Db')->update($this->config()->db->prefix . $this->model_name(), $this->_data, " {$this->model_name()}_id = '{$this->id()}' ");
 						$this->orm_load($this->id());
 
 						// Orm after update hook
@@ -494,7 +494,7 @@
 					$this->orm_hook('before_insert', NULL, array());
 
 					// Insert
-					$id = $this->load_helper('Db')->insert($this->model_name(), $this->_data);
+					$id = $this->load_helper('Db')->insert($this->config()->db->prefix . $this->model_name(), $this->_data);
 					$this->orm_load($id);
 					
 					// Orm after insert hook
@@ -522,7 +522,7 @@
 		{
 			if($this->_loaded === TRUE)
 			{
-				$this->load_helper('Db')->query("DELETE FROM {$this->model_name()} WHERE {$this->model_name()}_id = '{$this->id()}' ");
+				$this->load_helper('Db')->query("DELETE FROM `{$this->config()->db->prefix}{$this->model_name()}` WHERE `{$this->model_name()}_id` = '{$this->id()}' ");
 				return TRUE;
 			}
 			throw new Exception('Object not loaded.');

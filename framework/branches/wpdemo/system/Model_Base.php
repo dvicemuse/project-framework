@@ -78,7 +78,7 @@
 		public function order($column, $value)
 		{
 			$value = strtoupper(trim($value));
-			if($this->load_helper('Db')->column_exists($this->model_name(), $column) === TRUE)
+			if($this->load_helper('Db')->column_exists($this->config()->db->prefix . $this->model_name(), $column) === TRUE)
 			{
 				if($value == 'ASC' || $value == 'DESC')
 				{
@@ -102,7 +102,7 @@
 		 */
 		public function where($column, $value)
 		{
-			if($this->load_helper('Db')->column_exists($this->model_name(), $column))
+			if($this->load_helper('Db')->column_exists($this->config()->db->prefix . $this->model_name(), $column))
 			{
 				$this->_where[] = " AND (`{$column}` = '{$this->Db->escape($value)}') ";
 				return $this;
@@ -136,7 +136,7 @@
 		 */
 		public function like($column, $value)
 		{
-			if($this->load_helper('Db')->column_exists($this->model_name(), $column))
+			if($this->load_helper('Db')->column_exists($this->config()->db->prefix . $this->model_name(), $column))
 			{
 				$this->_where[] = " AND (`{$column}` LIKE '{$this->Db->escape($value)}') ";
 				return $this;
@@ -164,7 +164,7 @@
 				if($this->is_id($key_id))
 				{
 					// Reset where, and add primary key limit
-					$this->_where = array(0 => " AND `{$this->Db->get_primary_key($this->model_name())}` = '{$key_id}' ");
+					$this->_where = array(0 => " AND `{$this->Db->get_primary_key($this->config()->db->prefix . $this->model_name())}` = '{$key_id}' ");
 				}else{
 					return new Db_Wrapper;
 				}
@@ -191,7 +191,7 @@
 			}
 
 			// Generate query
-			$sql =  "SELECT * FROM `{$this->model_name()}` WHERE 1=1 {$clause} {$order} {$this->_limit}";
+			$sql =  "SELECT * FROM `{$this->config()->db->prefix}{$this->model_name()}` WHERE 1=1 {$clause} {$order} {$this->_limit}";
 
 			// Reset where
 			$this->_where = array();
@@ -217,7 +217,7 @@
 			// Primary key
 			if(ctype_digit($key_id))
 			{
-				if($this->load_helper('Db')->get_row("SELECT * FROM `{$this->model_name()}` WHERE `{$this->model_name()}_id` = '{$key_id}' LIMIT 1") !== FALSE)
+				if($this->load_helper('Db')->get_row("SELECT * FROM `{$this->config()->db->prefix}{$this->model_name()}` WHERE `{$this->model_name()}_id` = '{$key_id}' LIMIT 1") !== FALSE)
 				{
 					return TRUE;
 				}else{
