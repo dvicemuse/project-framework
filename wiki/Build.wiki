@@ -6,7 +6,7 @@
 mkdir /home/myawesomesite/www/somethinglikedashboard/
   * cd to the path you just created
 cd /home/myawesomesite/www/somethinglikedashboard/
-  * Pull latest framework from SVN. From the command line, run:
+  * Pull latest framework from SVN.
 svn --force export https://project-framework.googlecode.com/svn/framework/trunk/ .
-  * Run the build script. From the command line, run:
+  * Run the build script.
 ./cli.php build
