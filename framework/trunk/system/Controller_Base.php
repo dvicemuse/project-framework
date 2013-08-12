@@ -234,7 +234,7 @@ abstract class Controller_Base extends Framework
 				}
 			}
 		}else{
-			echo ($this->info['current_page'] == $compare ? 'class="active"' : '');
+			echo ($this->request->method_name == $compare ? 'class="active"' : '');
 		}
 	}
 
