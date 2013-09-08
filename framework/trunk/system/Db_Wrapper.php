@@ -13,7 +13,7 @@
  * @package  ProjectFramework
  * @since    1.0.0
  */
-class Db_Wrapper
+class Db_Wrapper implements Countable
 {
 	/**
 	 * @var $_data
