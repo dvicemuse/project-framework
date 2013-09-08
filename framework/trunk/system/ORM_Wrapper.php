@@ -14,7 +14,7 @@
  * @package  ProjectFramework
  * @since    1.0.0
  */
-	class ORM_Wrapper implements Iterator
+	class ORM_Wrapper implements Iterator, Countable
 	{
 		/**
 		 * @var $position
