@@ -103,11 +103,11 @@ class Framework
 			// @todo make this more elegant
 			header("HTTP/1.0 404 Not Found");
 			$frm = $this->load_controller('Error');
+			$frm->request = new stdClass;
 			$frm->request->controller_name = 'Error';
-
 			$frm->request->method_name = 'error_404';
 			$frm->render('error_404');
-			die;
+			exit;
 		}
 	}
 
@@ -318,7 +318,7 @@ class Framework
 			$frm->request->controller_name = 'Error';
 			$frm->request->method_name = 'error_404';
 			$frm->render('error_404');
-			die;
+			exit;
 		}
 	}
 
