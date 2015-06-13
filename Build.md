@@ -1,0 +1,18 @@
+# Framework Build Instructions #
+
+  * Create the directory you want the framework to be installed in
+```
+mkdir /home/myawesomesite/www/somethinglikedashboard/
+```
+  * cd to the path you just created
+```
+cd /home/myawesomesite/www/somethinglikedashboard/
+```
+  * Pull latest framework from SVN.
+```
+svn --force export https://project-framework.googlecode.com/svn/framework/trunk/ .
+```
+  * Run the build script.
+```
+./cli.php build
+```
